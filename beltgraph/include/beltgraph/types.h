@@ -21,6 +21,8 @@ typedef uint64_t bgSize_t;
 
 typedef struct bgHeader bgHeader_t;
 
+typedef struct bgReader bgReader_t;
+
 typedef struct bgWay bgWay_t;
 typedef struct bgWayContext bgWayContext_t;
 

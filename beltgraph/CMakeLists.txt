@@ -4,6 +4,7 @@ target_sources(
   beltgraph
   PRIVATE
   "src/header.c"
+  "src/reader.c"
   "src/way.c"
   "src/node.c"
 )
