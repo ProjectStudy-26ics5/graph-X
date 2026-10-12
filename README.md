@@ -14,8 +14,7 @@ OSMのデータから指標情報を持つグラフ構造を構築するライ�
 経路探索に用いる処理は一切含まれません。
 結果は`beltgraph`ライブラリ専用の`.bg`形式となります。
 
-### bgファイル作成方法
-作成方法を以下に示します。
+### bg作成サンプル
 ノードの指標は`gp::NodeEvaluator`、ウェイの指標は`gp::WayEvaluator`を用いてい定義します。
 
 ```cpp
@@ -55,7 +54,7 @@ int main(void) {
   gp::WayContext wc({&surface});
 
   gp::Graph graph("osm/minato.osm.pbf", nc, wc);
-  graph.write("out/test");
+  graph.write("out/test"); // => out/test.bg
   return 0;
 }
 ```
@@ -63,7 +62,10 @@ int main(void) {
 ## 3. beltgraph
 `grapher`で作成した`.bg`を読み、経路探索処理を提供します。
 
-## 4. beltgraph形式図
+> [!CAUTION]
+> まだ、この部分は完成していません。
+
+## 4. bg形式の構造図
 <ul>
   <li>Header
     <ul>
@@ -99,6 +101,14 @@ int main(void) {
           </li>
         </ul>
       </li>
+      <li>NodeIndicatorNameOffsetArray
+        <ul>
+          <li>NodeIndicatorNameOffset 1</li>
+          <li>NodeIndicatorNameOffset 2</li>
+          <li>...</li>
+          <li>NodeIndicatorNameOffset k</li>
+        </ul>
+      </li>
       <li>NodeIndicatorDescriptionArray
         <ul>
           <li>NodeIndicatorDescription 1</li>
@@ -110,6 +120,14 @@ int main(void) {
               <li>Null</li>
             </ul>
           </li>
+        </ul>
+      </li>
+      <li>NodeIndicatorDescriptionOffsetArray
+        <ul>
+          <li>NodeIndicatorDescriptionOffset 1</li>
+          <li>NodeIndicatorDescriptionOffset 2</li>
+          <li>...</li>
+          <li>NodeIndicatorDescriptionOffset k</li>
         </ul>
       </li>
     </ul>
@@ -130,6 +148,14 @@ int main(void) {
           </li>
         </ul>
       </li>
+      <li>WayIndicatorNameOffsetArray
+        <ul>
+          <li>WayIndicatorNameOffset 1</li>
+          <li>WayIndicatorNameOffset 2</li>
+          <li>...</li>
+          <li>WayIndicatorNameOffset l</li>
+        </ul>
+      </li>
       <li>WayIndicatorDescriptionArray
         <ul>
           <li>WayIndicatorDescription 1</li>
@@ -141,6 +167,14 @@ int main(void) {
               <li>Null</li>
             </ul>
           </li>
+        </ul>
+      </li>
+      <li>WayIndicatorDescriptionOffsetArray
+        <ul>
+          <li>WayIndicatorDescriptionOffset 1</li>
+          <li>WayIndicatorDescriptionOffset 2</li>
+          <li>...</li>
+          <li>WayIndicatorDescriptionOffset l</li>
         </ul>
       </li>
     </ul>
