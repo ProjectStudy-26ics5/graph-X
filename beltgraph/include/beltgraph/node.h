@@ -1,0 +1,50 @@
+#ifndef BELTGRAPH_NODE_H
+#define BELTGRAPH_NODE_H
+
+#include <beltgraph/types.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+struct bgNodeContext {
+  bgIdx_t dim;
+  bgWeight_t *weights;
+
+  bgSize_t indicator_name_size;
+  char *indicator_names;
+  bgOffset_t *indicator_name_offs;
+
+  bgSize_t indicator_desc_size;
+  char *indicator_descs;
+  bgOffset_t *indicator_desc_offs;
+};
+
+struct bgNode {
+  bgIdx_t idx;
+  bgIdx_t way_begin;
+  bgIdx_t way_end;
+  double lon;
+  double lat;
+  bgIndicator_t *indicators;
+};
+
+void bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header);
+void bgNodeContextDestroy(bgNodeContext_t *nc);
+
+void bgNodeCreate(bgNode_t *node, const bgHeader_t *header);
+void bgNodeDestroy(bgNode_t *node);
+
+#ifdef GRAPHER
+void bgNodeContextWrite(const bgNodeContext_t *nc, FILE *out, const bgHeader_t *header);
+bgSize_t bgNodeContextByteCount(bgIdx_t nc_dim, bgSize_t nc_ind_name_size, bgSize_t nc_ind_desc_size);
+
+void bgNodeWrite(const bgNode_t *node, FILE *out, const bgHeader_t *header);
+bgSize_t bgNodeByteCount(bgIdx_t nc_dim);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

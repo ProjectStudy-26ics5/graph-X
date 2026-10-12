@@ -1,0 +1,11 @@
+add_executable(converter)
+target_sources(
+  converter
+  PRIVATE
+  "converter.cpp"
+)
+target_link_libraries(
+  converter
+  PRIVATE
+  grapher
+)

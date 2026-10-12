@@ -1,0 +1,47 @@
+{
+  "configurations": [
+    {
+      "name": "Win32",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "~/vcpkg/installed/x64-windows/include"
+      ],
+      "defines": [
+        "GRAPHER"
+      ],
+      "compilerPath": "cl.exe",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "windows-msvc-x64"
+    },
+    {
+      "name": "Linux",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ],
+      "defines": [
+        "GRAPHER"
+      ],
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "linux-gcc-x64"
+    },
+    {
+      "name": "Mac",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "/opt/homebrew/include",
+        "/opt/X11/include"
+      ],
+      "defines": [
+        "GRAPHER"
+      ],
+      "compilerPath": "/usr/bin/clang",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "macos-clang-arm64"
+    }
+  ],
+  "version": 4
+}

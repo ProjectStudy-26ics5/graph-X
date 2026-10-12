@@ -1,0 +1,19 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+
+  "files.exclude": {
+    "vcpkg_installed": true,
+    "cmake": true,
+    "build": true,
+    "osm": true,
+    "out": true
+  },
+  "search.exclude": {
+    "vcpkg_installed": true,
+    "cmake": true,
+    "build": true,
+    "osm": true,
+    "out": true
+  }
+}

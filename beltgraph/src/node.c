@@ -1,0 +1,104 @@
+#include <beltgraph.h>
+#include <stdlib.h>
+
+void bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header) {
+  const bgIdx_t dim = header->nc_dim;
+
+  nc->dim = dim;
+  nc->weights = malloc(dim * sizeof(bgWeight_t));
+
+  nc->indicator_name_size = header->nc_ind_name_size;
+  nc->indicator_names = malloc(header->nc_ind_name_size);
+  nc->indicator_name_offs = malloc(dim * sizeof(bgOffset_t));
+  
+  nc->indicator_desc_size = header->nc_ind_desc_size;
+  nc->indicator_descs = malloc(header->nc_ind_desc_size);
+  nc->indicator_desc_offs = malloc(dim * sizeof(bgOffset_t));
+}
+
+void bgNodeContextDestroy(bgNodeContext_t *nc) {
+  free(nc->weights);
+  free(nc->indicator_names);
+  free(nc->indicator_name_offs);
+  free(nc->indicator_descs);
+  free(nc->indicator_desc_offs);
+}
+
+
+
+void bgNodeCreate(bgNode_t *node, const bgHeader_t *header) {
+  const bgIdx_t dim = header->nc_dim;
+
+  node->indicators = malloc(dim * sizeof(bgIndicator_t));
+}
+
+void bgNodeDestroy(bgNode_t *node) {
+  free(node->indicators);
+}
+
+
+
+#ifdef GRAPHER
+void bgNodeContextWrite(const bgNodeContext_t *nc, FILE *out, const bgHeader_t *header) {
+  const bgIdx_t dim = header->nc_dim;
+
+  fseek(
+    out,
+    header->nc_pos,
+    SEEK_SET
+  );
+
+  /**
+   * [!WARNING]
+   * エンディアンを揃えた方が良いです
+   */
+
+  fwrite(nc->indicator_names, nc->indicator_name_size, 1, out);
+  fwrite(nc->indicator_name_offs, sizeof(bgOffset_t), dim, out);
+  
+  fwrite(nc->indicator_descs, nc->indicator_desc_size, 1, out);
+  fwrite(nc->indicator_desc_offs, sizeof(bgOffset_t), dim, out);
+}
+
+bgSize_t bgNodeContextByteCount(bgIdx_t nc_dim, bgSize_t nc_ind_name_size, bgSize_t nc_ind_desc_size) {
+  bgSize_t size = 0;
+
+  size += nc_ind_name_size;
+  size += sizeof(bgOffset_t) * nc_dim;
+
+  size += nc_ind_desc_size;
+  size += sizeof(bgOffset_t) * nc_dim;
+
+  return size;
+}
+
+
+
+void bgNodeWrite(const bgNode_t *node, FILE *out, const bgHeader_t *header) {
+  const bgIdx_t dim = header->wc_dim;
+
+  fseek(
+    out,
+    header->node_pos + header->node_stride * node->idx,
+    SEEK_SET
+  );
+
+  fwrite(&node->way_begin, sizeof(bgIdx_t), 1, out);
+  fwrite(&node->way_end, sizeof(bgIdx_t), 1, out);
+  fwrite(&node->lon, sizeof(double), 1, out);
+  fwrite(&node->lat, sizeof(double), 1, out);
+  fwrite(node->indicators, sizeof(bgIndicator_t), dim, out);
+}
+
+bgSize_t bgNodeByteCount(bgIdx_t nc_dim) {
+  bgSize_t size = 0;
+
+  size += sizeof(bgIdx_t);
+  size += sizeof(bgIdx_t);
+  size += sizeof(double);
+  size += sizeof(double);
+  size += sizeof(bgIndicator_t) * nc_dim;
+
+  return size;
+}
+#endif

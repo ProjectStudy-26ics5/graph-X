@@ -1,0 +1,26 @@
+version: '3'
+
+tasks:
+  clean-windows:
+    desc: "clean build"
+    platforms: ["windows"]
+    cmds:
+      - cmd /c "rmdir /s /q build"
+
+  configure:
+    desc: "configure CMake"
+    cmds:
+      - "cmake --preset default"
+
+  build:
+    desc: "compile project"
+    deps: ["configure"]
+    cmds:
+      - "cmake --build --preset default"
+
+  run-converter-windows:
+    desc: "run tests/converter.cpp"
+    deps: ["build"]
+    platforms: ["windows"]
+    cmds:
+      - "./build/tests/converter.exe"
