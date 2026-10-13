@@ -7,15 +7,16 @@
 extern "C" {
 #endif
 
-typedef void (*bgReaderCallback)(bgOffset_t pos, void *dest, bgSize_t size);
+typedef void (*bgReaderCallback)(bgOffset_t pos, void *buffer, bgSize_t size);
 
 struct bgReader {
   bgOffset_t pos;
   bgReaderCallback cb;
 };
 
-void bgReaderSeek(bgReader_t *reader, bgOffset_t pos);
-void bgReaderRead(bgReader_t *reader, void *dest, bgSize_t size);
+void bgReaderCreate(bgReader_t *reader, bgReaderCallback cb);
+void bgReaderJump(bgReader_t *reader, bgOffset_t pos);
+void bgReaderRead(void *buffer, bgSize_t size, bgIdx_t count, bgReader_t *reader);
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,27 @@
 #include <beltgraph.h>
 
+void bgHeaderFetch(bgHeader_t *header, bgReader_t *reader) {
+  bgReaderJump(reader, BG_HEADER_POS);
+
+  bgReaderRead(&header->nc_pos, sizeof(bgOffset_t), 1, reader);
+  bgReaderRead(&header->nc_dim, sizeof(bgIdx_t), 1, reader);
+  bgReaderRead(&header->nc_ind_name_size, sizeof(bgSize_t), 1, reader);
+  bgReaderRead(&header->nc_ind_desc_size, sizeof(bgSize_t), 1, reader);
+  
+  bgReaderRead(&header->wc_pos, sizeof(bgOffset_t), 1, reader);
+  bgReaderRead(&header->wc_dim, sizeof(bgIdx_t), 1, reader);
+  bgReaderRead(&header->wc_ind_name_size, sizeof(bgSize_t), 1, reader);
+  bgReaderRead(&header->wc_ind_desc_size, sizeof(bgSize_t), 1, reader);
+
+  bgReaderRead(&header->node_pos, sizeof(bgOffset_t), 1, reader);
+  bgReaderRead(&header->node_count, sizeof(bgIdx_t), 1, reader);
+  bgReaderRead(&header->node_stride, sizeof(bgSize_t), 1, reader);
+
+  bgReaderRead(&header->way_pos, sizeof(bgOffset_t), 1, reader);
+  bgReaderRead(&header->way_count, sizeof(bgIdx_t), 1, reader);
+  bgReaderRead(&header->way_stride, sizeof(bgSize_t), 1, reader);
+}
+
 #ifdef GRAPHER
 void bgHeaderWrite(const bgHeader_t *header, FILE *out) {
   fseek(

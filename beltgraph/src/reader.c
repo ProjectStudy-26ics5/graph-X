@@ -1,10 +1,17 @@
 #include <beltgraph.h>
 
-void bgReaderSeek(bgReader_t *reader, bgOffset_t pos) {
+void bgReaderCreate(bgReader_t *reader, bgReaderCallback cb) {
+  reader->pos = 0;
+  reader->cb = cb;
+}
+
+void bgReaderJump(bgReader_t *reader, bgOffset_t pos) {
   reader->pos = pos;
 }
 
-void bgReaderRead(bgReader_t *reader, void *dest, bgSize_t size) {
-  reader->cb(reader->pos, dest, size);
-  reader->pos += size;
+void bgReaderRead(void *buffer, bgSize_t size, bgIdx_t count, bgReader_t *reader) {
+  bgSize_t byte_count = size * count;
+  
+  reader->cb(reader->pos, buffer, byte_count);
+  reader->pos += byte_count;
 }

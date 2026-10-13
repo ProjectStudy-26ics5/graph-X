@@ -3,8 +3,8 @@ add_library(beltgraph)
 target_sources(
   beltgraph
   PRIVATE
-  "src/header.c"
   "src/reader.c"
+  "src/header.c"
   "src/way.c"
   "src/node.c"
 )

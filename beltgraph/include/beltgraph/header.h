@@ -2,6 +2,7 @@
 #define BELTGRAPH_HEADER_H
 
 #include <beltgraph/types.h>
+#include <beltgraph/reader.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,6 +29,8 @@ struct bgHeader {
   bgIdx_t way_count;
   bgSize_t way_stride;
 };
+
+void bgHeaderFetch(bgHeader_t *header, bgReader_t *reader);
 
 #ifdef GRAPHER
 void bgHeaderWrite(const bgHeader_t *header, FILE *out);

@@ -24,3 +24,10 @@ tasks:
     platforms: ["windows"]
     cmds:
       - "./build/tests/converter.exe"
+
+  run-read_header-windows:
+    desc: "run tests/read_header.c"
+    deps: ["build"]
+    platforms: ["windows"]
+    cmds:
+      - "./build/tests/read_header.exe"

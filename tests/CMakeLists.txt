@@ -9,3 +9,15 @@ target_link_libraries(
   PRIVATE
   grapher
 )
+
+add_executable(read_header)
+target_sources(
+  read_header
+  PRIVATE
+  "read_header.c"
+)
+target_link_libraries(
+  read_header
+  PRIVATE
+  beltgraph
+)
