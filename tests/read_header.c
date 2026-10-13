@@ -8,7 +8,7 @@ void read_cb(bgOffset_t pos, void *buffer, bgSize_t size) {
 }
 
 int main(void) {
-  in = fopen("out/test.bg", "rb");
+  in = fopen("bg/minato.bg", "rb");
   bgReader_t reader;
   bgReaderCreate(&reader, read_cb);
 

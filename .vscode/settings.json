@@ -7,13 +7,13 @@
     "cmake": true,
     "build": true,
     "osm": true,
-    "out": true
+    "bg": true
   },
   "search.exclude": {
     "vcpkg_installed": true,
     "cmake": true,
     "build": true,
     "osm": true,
-    "out": true
+    "bg": true
   }
 }

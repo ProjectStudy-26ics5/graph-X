@@ -350,6 +350,6 @@ int main(void) {
   });
 
   gp::Graph graph("osm/minato.osm.pbf", nc, wc);
-  graph.write("out/test");
+  graph.write("bg/minato");
   return 0;
 }

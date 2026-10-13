@@ -4,14 +4,21 @@
 * `grapher`
 * `beltgraph`
 
-## 1. ツール
-使用しているツールを以下に示します。
+## 1. 前提条件
+このプロジェクトを動かすには、以下のツールが事前にインストールされている必要があります。
+* C/C++コンパイラ
+* CMake
+* Ninja
 * vcpkg
-* cmake
+* Task
 
-## 2. grapher
+## 2. OpenStreetMap (OSM)
+このプロジェクトでは地図データとして<a href="https://openstreetmap.org/">OpenStreetMap</a>のデータを用います。
+また、C++ライブラリ<a href="https://osmcode.org/libosmium/">libosmium</a>を用いてOpenStreetMapのデータを読み取ります。
+
+## 3. grapher
 OSMのデータから指標情報を持つグラフ構造を構築するライブラリです。
-経路探索に用いる処理は一切含まれません。
+経路探索処理は含まれません。
 結果は`beltgraph`ライブラリ専用の`.bg`形式となります。
 
 ### bg作成サンプル
@@ -54,18 +61,18 @@ int main(void) {
   gp::WayContext wc({&surface});
 
   gp::Graph graph("osm/minato.osm.pbf", nc, wc);
-  graph.write("out/test"); // => out/test.bg
+  graph.write("bg/minato"); // => bg/minato.bg
   return 0;
 }
 ```
 
-## 3. beltgraph
+## 4. beltgraph
 `grapher`で作成した`.bg`を読み、経路探索処理を提供します。
 
 > [!CAUTION]
 > まだ、この部分は完成していません。
 
-## 4. bg形式の構造図
+## 5. bg形式の構造図
 <ul>
   <li>Header
     <ul>
