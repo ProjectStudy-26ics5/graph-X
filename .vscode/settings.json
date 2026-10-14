@@ -3,14 +3,12 @@
   "editor.insertSpaces": true,
 
   "files.exclude": {
-    "vcpkg_installed": true,
     "build": true,
     ".task": true,
     "osm": true,
     "bg": true
   },
   "search.exclude": {
-    "vcpkg_installed": true,
     "build": true,
     ".task": true,
     "osm": true,

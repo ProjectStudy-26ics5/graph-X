@@ -3,8 +3,7 @@
     {
       "name": "Win32",
       "includePath": [
-        "${workspaceFolder}/**",
-        "~/vcpkg/installed/x64-windows/include"
+        "${workspaceFolder}/**"
       ],
       "defines": [
         "GRAPHER"
@@ -22,7 +21,7 @@
       "defines": [
         "GRAPHER"
       ],
-      "compilerPath": "/usr/bin/gcc",
+      "compilerPath": "gcc",
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "linux-gcc-x64"
@@ -30,14 +29,12 @@
     {
       "name": "Mac",
       "includePath": [
-        "${workspaceFolder}/**",
-        "/opt/homebrew/include",
-        "/opt/X11/include"
+        "${workspaceFolder}/**"
       ],
       "defines": [
         "GRAPHER"
       ],
-      "compilerPath": "/usr/bin/clang",
+      "compilerPath": "clang",
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "macos-clang-arm64"
