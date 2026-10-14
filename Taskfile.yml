@@ -7,8 +7,15 @@ tasks:
     cmds:
       - cmd /c "rmdir /s /q build"
 
+
+
   configure:
     desc: "configure CMake"
+    sources:
+      - "**/CMakeLists.txt"
+      - "vcpkg.json"
+    generates:
+      - "build/CMakeCache.txt"
     cmds:
       - "cmake --preset default"
 
@@ -17,6 +24,8 @@ tasks:
     deps: ["configure"]
     cmds:
       - "cmake --build --preset default"
+
+
 
   run-converter-windows:
     desc: "run tests/converter.cpp"

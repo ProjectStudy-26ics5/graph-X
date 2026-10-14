@@ -1,8 +1,8 @@
 # ProjectStudy-26ics5 Graph
 
 このプロジェクトは以下２つのC++ライブラリを提供します。
-* `grapher`
-* `beltgraph`
+* grapher
+* beltgraph
 
 ## 1. 前提条件
 このプロジェクトを動かすには、以下のツールが事前にインストールされている必要があります。
@@ -19,7 +19,7 @@
 ## 3. grapher
 OSMのデータから指標情報を持つグラフ構造を構築するライブラリです。
 経路探索処理は含まれません。
-結果は`beltgraph`ライブラリ専用の`.bg`形式となります。
+結果はbeltgraphライブラリ専用の`.bg`形式となります。
 
 ### bg作成サンプル
 ノードの指標は`gp::NodeEvaluator`、ウェイの指標は`gp::WayEvaluator`を用いてい定義します。
@@ -66,13 +66,28 @@ int main(void) {
 }
 ```
 
+### テスト実行
+`tests/converter.cpp`をwindowsなら以下のコマンドで実行できます。
+```
+task run-converter-windows
+```
+
 ## 4. beltgraph
-`grapher`で作成した`.bg`を読み、経路探索処理を提供します。
+grapherで作成した`.bg`を読み、経路探索処理を提供します。
 
 > [!CAUTION]
 > まだ、この部分は完成していません。
 
-## 5. bg形式の構造図
+## 5. ライブラリの利用方法
+> [!WARNING]
+> cmake installなど、外部から利用するための構成がまだ整っていません。
+
+## 6. bg形式の構造
+指標情報を持つグラフ構造です。
+一般的なグラフ構造におけるノードをNode、エッジをWayとしています。
+`.bg`は非圧縮のバイナリファイルとして保存され、グラフはCSR(Compressed Sparse Row)形式のような構造を持ちます。
+`.bg`形式の構造を以下に示します。
+
 <ul>
   <li>Header
     <ul>
