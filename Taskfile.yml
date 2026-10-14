@@ -1,11 +1,16 @@
 version: '3'
 
 tasks:
-  clean-windows:
+  clean:
     desc: "clean build"
     platforms: ["windows"]
     cmds:
       - cmd /c "rmdir /s /q build"
+  clean:
+    desc: "clean build"
+    platforms: ["darwin", "linux"]
+    cmds:
+      - "rm -rf build"
 
 
 
@@ -27,16 +32,28 @@ tasks:
 
 
 
-  run-converter-windows:
+  run-converter:
     desc: "run tests/converter.cpp"
     deps: ["build"]
     platforms: ["windows"]
     cmds:
       - "./build/tests/converter.exe"
+  run-converter:
+    desc: "run tests/converter.cpp"
+    deps: ["build"]
+    platforms: ["darwin", "linux"]
+    cmds:
+      - "./build/tests/converter"
 
-  run-read_header-windows:
+  run-read_header:
     desc: "run tests/read_header.c"
     deps: ["build"]
     platforms: ["windows"]
     cmds:
       - "./build/tests/read_header.exe"
+  run-read_header:
+    desc: "run tests/read_header.c"
+    deps: ["build"]
+    platforms: ["darwin", "linux"]
+    cmds:
+      - "./build/tests/read_header"

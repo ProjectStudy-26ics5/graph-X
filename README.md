@@ -67,9 +67,9 @@ int main(void) {
 ```
 
 ### テスト実行
-`tests/converter.cpp`をwindowsなら以下のコマンドで実行できます。
+`tests/converter.cpp`を以下のコマンドで実行できます。
 ```
-task run-converter-windows
+task run-converter
 ```
 
 ## 4. beltgraph
