@@ -1,5 +1,5 @@
 add_library(grapher)
-target_compile_features(grapher PRIVATE cxx_std_17)
+target_compile_features(grapher PUBLIC cxx_std_17)
 
 target_sources(
   grapher
