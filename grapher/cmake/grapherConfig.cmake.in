@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+find_dependency(Osmium REQUIRED COMPONENTS io)
+
+include("${CMAKE_CURRENT_LIST_DIR}/grapherTargets.cmake")
+check_required_components(grapher)

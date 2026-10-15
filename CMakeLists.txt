@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
-project(project-study-graph LANGUAGES C CXX)
+project(
+  project-study-graph
+  VERSION 1.0.0
+  LANGUAGES C CXX
+)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 add_subdirectory(beltgraph)
 add_subdirectory(grapher)

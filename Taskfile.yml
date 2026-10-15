@@ -32,6 +32,21 @@ tasks:
 
 
 
+  install:
+    desc: "install build"
+    deps: ["build"]
+    vars:
+      PREFIX: '{{.PREFIX | default ""}}'
+    cmds:
+      - |
+        {{if .PREFIX}}
+        cmake --install build --prefix {{.PREFIX}}
+        {{else}}
+        cmake --install build
+        {{end}}
+
+
+
   run-converter:
     desc: "run tests/converter.cpp"
     deps: ["build"]

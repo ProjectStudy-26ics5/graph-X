@@ -7,7 +7,7 @@ target_sources(
 target_link_libraries(
   converter
   PRIVATE
-  grapher
+  PS::grapher
 )
 
 add_executable(read_header)
@@ -19,5 +19,5 @@ target_sources(
 target_link_libraries(
   read_header
   PRIVATE
-  beltgraph
+  PS::beltgraph
 )
