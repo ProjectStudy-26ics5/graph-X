@@ -79,8 +79,36 @@ grapherで作成した`.bg`を読み、経路探索処理を提供します。
 > まだ、この部分は完成していません。
 
 ## 5. ライブラリの利用方法
-> [!WARNING]
-> cmake installなど、外部から利用するための構成がまだ整っていません。
+自分の環境にインストールは以下のコマンドでできます。
+```
+task install
+```
+もしくは、
+```
+task install PREFIX="path/to/your/install/dir"
+```
+
+> [!CAUTION]
+> grapherのインストールの準備ができていません。
+
+CMakeから以下のようにして、beltgraphを利用できます。
+```
+find_package(beltgraph CONFIG REQUIRED)
+
+add_executable(sample)
+
+target_sources(
+  sample
+  PRIVATE
+  sample.c
+)
+
+target_link_libraries(
+  sample
+  PRIVATE
+  PS::beltgraph
+)
+```
 
 ## 6. bg形式の構造
 指標情報を持つグラフ構造です。
