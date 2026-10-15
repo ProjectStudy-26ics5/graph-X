@@ -40,7 +40,7 @@ tasks:
     cmds:
       - |
         {{if .PREFIX}}
-        cmake --install build --prefix {{.PREFIX}}
+        cmake --install build --prefix "{{.PREFIX}}"
         {{else}}
         cmake --install build
         {{end}}

@@ -69,6 +69,7 @@ install(
 
 install(
   FILES
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindOsmium.cmake"
   "${CMAKE_CURRENT_BINARY_DIR}/grapherConfig.cmake"
   "${CMAKE_CURRENT_BINARY_DIR}/grapherConfigVersion.cmake"
   DESTINATION "${grapher_INSTALL_CMAKEDIR}"

@@ -1,7 +1,11 @@
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+
 find_dependency(Osmium REQUIRED COMPONENTS io)
+find_dependency(beltgraph CONFIG REQUIRED)
 
 include("${CMAKE_CURRENT_LIST_DIR}/grapherTargets.cmake")
 check_required_components(grapher)
