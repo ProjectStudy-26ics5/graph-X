@@ -38,6 +38,7 @@ const char *bgNodeContextIndicatorDesc(const bgNodeContext_t *nc, bgIdx_t i);
 
 void bgNodeCreate(bgNode_t *node, const bgHeader_t *header);
 void bgNodeDestroy(bgNode_t *node);
+void bgNodeFetch(bgNode_t *node, bgReader_t *reader, const bgHeader_t *header, bgIdx_t idx);
 
 #ifdef GRAPHER
 void bgNodeContextWrite(const bgNodeContext_t *nc, FILE *out, const bgHeader_t *header);

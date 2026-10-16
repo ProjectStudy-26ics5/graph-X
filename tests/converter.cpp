@@ -3,7 +3,7 @@
 #include <string>
 
 /* Node */
-struct Rank : public gp::NodeEvaluator {
+class Rank : public gp::NodeEvaluator {
   gp::IndicatorName name() const {
     return "rank";
   }
@@ -17,7 +17,7 @@ struct Rank : public gp::NodeEvaluator {
   }
 };
 
-struct TrafficSignal : public gp::NodeEvaluator {
+class TrafficSignal : public gp::NodeEvaluator {
   gp::IndicatorName name() const {
     return "traffic_signal";
   }
@@ -33,7 +33,7 @@ struct TrafficSignal : public gp::NodeEvaluator {
 
 
 /* Way */
-struct Width : public gp::WayEvaluator {
+class Width : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "width";
   }
@@ -50,7 +50,7 @@ struct Width : public gp::WayEvaluator {
 };
 
 //detailと重複しているので,要検討
-struct Surface : public gp::WayEvaluator {
+class Surface : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "surface";
   }
@@ -65,7 +65,7 @@ struct Surface : public gp::WayEvaluator {
   }
 };
 
-struct Lanes : public gp::WayEvaluator {
+class Lanes : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "lanes";
   }
@@ -81,7 +81,7 @@ struct Lanes : public gp::WayEvaluator {
   }
 };
 
-struct CycleLane : public gp::WayEvaluator {
+class CycleLane : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "cycle_lane";
   }
@@ -94,7 +94,7 @@ struct CycleLane : public gp::WayEvaluator {
   }
 };
 
-struct Oneway : public gp::WayEvaluator {
+class Oneway : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "oneway";
   }
@@ -109,7 +109,7 @@ struct Oneway : public gp::WayEvaluator {
   }
 };
 
-struct Maxspeed : public gp::WayEvaluator {
+class Maxspeed : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "maxspeed";
   }
@@ -125,7 +125,7 @@ struct Maxspeed : public gp::WayEvaluator {
   }
 };
 
-struct Height : public gp::WayEvaluator {
+class Height : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "height";
   }
@@ -141,7 +141,7 @@ struct Height : public gp::WayEvaluator {
   }
 };
 
-struct Surface_detail : public gp::WayEvaluator {
+class Surface_detail : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "surface_detail";
   }
@@ -161,7 +161,7 @@ struct Surface_detail : public gp::WayEvaluator {
   }
 };
 
-struct Smoothness : public gp::WayEvaluator {
+class Smoothness : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "smoothness";
   }
@@ -182,7 +182,7 @@ struct Smoothness : public gp::WayEvaluator {
   }
 };
 
-struct Cyclelane_detail : public gp::WayEvaluator {
+class Cyclelane_detail : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "cyclelane_detail";
   }
@@ -201,7 +201,7 @@ struct Cyclelane_detail : public gp::WayEvaluator {
   }
 };
 
-struct Lit : public gp::WayEvaluator {
+class Lit : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "lit";
   }
@@ -218,7 +218,7 @@ struct Lit : public gp::WayEvaluator {
   }
 };
 
-struct Barrier : public gp::WayEvaluator {
+class Barrier : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "barrier";
   }
@@ -236,7 +236,7 @@ struct Barrier : public gp::WayEvaluator {
   }
 };
 
-struct Tracktype : public gp::WayEvaluator {
+class Tracktype : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "tracktype";
   }
@@ -256,7 +256,7 @@ struct Tracktype : public gp::WayEvaluator {
   }
 };
 
-struct Sac_scale : public gp::WayEvaluator {
+class Sac_scale : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "sac_scale";
   }
@@ -274,7 +274,7 @@ struct Sac_scale : public gp::WayEvaluator {
   }
 };
 
-struct Sidewalk : public gp::WayEvaluator {
+class Sidewalk : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "sidewalk";
   }
@@ -293,7 +293,7 @@ struct Sidewalk : public gp::WayEvaluator {
 };
 
 /* 未実装
-struct Slope : public gp::WayEvaluator {
+class Slope : public gp::WayEvaluator {
   gp::IndicatorName name() const {
     return "slope";
   }

@@ -67,6 +67,25 @@ int main(void) {
 
 
 
+  printf("\n======= node 0 =======\n");
+  bgNode_t node;
+  bgNodeCreate(&node, &header);
+  bgNodeFetch(&node, &reader, &header, 4000);
+
+  printf("way_begin = %u\n", node.way_begin);
+  printf("way_end = %u\n", node.way_end);
+  printf("lon = %lf\n", node.lon);
+  printf("lat = %lf\n", node.lat);
+  printf("indicators = {");
+  for(int i = 0; i < nc.dim; i++) {
+    printf("%f, ", node.indicators[i]);
+  }
+  printf("\b\b}\n");
+  
+  bgNodeDestroy(&node);
+
+
+
   printf("\n======= way 0 =======\n");
   bgWay_t way;
   bgWayCreate(&way, &header);

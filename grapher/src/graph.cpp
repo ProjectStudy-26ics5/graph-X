@@ -276,19 +276,25 @@ void Graph::find_max_indicators() {
 void Graph::normalize() {
   for(auto &[id, node] : nodes()) {
     for(int i = 0; i < nc().dim(); i++) {
-      if(nc().max_indicator(i) == 0) {
+      Indicator a = node.indicator(i) - nc().min_indicator(i);
+      Indicator b = nc().max_indicator(i) - nc().min_indicator(i);
+      
+      if(b == 0) {
         node.indicators_[i] = 1;
       }else {
-        node.indicators_[i] = (node.indicator(i) - nc().min_indicator(i)) / (nc().max_indicator(i) - nc().min_indicator(i));
+        node.indicators_[i] = a / b;
       }
     }
 
     for(auto &way : node.ways()) {
       for(int i = 0; i < wc().dim(); i++) {
-        if(wc().max_indicator(i) == 0) {
+        Indicator a = way.indicator(i) - wc().min_indicator(i);
+        Indicator b = wc().max_indicator(i) - wc().min_indicator(i);
+        
+        if(b == 0) {
           way.indicators_[i] = 1;
         }else {
-          way.indicators_[i] = (way.indicator(i) - wc().min_indicator(i)) / (wc().max_indicator(i) - wc().min_indicator(i));
+          way.indicators_[i] = a / b;
         }
       }
     }

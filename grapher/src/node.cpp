@@ -83,7 +83,7 @@ void Node::write(FILE *out, const bgHeader_t *header, const NodeContext &nc) con
 
   bg_node.idx = idx();
   bg_node.way_begin = ways().front().idx();
-  bg_node.way_end   = ways().back().idx();
+  bg_node.way_end   = bg_node.way_begin + ways().size();
   bg_node.lon = lon();
   bg_node.lat = lat();
   for(int i = 0; i < nc.dim(); i++) {

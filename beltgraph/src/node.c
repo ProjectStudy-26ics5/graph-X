@@ -56,6 +56,22 @@ void bgNodeDestroy(bgNode_t *node) {
   free(node->indicators);
 }
 
+void bgNodeFetch(bgNode_t *node, bgReader_t *reader, const bgHeader_t *header, bgIdx_t idx) {
+  const bgIdx_t dim = header->nc_dim;
+  node->idx = idx;
+
+  bgReaderJump(
+    reader,
+    header->node_pos + header->node_stride * node->idx
+  );
+
+  bgReaderRead(&node->way_begin, sizeof(bgIdx_t), 1, reader);
+  bgReaderRead(&node->way_end, sizeof(bgIdx_t), 1, reader);
+  bgReaderRead(&node->lon, sizeof(double), 1, reader);
+  bgReaderRead(&node->lat, sizeof(double), 1, reader);
+  bgReaderRead(node->indicators, sizeof(bgIndicator_t), dim, reader);
+}
+
 
 
 #ifdef GRAPHER
@@ -95,7 +111,7 @@ bgSize_t bgNodeContextByteCount(bgIdx_t nc_dim, bgSize_t nc_ind_name_size, bgSiz
 
 
 void bgNodeWrite(const bgNode_t *node, FILE *out, const bgHeader_t *header) {
-  const bgIdx_t dim = header->wc_dim;
+  const bgIdx_t dim = header->nc_dim;
 
   fseek(
     out,
