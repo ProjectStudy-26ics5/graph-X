@@ -14,6 +14,7 @@ int main(void) {
 
   // header
   bgHeader_t header;
+  bgHeaderCreate(&header);
   bgHeaderFetch(&header, &reader);
 
   printf("nc_pos = %llu\n", header.nc_pos);
@@ -34,6 +35,8 @@ int main(void) {
   printf("way_count = %u\n", header.way_count);
   printf("way_stride = %llu\n", header.way_stride);
 
+  bgHeaderDestroy(&header);
+
   // nc
   bgNodeContext_t nc;
   bgNodeContextCreate(&nc, &header);
@@ -52,6 +55,7 @@ int main(void) {
   }
   bgWayContextDestroy(&wc);
 
+  bgReaderDestroy(&reader);
   fclose(in);
   return 0;
 }

@@ -1,5 +1,11 @@
 #include <beltgraph.h>
 
+void bgHeaderCreate(bgHeader_t *header) {
+}
+
+void bgHeaderDestroy(bgHeader_t *header) {
+}
+
 void bgHeaderFetch(bgHeader_t *header, bgReader_t *reader) {
   bgReaderJump(reader, BG_HEADER_POS);
 

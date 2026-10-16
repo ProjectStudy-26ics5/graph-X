@@ -5,6 +5,9 @@ void bgReaderCreate(bgReader_t *reader, bgReaderCallback cb) {
   reader->cb = cb;
 }
 
+void bgReaderDestroy(bgReader_t *reader) {
+}
+
 void bgReaderJump(bgReader_t *reader, bgOffset_t pos) {
   reader->pos = pos;
 }
