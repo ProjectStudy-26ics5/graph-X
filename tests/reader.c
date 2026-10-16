@@ -12,7 +12,9 @@ int main(void) {
   bgReader_t reader;
   bgReaderCreate(&reader, read_cb);
 
-  // header
+
+
+  printf("\n======= header =======\n");
   bgHeader_t header;
   bgHeaderCreate(&header);
   bgHeaderFetch(&header, &reader);
@@ -37,23 +39,50 @@ int main(void) {
 
   bgHeaderDestroy(&header);
 
-  // nc
+
+
+  printf("\n======= node context =======\n");
   bgNodeContext_t nc;
   bgNodeContextCreate(&nc, &header);
   bgNodeContextFetch(&nc, &reader, &header);
+
   for(int i = 0; i < nc.dim; i++) {
     printf("%s: %s\n", bgNodeContextIndicatorName(&nc, i), bgNodeContextIndicatorDesc(&nc, i));
   }
+
   bgNodeContextDestroy(&nc);
 
-  // wc
+
+
+  printf("\n======= way context =======\n");
   bgWayContext_t wc;
   bgWayContextCreate(&wc, &header);
   bgWayContextFetch(&wc, &reader, &header);
+
   for(int i = 0; i < wc.dim; i++) {
     printf("%s: %s\n", bgWayContextIndicatorName(&wc, i), bgWayContextIndicatorDesc(&wc, i));
   }
+
   bgWayContextDestroy(&wc);
+
+
+
+  printf("\n======= way 0 =======\n");
+  bgWay_t way;
+  bgWayCreate(&way, &header);
+  bgWayFetch(&way, &reader, &header, 0);
+
+  printf("to = %u\n", way.to);
+  printf("length = %lf\n", way.length);
+  printf("indicators = {");
+  for(int i = 0; i < wc.dim; i++) {
+    printf("%f, ", way.indicators[i]);
+  }
+  printf("\b\b}\n");
+
+  bgWayDestroy(&way);
+
+
 
   bgReaderDestroy(&reader);
   fclose(in);

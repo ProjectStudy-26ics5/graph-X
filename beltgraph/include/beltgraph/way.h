@@ -36,6 +36,7 @@ const char *bgWayContextIndicatorDesc(const bgWayContext_t *wc, bgIdx_t i);
 
 void bgWayCreate(bgWay_t *way, const bgHeader_t *header);
 void bgWayDestroy(bgWay_t *way);
+void bgWayFetch(bgWay_t *way, bgReader_t *reader, const bgHeader_t *header, bgIdx_t idx);
 
 #ifdef GRAPHER
 void bgWayContextWrite(const bgWayContext_t *wc, FILE *out, const bgHeader_t *header);

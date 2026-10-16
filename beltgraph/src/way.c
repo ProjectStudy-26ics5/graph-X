@@ -24,18 +24,6 @@ void bgWayContextDestroy(bgWayContext_t *wc) {
   free(wc->indicator_desc_offs);
 }
 
-
-
-void bgWayCreate(bgWay_t *way, const bgHeader_t *header) {
-  const bgIdx_t dim = header->wc_dim;
-
-  way->indicators = malloc(dim * sizeof(bgIndicator_t));
-}
-
-void bgWayDestroy(bgWay_t *way) {
-  free(way->indicators);
-}
-
 void bgWayContextFetch(bgWayContext_t *wc, bgReader_t *reader, const bgHeader_t *header) {
   const bgIdx_t dim = header->wc_dim;
 
@@ -55,6 +43,32 @@ const char *bgWayContextIndicatorName(const bgWayContext_t *wc, bgIdx_t i) {
 
 const char *bgWayContextIndicatorDesc(const bgWayContext_t *wc, bgIdx_t i) {
   return wc->indicator_descs + wc->indicator_desc_offs[i];
+}
+
+
+
+void bgWayCreate(bgWay_t *way, const bgHeader_t *header) {
+  const bgIdx_t dim = header->wc_dim;
+
+  way->indicators = malloc(dim * sizeof(bgIndicator_t));
+}
+
+void bgWayDestroy(bgWay_t *way) {
+  free(way->indicators);
+}
+
+void bgWayFetch(bgWay_t *way, bgReader_t *reader, const bgHeader_t *header, bgIdx_t idx) {
+  const bgIdx_t dim = header->wc_dim;
+  way->idx = idx;
+
+  bgReaderJump(
+    reader,
+    header->way_pos + header->way_stride * way->idx
+  );
+
+  bgReaderRead(&way->to, sizeof(bgIdx_t), 1, reader);
+  bgReaderRead(&way->length, sizeof(double), 1, reader);
+  bgReaderRead(way->indicators, sizeof(bgIndicator_t), dim, reader);
 }
 
 
