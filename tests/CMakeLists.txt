@@ -10,14 +10,14 @@ target_link_libraries(
   PS::grapher
 )
 
-add_executable(read_header)
+add_executable(reader)
 target_sources(
-  read_header
+  reader
   PRIVATE
-  "read_header.c"
+  "reader.c"
 )
 target_link_libraries(
-  read_header
+  reader
   PRIVATE
   PS::beltgraph
 )

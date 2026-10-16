@@ -36,6 +36,27 @@ void bgWayDestroy(bgWay_t *way) {
   free(way->indicators);
 }
 
+void bgWayContextFetch(bgWayContext_t *wc, bgReader_t *reader, const bgHeader_t *header) {
+  const bgIdx_t dim = header->wc_dim;
+
+  bgReaderJump(reader, header->wc_pos);
+
+  bgReaderRead(wc->indicator_names, wc->indicator_name_size, 1, reader);
+  bgReaderRead(wc->indicator_name_offs, sizeof(bgOffset_t), dim, reader);
+  
+  bgReaderRead(wc->indicator_descs, wc->indicator_desc_size, 1, reader);
+  bgReaderRead(wc->indicator_desc_offs, sizeof(bgOffset_t), dim, reader);
+}
+
+
+const char *bgWayContextIndicatorName(const bgWayContext_t *wc, bgIdx_t i) {
+  return wc->indicator_names + wc->indicator_name_offs[i];
+}
+
+const char *bgWayContextIndicatorDesc(const bgWayContext_t *wc, bgIdx_t i) {
+  return wc->indicator_descs + wc->indicator_desc_offs[i];
+}
+
 
 
 #ifdef GRAPHER

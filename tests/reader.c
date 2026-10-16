@@ -12,6 +12,7 @@ int main(void) {
   bgReader_t reader;
   bgReaderCreate(&reader, read_cb);
 
+  // header
   bgHeader_t header;
   bgHeaderFetch(&header, &reader);
 
@@ -32,6 +33,24 @@ int main(void) {
   printf("way_pos = %llu\n", header.way_pos);
   printf("way_count = %u\n", header.way_count);
   printf("way_stride = %llu\n", header.way_stride);
+
+  // nc
+  bgNodeContext_t nc;
+  bgNodeContextCreate(&nc, &header);
+  bgNodeContextFetch(&nc, &reader, &header);
+  for(int i = 0; i < nc.dim; i++) {
+    printf("%s: %s\n", bgNodeContextIndicatorName(&nc, i), bgNodeContextIndicatorDesc(&nc, i));
+  }
+  bgNodeContextDestroy(&nc);
+
+  // wc
+  bgWayContext_t wc;
+  bgWayContextCreate(&wc, &header);
+  bgWayContextFetch(&wc, &reader, &header);
+  for(int i = 0; i < wc.dim; i++) {
+    printf("%s: %s\n", bgWayContextIndicatorName(&wc, i), bgWayContextIndicatorDesc(&wc, i));
+  }
+  bgWayContextDestroy(&wc);
 
   fclose(in);
   return 0;

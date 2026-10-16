@@ -2,6 +2,7 @@
 #define BELTGRAPH_NODE_H
 
 #include <beltgraph/types.h>
+#include <beltgraph/reader.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,6 +32,9 @@ struct bgNode {
 
 void bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header);
 void bgNodeContextDestroy(bgNodeContext_t *nc);
+void bgNodeContextFetch(bgNodeContext_t *nc, bgReader_t *reader, const bgHeader_t *header);
+const char *bgNodeContextIndicatorName(const bgNodeContext_t *nc, bgIdx_t i);
+const char *bgNodeContextIndicatorDesc(const bgNodeContext_t *nc, bgIdx_t i);
 
 void bgNodeCreate(bgNode_t *node, const bgHeader_t *header);
 void bgNodeDestroy(bgNode_t *node);

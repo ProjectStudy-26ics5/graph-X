@@ -60,15 +60,15 @@ tasks:
     cmds:
       - "./build/tests/converter"
 
-  run-read_header:
-    desc: "run tests/read_header.c"
+  run-reader:
+    desc: "run tests/reader.c"
     deps: ["build"]
     platforms: ["windows"]
     cmds:
-      - "./build/tests/read_header.exe"
-  run-read_header:
-    desc: "run tests/read_header.c"
+      - "./build/tests/reader.exe"
+  run-reader:
+    desc: "run tests/reader.c"
     deps: ["build"]
     platforms: ["darwin", "linux"]
     cmds:
-      - "./build/tests/read_header"
+      - "./build/tests/reader"

@@ -24,6 +24,26 @@ void bgNodeContextDestroy(bgNodeContext_t *nc) {
   free(nc->indicator_desc_offs);
 }
 
+void bgNodeContextFetch(bgNodeContext_t *nc, bgReader_t *reader, const bgHeader_t *header) {
+  const bgIdx_t dim = header->nc_dim;
+
+  bgReaderJump(reader, header->nc_pos);
+
+  bgReaderRead(nc->indicator_names, nc->indicator_name_size, 1, reader);
+  bgReaderRead(nc->indicator_name_offs, sizeof(bgOffset_t), dim, reader);
+  
+  bgReaderRead(nc->indicator_descs, nc->indicator_desc_size, 1, reader);
+  bgReaderRead(nc->indicator_desc_offs, sizeof(bgOffset_t), dim, reader);
+}
+
+const char *bgNodeContextIndicatorName(const bgNodeContext_t *nc, bgIdx_t i) {
+  return nc->indicator_names + nc->indicator_name_offs[i];
+}
+
+const char *bgNodeContextIndicatorDesc(const bgNodeContext_t *nc, bgIdx_t i) {
+  return nc->indicator_descs + nc->indicator_desc_offs[i];
+}
+
 
 
 void bgNodeCreate(bgNode_t *node, const bgHeader_t *header) {

@@ -2,6 +2,7 @@
 #define BELTGRAPH_WAY_H
 
 #include <beltgraph/types.h>
+#include <beltgraph/reader.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,6 +30,9 @@ struct bgWay {
 
 void bgWayContextCreate(bgWayContext_t *wc, const bgHeader_t *header);
 void bgWayContextDestroy(bgWayContext_t *wc);
+void bgWayContextFetch(bgWayContext_t *wc, bgReader_t *reader, const bgHeader_t *header);
+const char *bgWayContextIndicatorName(const bgWayContext_t *wc, bgIdx_t i);
+const char *bgWayContextIndicatorDesc(const bgWayContext_t *wc, bgIdx_t i);
 
 void bgWayCreate(bgWay_t *way, const bgHeader_t *header);
 void bgWayDestroy(bgWay_t *way);
