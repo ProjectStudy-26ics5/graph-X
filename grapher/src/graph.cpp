@@ -319,12 +319,17 @@ void Graph::write(std::filesystem::path path) const {
 
   FILE *out = fopen(path.string().c_str(), "wb");
   if(out == NULL) {
-    throw std::runtime_error("[Graph::write] fopen failed.");
+    throw std::runtime_error("[gp::Graph::write] fopen failed.");
   }
 
   bgOffset_t pos = BG_HEADER_POS;
 
   bgHeader_t header;
+  bgError_t err = bgHeaderCreate(&header);
+  if(err != BG_ERROR_OK) {
+    throw std::runtime_error("[gp::Graph::write]");
+  }
+  
   pos += bgHeaderByteCount();
 
   header.nc_pos = pos;
@@ -358,6 +363,7 @@ void Graph::write(std::filesystem::path path) const {
     }
   }
 
+  bgHeaderDestroy(&header);
   fclose(out);
 }
 
