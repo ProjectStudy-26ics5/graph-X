@@ -15,7 +15,6 @@ Graph::Graph(const char *file__, NodeContext &nc__, WayContext &wc__):
   construct();
   evaluate_from_osm();
   evaluate_from_graph();
-  length_scale_indicators();
   validate_indicators();
   find_max_indicators();
   normalize();
@@ -202,16 +201,6 @@ void Graph::evaluate_from_graph() {
     for(auto &way : node.ways()) {
       for(int i = 0; i < wc().dim(); i++) {
         way.indicators_[i] += wc().evaluator(i).evaluate_from_graph(way, node, get(way.to()));
-      }
-    }
-  }
-}
-
-void Graph::length_scale_indicators() {
-  for(auto &[id, node] : nodes()) {
-    for(auto &way : node.ways()) {
-      for(int i = 0; i < wc().dim(); i++) {
-        way.indicators_[i] *= way.length();
       }
     }
   }

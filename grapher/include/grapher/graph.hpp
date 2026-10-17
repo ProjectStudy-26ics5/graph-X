@@ -50,7 +50,6 @@ private:
   void construct();
   void evaluate_from_osm();
   void evaluate_from_graph();
-  void length_scale_indicators();
   void validate_indicators();
   void find_max_indicators();
   void normalize();

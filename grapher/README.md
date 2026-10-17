@@ -79,7 +79,6 @@ Way指標定義でオーバライドするメンバ関数を以下に示しま�
 `2. 指標作成方法`で説明した指標値計算は、正確には指標となる前の評価値の計算です。
 指標値はこれをさらに加工します。その過程を以下に示します。
 
-1. Wayの指標値をWay長さでスケールする。
 1. 指標値が0未満や有限数でないとき0とします。
 1. 指標値を正規化する。正規化式を以下に示します。
 $$ Indicator_i = \frac{Indicator_i - MinIndicator_i}{MaxIndicator_i - MinIndicator_i} $$
@@ -88,4 +87,4 @@ $$ Indicator_i = \frac{Indicator_i - MinIndicator_i}{MaxIndicator_i - MinIndicat
 > [!IMPORTANT]
 > 地理的特徴の指標値はWayに付加してください。
 > Nodeでは、滑らかな曲線の道などで、複数のNodeが同じ地理的特徴を持つことで、経路探索時の合計コストが重複して大きくなってしまうからです。
-> Wayでは、長さスケーリングが行われるため、断片的なWayが複数あってもこれを回避できます。
+> Wayでは、beltgraph側で長さスケーリングが行われるため、断片的なWayが複数あってもこれを回避できます。
