@@ -21,3 +21,15 @@ target_link_libraries(
   PRIVATE
   PS::beltgraph
 )
+
+add_executable(nearest)
+target_sources(
+  nearest
+  PRIVATE
+  "nearest.c"
+)
+target_link_libraries(
+  nearest
+  PRIVATE
+  PS::beltgraph
+)

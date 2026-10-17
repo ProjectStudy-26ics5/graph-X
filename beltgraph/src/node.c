@@ -1,6 +1,7 @@
 #include <beltgraph.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 bgError_t bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header) {
   const bgIdx_t dim = header->nc_dim;
@@ -100,6 +101,24 @@ void bgNodeFetch(bgNode_t *node, bgReader_t *reader, const bgHeader_t *header, b
   bgReaderRead(&node->lon, sizeof(double), 1, reader);
   bgReaderRead(&node->lat, sizeof(double), 1, reader);
   bgReaderRead(node->indicators, sizeof(bgIndicator_t), dim, reader);
+}
+
+void bgNodeFetchNearest(bgNode_t *node, bgReader_t *reader, const bgHeader_t *header, double lon, double lat) {
+  double manhattan_dist;
+  double min_manhattan_dist = INFINITY;
+  bgIdx_t nearest_idx = 0;
+
+  for(bgIdx_t idx = 0; idx < header->node_count; idx++) {
+    bgNodeFetch(node, reader, header, idx);
+    manhattan_dist = fabs(lon - node->lon) + fabs(lat - node->lat);
+
+    if(manhattan_dist < min_manhattan_dist) {
+      min_manhattan_dist = manhattan_dist;
+      nearest_idx = idx;
+    }
+  }
+
+  bgNodeFetch(node, reader, header, nearest_idx);
 }
 
 bgCost_t bgNodeCost(const bgNode_t *node, const bgNodeContext_t *nc) {
