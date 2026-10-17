@@ -38,7 +38,10 @@ NodeContext::NodeContext(NodeEvaluatorList &&evaluators__):
 
 void NodeContext::write(FILE *out, const bgHeader_t *header) const {
   bgNodeContext_t bg_nc;
-  bgNodeContextCreate(&bg_nc, header);
+  bgError_t err = bgNodeContextCreate(&bg_nc, header);
+  if(err != BG_ERROR_OK) {
+    throw std::runtime_error("[gp::NodeContext::write]");
+  }
 
   bg_nc.dim = dim();
 
@@ -79,7 +82,10 @@ void Node::add_way(Way &&way) {
 
 void Node::write(FILE *out, const bgHeader_t *header, const NodeContext &nc) const {
   bgNode_t bg_node;
-  bgNodeCreate(&bg_node, header);
+  bgError_t err = bgNodeCreate(&bg_node, header);
+  if(err != BG_ERROR_OK) {
+    throw std::runtime_error("[gp::Node::write]");
+  }
 
   bg_node.idx = idx();
   bg_node.way_begin = ways().front().idx();

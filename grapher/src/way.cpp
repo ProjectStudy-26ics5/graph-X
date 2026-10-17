@@ -38,7 +38,10 @@ WayContext::WayContext(WayEvaluatorList &&evaluators__):
 
 void WayContext::write(FILE *out, const bgHeader_t *header) const {
   bgWayContext_t bg_wc;
-  bgWayContextCreate(&bg_wc, header);
+  bgError_t err = bgWayContextCreate(&bg_wc, header);
+  if(err != BG_ERROR_OK) {
+    throw std::runtime_error("[gp::WayContext::write]");
+  }
 
   bg_wc.dim = dim();
 
@@ -75,7 +78,10 @@ Way::Way(WayContext &wc, ID id__, ID to__, double length__):
 
 void Way::write(FILE *out, const bgHeader_t *header, const WayContext &wc, const Graph &graph) const {
   bgWay_t bg_way;
-  bgWayCreate(&bg_way, header);
+  bgError_t err = bgWayCreate(&bg_way, header);
+  if(err != BG_ERROR_OK) {
+    throw std::runtime_error("[gp::Way::write]");
+  }
 
   bg_way.idx = idx();
   bg_way.to = graph.get(to()).idx();
