@@ -29,14 +29,16 @@ typedef struct bgWayContext bgWayContext_t;
 typedef struct bgNode bgNode_t;
 typedef struct bgNodeContext bgNodeContext_t;
 
-typedef struct bgPath bgPath_t;
-typedef struct bgFrontier bgFrontier_t;
+typedef struct bgVisitedBucket bgVisitedBucket_t;
 typedef struct bgVisited bgVisited_t;
+typedef struct bgFrontier bgFrontier_t;
+typedef struct bgPath bgPath_t;
 
 typedef enum bgError bgError_t;
 enum bgError {
-  BG_ERROR_OK = 0,
-  BG_ERROR_ALLOC = 1
+  BG_ERROR_OK,
+  BG_ERROR_ALLOC,
+  BG_ERROR_MEM
 };
 
 #ifdef __cplusplus

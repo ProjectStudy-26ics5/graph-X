@@ -33,3 +33,15 @@ target_link_libraries(
   PRIVATE
   PS::beltgraph
 )
+
+add_executable(visited)
+target_sources(
+  visited
+  PRIVATE
+  "visited.c"
+)
+target_link_libraries(
+  visited
+  PRIVATE
+  PS::beltgraph
+)

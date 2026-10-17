@@ -7,6 +7,7 @@ target_sources(
   "src/header.c"
   "src/way.c"
   "src/node.c"
+  "src/pathfinder.c"
 )
 
 target_include_directories(

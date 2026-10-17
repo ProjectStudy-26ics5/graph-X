@@ -29,4 +29,5 @@ int main(void) {
 
   bgReaderDestroy(&reader);
   fclose(in);
+  return 0;
 }
