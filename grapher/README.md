@@ -1,5 +1,5 @@
 # grapher
-OSMのデータから指標情報を持つグラフ構造`bg`を構築するライブラリです。
+OSMのデータから指標情報を持つグラフ構造`bg`を構築するC++ライブラリです。
 経路探索処理は含まれません。
 
 ## 1. 指標とは
@@ -12,7 +12,7 @@ OSMのデータから指標情報を持つグラフ構造`bg`を構築するラ�
 ```cpp
 #include <grapher.hpp>
 
-struct TrafficSignal : public gp::NodeEvaluator {
+class TrafficSignal : public gp::NodeEvaluator {
   gp::IndicatorName name() const override {
     return "traffic_signal";
   }
@@ -24,7 +24,7 @@ struct TrafficSignal : public gp::NodeEvaluator {
   }
 };
 
-struct Surface : public gp::WayEvaluator {
+class Surface : public gp::WayEvaluator {
   gp::IndicatorName name() const override {
     return "surface";
   }

@@ -1,7 +1,7 @@
 # ProjectStudy-26ics5 Graph
 
 2026年度 東京科学大学付属科学技術高等学校 課題研究 情報システム分野 5班<br>
-課題研究の２つのコアC++ライブラリを提供します。
+課題研究の２つのコアライブラリを提供します。
 * grapher
 * beltgraph
 
@@ -23,11 +23,11 @@ cmake --install build
 また、C++ライブラリ<a href="https://osmcode.org/libosmium/">libosmium</a>を用いてOpenStreetMapのデータを読み取ります。
 
 ## 3. grapher
-OSMのデータから指標情報を持つグラフ構造`bg`を構築するライブラリです。
+OSMのデータから指標情報を持つグラフ構造`bg`を構築するC++ライブラリです。
 詳細は`grapher/README.md`を参照してください。
 
 ## 4. beltgraph
-grapherで作成した`bg`を読み、経路探索処理を提供します。
+grapherで作成した`bg`を読み、経路探索処理を提供するCライブラリです。
 詳細は`beltgraph/README.md`を参照してください。
 
 ## 5. bgの構造
