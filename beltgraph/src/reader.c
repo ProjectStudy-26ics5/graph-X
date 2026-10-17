@@ -1,8 +1,10 @@
 #include <beltgraph.h>
 
-void bgReaderCreate(bgReader_t *reader, bgReaderCallback cb) {
+bgError_t bgReaderCreate(bgReader_t *reader, bgReaderCallback cb) {
   reader->pos = 0;
   reader->cb = cb;
+
+  return BG_ERROR_OK;
 }
 
 void bgReaderDestroy(bgReader_t *reader) {

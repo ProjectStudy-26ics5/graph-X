@@ -29,6 +29,12 @@ typedef struct bgWayContext bgWayContext_t;
 typedef struct bgNode bgNode_t;
 typedef struct bgNodeContext bgNodeContext_t;
 
+typedef enum bgError bgError_t;
+enum bgError {
+  BG_ERROR_OK = 0,
+  BG_ERROR_ALLOC = 1
+};
+
 #ifdef __cplusplus
 }
 #endif

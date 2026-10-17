@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header) {
+bgError_t bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header) {
   const bgIdx_t dim = header->nc_dim;
 
   nc->dim = dim;
@@ -15,6 +15,21 @@ void bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header) {
   nc->indicator_desc_size = header->nc_ind_desc_size;
   nc->indicator_descs = malloc(header->nc_ind_desc_size);
   nc->indicator_desc_offs = malloc(dim * sizeof(bgOffset_t));
+
+  if(nc->indicator_names == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+  if(nc->indicator_name_offs == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+  if(nc->indicator_descs == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+  if(nc->indicator_desc_offs == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+
+  return BG_ERROR_OK;
 }
 
 void bgNodeContextDestroy(bgNodeContext_t *nc) {
@@ -55,10 +70,16 @@ void bgNodeContextSetWeightPreset(bgNodeContext_t *nc, const bgWeight_t *weights
 
 
 
-void bgNodeCreate(bgNode_t *node, const bgHeader_t *header) {
+bgError_t bgNodeCreate(bgNode_t *node, const bgHeader_t *header) {
   const bgIdx_t dim = header->nc_dim;
 
   node->indicators = malloc(dim * sizeof(bgIndicator_t));
+
+  if(node->indicators == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+
+  return BG_ERROR_OK;
 }
 
 void bgNodeDestroy(bgNode_t *node) {

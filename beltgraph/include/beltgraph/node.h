@@ -30,7 +30,7 @@ struct bgNode {
   bgIndicator_t *indicators;
 };
 
-void bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header);
+bgError_t bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header);
 void bgNodeContextDestroy(bgNodeContext_t *nc);
 void bgNodeContextFetch(bgNodeContext_t *nc, bgReader_t *reader, const bgHeader_t *header);
 const char *bgNodeContextIndicatorName(const bgNodeContext_t *nc, bgIdx_t i);
@@ -38,7 +38,7 @@ const char *bgNodeContextIndicatorDesc(const bgNodeContext_t *nc, bgIdx_t i);
 void bgNodeContextSetWeight(bgNodeContext_t *nc, bgIdx_t i, bgWeight_t weight);
 void bgNodeContextSetWeightPreset(bgNodeContext_t *nc, const bgWeight_t *weights);
 
-void bgNodeCreate(bgNode_t *node, const bgHeader_t *header);
+bgError_t bgNodeCreate(bgNode_t *node, const bgHeader_t *header);
 void bgNodeDestroy(bgNode_t *node);
 void bgNodeFetch(bgNode_t *node, bgReader_t *reader, const bgHeader_t *header, bgIdx_t idx);
 bgCost_t bgNodeCost(const bgNode_t *node, const bgNodeContext_t *nc);

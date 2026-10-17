@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void bgWayContextCreate(bgWayContext_t *wc, const bgHeader_t *header) {
+bgError_t bgWayContextCreate(bgWayContext_t *wc, const bgHeader_t *header) {
   const bgIdx_t dim = header->wc_dim;
 
   wc->dim = dim;
@@ -15,6 +15,21 @@ void bgWayContextCreate(bgWayContext_t *wc, const bgHeader_t *header) {
   wc->indicator_desc_size = header->wc_ind_desc_size;
   wc->indicator_descs = malloc(header->wc_ind_desc_size);
   wc->indicator_desc_offs = malloc(dim * sizeof(bgOffset_t));
+
+  if(wc->indicator_names == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+  if(wc->indicator_name_offs == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+  if(wc->indicator_descs == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+  if(wc->indicator_desc_offs == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+
+  return BG_ERROR_OK;
 }
 
 void bgWayContextDestroy(bgWayContext_t *wc) {
@@ -55,10 +70,16 @@ void bgWayContextSetWeightPreset(bgWayContext_t *wc, const bgWeight_t *weights) 
 
 
 
-void bgWayCreate(bgWay_t *way, const bgHeader_t *header) {
+bgError_t bgWayCreate(bgWay_t *way, const bgHeader_t *header) {
   const bgIdx_t dim = header->wc_dim;
 
   way->indicators = malloc(dim * sizeof(bgIndicator_t));
+
+  if(way->indicators == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+
+  return BG_ERROR_OK;
 }
 
 void bgWayDestroy(bgWay_t *way) {

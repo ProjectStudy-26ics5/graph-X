@@ -14,7 +14,7 @@ struct bgReader {
   bgReaderCallback cb;
 };
 
-void bgReaderCreate(bgReader_t *reader, bgReaderCallback cb);
+bgError_t bgReaderCreate(bgReader_t *reader, bgReaderCallback cb);
 void bgReaderDestroy(bgReader_t *reader);
 void bgReaderJump(bgReader_t *reader, bgOffset_t pos);
 void bgReaderRead(void *buffer, bgSize_t size, bgIdx_t count, bgReader_t *reader);

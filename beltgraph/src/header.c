@@ -1,6 +1,7 @@
 #include <beltgraph.h>
 
-void bgHeaderCreate(bgHeader_t *header) {
+bgError_t bgHeaderCreate(bgHeader_t *header) {
+  return BG_ERROR_OK;
 }
 
 void bgHeaderDestroy(bgHeader_t *header) {

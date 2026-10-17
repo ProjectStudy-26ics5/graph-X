@@ -30,7 +30,7 @@ struct bgHeader {
   bgSize_t way_stride;
 };
 
-void bgHeaderCreate(bgHeader_t *header);
+bgError_t bgHeaderCreate(bgHeader_t *header);
 void bgHeaderDestroy(bgHeader_t *header);
 void bgHeaderFetch(bgHeader_t *header, bgReader_t *reader);
 
