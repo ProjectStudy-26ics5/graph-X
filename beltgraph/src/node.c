@@ -81,6 +81,21 @@ void bgNodeFetch(bgNode_t *node, bgReader_t *reader, const bgHeader_t *header, b
   bgReaderRead(node->indicators, sizeof(bgIndicator_t), dim, reader);
 }
 
+bgCost_t bgNodeCost(const bgNode_t *node, const bgNodeContext_t *nc) {
+  bgCost_t c = 0;
+
+  for(bgIdx_t i = 0; i < nc->dim; i++) {
+    if(nc->weights[i] > 0) {
+      c += node->indicators[i] * nc->weights[i];
+    }else {
+      c += (1 - node->indicators[i]) * -nc->weights[i];
+    }
+  }
+
+  c /= nc->dim;
+  return c;
+}
+
 
 
 #ifdef GRAPHER

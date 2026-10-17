@@ -41,6 +41,7 @@ void bgNodeContextSetWeightPreset(bgNodeContext_t *nc, const bgWeight_t *weights
 void bgNodeCreate(bgNode_t *node, const bgHeader_t *header);
 void bgNodeDestroy(bgNode_t *node);
 void bgNodeFetch(bgNode_t *node, bgReader_t *reader, const bgHeader_t *header, bgIdx_t idx);
+bgCost_t bgNodeCost(const bgNode_t *node, const bgNodeContext_t *nc);
 
 #ifdef GRAPHER
 void bgNodeContextWrite(const bgNodeContext_t *nc, FILE *out, const bgHeader_t *header);

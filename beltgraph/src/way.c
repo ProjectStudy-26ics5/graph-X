@@ -80,6 +80,23 @@ void bgWayFetch(bgWay_t *way, bgReader_t *reader, const bgHeader_t *header, bgId
 }
 
 
+bgCost_t bgWayCost(const bgWay_t *way, const bgWayContext_t *wc) {
+  bgCost_t c = 1;
+
+  for(bgIdx_t i = 0; i < wc->dim; i++) {
+    if(wc->weights[i] > 0) {
+      c += way->indicators[i] * wc->weights[i];
+    }else {
+      c += (1 - way->indicators[i]) * -wc->weights[i];
+    }
+  }
+
+  c /= wc->dim + 1;
+  c *= way->length;
+  return c;
+}
+
+
 
 #ifdef GRAPHER
 void bgWayContextWrite(const bgWayContext_t *wc, FILE *out, const bgHeader_t *header) {
