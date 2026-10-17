@@ -35,7 +35,6 @@ int main(void) {
   fclose(in);
   return 0;
 }
-
 ```
 
 `bgReader_t`を作成してbgを読み取ります。
@@ -58,3 +57,39 @@ int main(void) {
 |bgWayContext|ウェイコンテキスト|
 |bgNode|ノード|
 |bgWay|ウェイ|
+
+## 4. 経路探索コスト計算
+コスト($ cost $)は、コンテキストの重み($ weight $)と、指標値($ indicator $)を用いて計算されます。
+
+### 制約
+$$
+-1 \le weight_i \le 1 \\
+0 \le indicator_i \le 1 \\
+0 \le cost \\
+$$
+
+### Node
+$$
+cost = \frac{1}{dim} \sum_{i=1}^{dim}
+\left\{ \begin{matrix}
+indicator_i \times weight_i & (weight_i \ge 0) \\
+(1 - indicator_i) \times (-weight_i) & (weight_i < 0) \\
+\end{matrix} \right\}
+$$
+
+指標値と重みを掛け合わせる形になります。もし、重みが負なら、指標を反転します。
+最後に指標、重みの次元で割ります。
+
+### Way
+$$
+cost = \frac{length}{dim + 1} \left [ \sum_{i=1}^{dim}
+\left\{ \begin{matrix}
+indicator_i \times weight_i & (weight_i \ge 0) \\
+(1 - indicator_i) \times (-weight_i) & (weight_i < 0) \\
+\end{matrix} \right\}
++ 1 \right ]
+$$
+
+基本的にはNodeコスト計算は同じです。
+最後にWayの長さでコストをスケールします。
+また、すべての重みが0でも長さデータが失われないように、必ず1となる仮想の指標値を追加して計算します。

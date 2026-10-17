@@ -79,7 +79,6 @@ void bgWayFetch(bgWay_t *way, bgReader_t *reader, const bgHeader_t *header, bgId
   bgReaderRead(way->indicators, sizeof(bgIndicator_t), dim, reader);
 }
 
-
 bgCost_t bgWayCost(const bgWay_t *way, const bgWayContext_t *wc) {
   bgCost_t c = 1;
 
