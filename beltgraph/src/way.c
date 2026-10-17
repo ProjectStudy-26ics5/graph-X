@@ -1,5 +1,6 @@
 #include <beltgraph.h>
 #include <stdlib.h>
+#include <string.h>
 
 void bgWayContextCreate(bgWayContext_t *wc, const bgHeader_t *header) {
   const bgIdx_t dim = header->wc_dim;
@@ -36,13 +37,20 @@ void bgWayContextFetch(bgWayContext_t *wc, bgReader_t *reader, const bgHeader_t 
   bgReaderRead(wc->indicator_desc_offs, sizeof(bgOffset_t), dim, reader);
 }
 
-
 const char *bgWayContextIndicatorName(const bgWayContext_t *wc, bgIdx_t i) {
   return wc->indicator_names + wc->indicator_name_offs[i];
 }
 
 const char *bgWayContextIndicatorDesc(const bgWayContext_t *wc, bgIdx_t i) {
   return wc->indicator_descs + wc->indicator_desc_offs[i];
+}
+
+void bgWayContextSetWeight(bgWayContext_t *wc, bgIdx_t i, bgWeight_t weight) {
+  wc->weights[i] = weight;
+}
+
+void bgWayContextSetWeightPreset(bgWayContext_t *wc, const bgWeight_t *weights) {
+  memcpy(wc->weights, weights, wc->dim * sizeof(bgWeight_t));
 }
 
 

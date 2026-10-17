@@ -1,5 +1,6 @@
 #include <beltgraph.h>
 #include <stdlib.h>
+#include <string.h>
 
 void bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header) {
   const bgIdx_t dim = header->nc_dim;
@@ -42,6 +43,14 @@ const char *bgNodeContextIndicatorName(const bgNodeContext_t *nc, bgIdx_t i) {
 
 const char *bgNodeContextIndicatorDesc(const bgNodeContext_t *nc, bgIdx_t i) {
   return nc->indicator_descs + nc->indicator_desc_offs[i];
+}
+
+void bgNodeContextSetWeight(bgNodeContext_t *nc, bgIdx_t i, bgWeight_t weight) {
+  nc->weights[i] = weight;
+}
+
+void bgNodeContextSetWeightPreset(bgNodeContext_t *nc, const bgWeight_t *weights) {
+  memcpy(nc->weights, weights, nc->dim * sizeof(bgWeight_t));
 }
 
 
