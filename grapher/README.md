@@ -57,6 +57,11 @@ Nodeの指標は`gp::NodeEvaluator`、Wayの指標は`gp::WayEvaluator`を用い
 そして、それらのインスタンスを`gp::NodeContext`、`gp::WayContext`に登録します。
 最後に、`gp::Graph`を作成して、必要なら`gp::Graph::write`で保存できます。
 
+> [!IMPORTANT]
+> 地理的特徴の指標値はWayに付加してください。
+> Nodeでは、滑らかな曲線の道などで、複数のNodeが同じ地理的特徴を持つことで、経路探索時の合計コストが重複して大きくなってしまうからです。
+> Wayでは、beltgraph側で長さスケーリングが行われるため、断片的なWayが複数あってもこれを回避できます。
+
 ### gp::NodeEvaluator
 Node指標定義でオーバライドするメンバ関数を以下に示します。
 
@@ -76,15 +81,25 @@ Way指標定義でオーバライドするメンバ関数を以下に示しま�
 |gp::Indicator evaluate_from_osm(const osmium::Way &osm_Way)|OSMのウェイデータを用いた指標値計算|
 
 ## 3. 指標計算方法
-`2. 指標作成方法`で説明した指標値計算は、正確には指標となる前の評価値の計算です。
-指標値はこれをさらに加工します。その過程を以下に示します。
+`2. 指標作成方法`で説明した指標値計算は、正確には指標となる前の評価値($ \bm{E} $)の計算です。
+指標値($ \bm{indicator} $)はこれをさらに加工します。その過程を以下に示します。
 
-1. 指標値が0未満や有限数でないとき0とします。
-1. 指標値を正規化する。正規化式を以下に示します。
-$$ Indicator_i = \frac{Indicator_i - MinIndicator_i}{MaxIndicator_i - MinIndicator_i} $$
-もし、分母が0であったら、1としています。
+$$
+\bm{E}_i :=
+\left\{ \begin{matrix}
+\bm{E}_i & (\bm{E}_i \ge 0) \\
+0 & (\bm{E}_i < 0) \\
+\end{matrix} \right\}
+$$
+$$
+\bm{indicator}_i = 
+\left\{ \begin{matrix}
+\displaystyle \frac{\bm{E}_i - \bm{Emin}_i}{\bm{Emax}_i - \bm{Emin}_i} & (\bm{Emax}_i - \bm{Emin}_i \ne 0) \\
+1 & (\bm{Emax}_i - \bm{Emin}_i = 0) \\
+\end{matrix} \right\}
+$$
 
-> [!IMPORTANT]
-> 地理的特徴の指標値はWayに付加してください。
-> Nodeでは、滑らかな曲線の道などで、複数のNodeが同じ地理的特徴を持つことで、経路探索時の合計コストが重複して大きくなってしまうからです。
-> Wayでは、beltgraph側で長さスケーリングが行われるため、断片的なWayが複数あってもこれを回避できます。
+評価値、指標値は0以上に強制します。正規化で0除算が発生する場合は指標値を1とします。
+
+> [!NOTE]
+> 正規化で0除算が発生する場合は、その指標が機能していない状態です。

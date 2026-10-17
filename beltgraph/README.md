@@ -58,13 +58,13 @@ int main(void) {
 |bgNode|ノード|
 |bgWay|ウェイ|
 
-## 4. 経路探索コスト計算
-コスト($ cost $)は、コンテキストの重み($ weight $)と、指標値($ indicator $)を用いて計算されます。
+## 4. 経路探索コスト計算方法
+コスト($ cost $)は、コンテキストの重み($ \bm{weight} $)と、指標値($ \bm{indicator} $)を用いて計算されます。
 
 ### 制約
 $$
--1 \le weight_i \le 1 \\
-0 \le indicator_i \le 1 \\
+-1 \le \bm{weight}_i \le 1 \\
+0 \le \bm{indicator}_i \le 1 \\
 0 \le cost \\
 $$
 
@@ -72,8 +72,8 @@ $$
 $$
 cost = \frac{1}{dim} \sum_{i=1}^{dim}
 \left\{ \begin{matrix}
-indicator_i \times weight_i & (weight_i \ge 0) \\
-(1 - indicator_i) \times (-weight_i) & (weight_i < 0) \\
+\bm{indicator}_i \times \bm{weight}_i & (\bm{weight}_i \ge 0) \\
+(1 - \bm{indicator}_i) \times (-\bm{weight}_i) & (\bm{weight}_i < 0) \\
 \end{matrix} \right\}
 $$
 
@@ -84,8 +84,8 @@ $$
 $$
 cost = \frac{length}{dim + 1} \left [ \sum_{i=1}^{dim}
 \left\{ \begin{matrix}
-indicator_i \times weight_i & (weight_i \ge 0) \\
-(1 - indicator_i) \times (-weight_i) & (weight_i < 0) \\
+\bm{indicator}_i \times \bm{weight}_i & (\bm{weight}_i \ge 0) \\
+(1 - \bm{indicator}_i) \times (-\bm{weight}_i) & (\bm{weight}_i < 0) \\
 \end{matrix} \right\}
 + 1 \right ]
 $$
