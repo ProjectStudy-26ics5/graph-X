@@ -1,120 +1,40 @@
 # ProjectStudy-26ics5 Graph
 
-このプロジェクトは以下２つのC++ライブラリを提供します。
+2026年度 東京科学大学付属科学技術高等学校 課題研究 情報システム分野 5班<br>
+課題研究の２つのコアC++ライブラリを提供します。
 * grapher
 * beltgraph
 
-## 1. 前提条件
-このプロジェクトを動かすには、以下のツールが事前にインストールされている必要があります。
+## 1. 利用方法
+このプロジェクトを利用するには、以下のツールが事前にインストールされている必要があります。
 * C/C++コンパイラ
 * CMake
-* Ninja
 * vcpkg
-* Task
+
+インストールは以下のコマンドでできます。
+```
+cmake --preset release
+cmake --build --preset release
+cmake --install build
+```
 
 ## 2. OpenStreetMap (OSM)
 このプロジェクトでは地図データとして<a href="https://openstreetmap.org/">OpenStreetMap</a>のデータを用います。
 また、C++ライブラリ<a href="https://osmcode.org/libosmium/">libosmium</a>を用いてOpenStreetMapのデータを読み取ります。
 
 ## 3. grapher
-OSMのデータから指標情報を持つグラフ構造を構築するライブラリです。
-経路探索処理は含まれません。
-結果はbeltgraphライブラリ専用の`.bg`形式となります。
-
-### bg作成サンプル
-ノードの指標は`gp::NodeEvaluator`、ウェイの指標は`gp::WayEvaluator`を用いてい定義します。
-
-```cpp
-#include <grapher.hpp>
-
-struct TrafficSignal : public gp::NodeEvaluator {
-  gp::IndicatorName name() const {
-    return "traffic_signal";
-  }
-  gp::IndicatorDescription description() const {
-    return "Indicates a traffic signal: 1 when present, otherwise 0.";
-  }
-  gp::Indicator evaluate_from_osm(const osmium::Node &osm_node) {
-    return osm_node.tags().has_tag("highway", "traffic_signals") ? 1 : 0;
-  }
-};
-
-struct Surface : public gp::WayEvaluator {
-  gp::IndicatorName name() const {
-    return "surface";
-  }
-  gp::IndicatorDescription description() const {
-    return "Rates basic surfaces: paved 1.0, unpaved 0.3, and other values 0.5.";
-  }
-  gp::Indicator evaluate_from_osm(const osmium::Way &osm_way) {
-    if (osm_way.tags().has_tag("surface", "paved")) return 1.0;
-    if (osm_way.tags().has_tag("surface", "unpaved")) return 0.3;
-    return 0.5;
-  }
-};
-
-int main(void) {
-  TrafficSignal trafficSignal;
-  Surface surface;
-
-  gp::NodeContext nc({&trafficSignal});
-  gp::WayContext wc({&surface});
-
-  gp::Graph graph("osm/minato.osm.pbf", nc, wc);
-  graph.write("bg/minato"); // => bg/minato.bg
-  return 0;
-}
-```
-
-### テスト実行
-`tests/converter.cpp`を以下のコマンドで実行できます。
-```
-task run-converter
-```
+OSMのデータから指標情報を持つグラフ構造`bg`を構築するライブラリです。
+詳細は`grapher/README.md`を参照してください。
 
 ## 4. beltgraph
-grapherで作成した`.bg`を読み、経路探索処理を提供します。
+grapherで作成した`bg`を読み、経路探索処理を提供します。
+詳細は`beltgraph/README.md`を参照してください。
 
-> [!CAUTION]
-> まだ、この部分は完成していません。
-
-## 5. ライブラリの利用方法
-自分の環境にインストールは以下のコマンドでできます。
-```
-task install
-```
-もしくは、
-```
-task install PREFIX="path/to/your/install/dir"
-```
-
-> [!CAUTION]
-> grapherのインストールの準備ができていません。
-
-CMakeから以下のようにして、beltgraphを利用できます。
-```
-find_package(beltgraph CONFIG REQUIRED)
-
-add_executable(sample)
-
-target_sources(
-  sample
-  PRIVATE
-  sample.c
-)
-
-target_link_libraries(
-  sample
-  PRIVATE
-  PS::beltgraph
-)
-```
-
-## 6. bg形式の構造
-指標情報を持つグラフ構造です。
+## 5. bgの構造
+beltgraphライブラリ専用の指標情報を持つグラフ構造です。
 一般的なグラフ構造におけるノードをNode、エッジをWayとしています。
-`.bg`は非圧縮のバイナリファイルとして保存され、グラフはCSR(Compressed Sparse Row)形式のような構造を持ちます。
-`.bg`形式の構造を以下に示します。
+`bg`は非圧縮のバイナリファイルとして保存され、グラフはCSR(Compressed Sparse Row)形式のような構造を持ちます。
+構造を以下に示します。
 
 <ul>
   <li>Header
