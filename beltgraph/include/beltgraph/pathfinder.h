@@ -7,22 +7,22 @@
 extern "C" {
 #endif
 
-struct bgVisitedBucket {
-  bgIdx_t hash;
+struct bgVisited {
+  // SoAの構造です。
+  
+  // hash値はノードのidxです
+  bgIdx_t *hash;
 
   // chainは
   // bgVisited::sizeであるときは、chain終了
   // 0であるときは、このバケットが未割当
-  bgIdx_t chain;
+  bgIdx_t *chain;
 
   // 前回のNodeが持っているWayのうち、選んだもの。
   // 出次数が255を超えることはめったにないため
-  // 8bit(1byte)のデータに圧縮できます (コンパイラのパディングが起きなければ)
-  uint8_t node_transition;
-};
+  // 8bit(1byte)のデータに圧縮できます
+  uint8_t *node_transition;
 
-struct bgVisited {
-  bgVisitedBucket_t *buckets;
   bgIdx_t size;
   bgIdx_t table_size;
   bgIdx_t chain_top;
