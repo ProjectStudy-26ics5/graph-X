@@ -33,12 +33,11 @@ typedef struct bgVisited bgVisited_t;
 typedef struct bgFrontier bgFrontier_t;
 typedef struct bgPath bgPath_t;
 
-typedef enum bgError bgError_t;
-enum bgError {
+typedef enum bgError {
   BG_ERROR_OK,
   BG_ERROR_ALLOC,
   BG_ERROR_MEM
-};
+} bgError_t;
 
 #ifdef __cplusplus
 }
