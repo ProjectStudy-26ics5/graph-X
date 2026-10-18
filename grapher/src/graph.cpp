@@ -327,6 +327,7 @@ void Graph::write(std::filesystem::path path) const {
   bgHeader_t header;
   bgError_t err = bgHeaderCreate(&header);
   if(err != BG_ERROR_OK) {
+    bgHeaderDestroy(&header);
     throw std::runtime_error("[gp::Graph::write]");
   }
   

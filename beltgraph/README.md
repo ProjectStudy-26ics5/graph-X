@@ -51,6 +51,7 @@ int main(void) {
 > ここの構造体`bg<T>`では、対応する`bg<T>Create`関数と`bg<T>Destroy`関数をもっています。
 > 利用するときは、必ず`bg<T>Create`を呼び出し、使い終わったら`bg<T>Destroy`を呼び出してください。
 > 本番環境では、`bg<T>Create`の戻り値`bgError_t`をチェックしてください。
+> また、`bgError_t`が`BG_ERROR_OK`でなくても、`bg<T>Destroy`をしてください。
 
 > [!IMPORTANT]
 > `bg`データは膨大であるので一部ずつ読み取る利用を想定しています。

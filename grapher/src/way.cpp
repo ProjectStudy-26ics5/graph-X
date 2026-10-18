@@ -40,6 +40,7 @@ void WayContext::write(FILE *out, const bgHeader_t *header) const {
   bgWayContext_t bg_wc;
   bgError_t err = bgWayContextCreate(&bg_wc, header);
   if(err != BG_ERROR_OK) {
+    bgWayContextDestroy(&bg_wc);
     throw std::runtime_error("[gp::WayContext::write]");
   }
 
@@ -80,6 +81,7 @@ void Way::write(FILE *out, const bgHeader_t *header, const WayContext &wc, const
   bgWay_t bg_way;
   bgError_t err = bgWayCreate(&bg_way, header);
   if(err != BG_ERROR_OK) {
+    bgWayDestroy(&bg_way);
     throw std::runtime_error("[gp::Way::write]");
   }
 

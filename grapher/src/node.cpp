@@ -40,6 +40,7 @@ void NodeContext::write(FILE *out, const bgHeader_t *header) const {
   bgNodeContext_t bg_nc;
   bgError_t err = bgNodeContextCreate(&bg_nc, header);
   if(err != BG_ERROR_OK) {
+    bgNodeContextDestroy(&bg_nc);
     throw std::runtime_error("[gp::NodeContext::write]");
   }
 
@@ -84,6 +85,7 @@ void Node::write(FILE *out, const bgHeader_t *header, const NodeContext &nc) con
   bgNode_t bg_node;
   bgError_t err = bgNodeCreate(&bg_node, header);
   if(err != BG_ERROR_OK) {
+    bgNodeDestroy(&bg_node);
     throw std::runtime_error("[gp::Node::write]");
   }
 

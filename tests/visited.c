@@ -23,7 +23,7 @@ int main(void) {
     bgError_t err = bgVisitedInsert(&visited, i, 0);
     if(err != BG_ERROR_OK) {
       printf("visited insert failed !\n");
-      return 0;
+      break;
     }
 
     print_visited(&visited, node_count);
