@@ -5,12 +5,10 @@ tasks:
     desc: "clean build"
     platforms: ["windows"]
     cmds:
-      - cmd /c "rmdir /s /q build"
-  clean:
-    desc: "clean build"
-    platforms: ["darwin", "linux"]
-    cmds:
-      - "rm -rf build"
+      - cmd: cmd /c "rmdir /s /q build"
+        platforms: ["windows"]
+      - cmd: "rm -rf build"
+        platforms: ["darwin", "linux"]
 
 
 
@@ -47,28 +45,38 @@ tasks:
 
 
 
-  run-converter:
-    desc: "run tests/converter.cpp"
+  test-converter:
+    desc: "test tests/converter.cpp"
     deps: ["build"]
-    platforms: ["windows"]
     cmds:
-      - "./build/tests/converter.exe"
-  run-converter:
-    desc: "run tests/converter.cpp"
+      - cmd: "./build/tests/converter.exe"
+        platforms: ["windows"]
+      - cmd: "./build/tests/converter"
+        platforms: ["darwin", "linux"]
+  
+  test-reader:
+    desc: "test tests/reader.cpp"
     deps: ["build"]
-    platforms: ["darwin", "linux"]
     cmds:
-      - "./build/tests/converter"
+      - cmd: "./build/tests/reader.exe"
+        platforms: ["windows"]
+      - cmd: "./build/tests/reader"
+        platforms: ["darwin", "linux"]
 
-  run-reader:
-    desc: "run tests/reader.c"
+  test-nearest:
+    desc: "test tests/nearest.cpp"
     deps: ["build"]
-    platforms: ["windows"]
     cmds:
-      - "./build/tests/reader.exe"
-  run-reader:
-    desc: "run tests/reader.c"
+      - cmd: "./build/tests/nearest.exe"
+        platforms: ["windows"]
+      - cmd: "./build/tests/nearest"
+        platforms: ["darwin", "linux"]
+
+  test-visited:
+    desc: "test tests/visited.cpp"
     deps: ["build"]
-    platforms: ["darwin", "linux"]
     cmds:
-      - "./build/tests/reader"
+      - cmd: "./build/tests/visited.exe"
+        platforms: ["windows"]
+      - cmd: "./build/tests/visited"
+        platforms: ["darwin", "linux"]
