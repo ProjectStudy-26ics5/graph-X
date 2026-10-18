@@ -12,6 +12,10 @@
 * vcpkg
 
 インストールは以下のコマンドでできます。
+
+> [!CAUTION]
+> インストールの準備がまだ完全にできていません。
+
 ```
 cmake --preset release
 cmake --build --preset release
