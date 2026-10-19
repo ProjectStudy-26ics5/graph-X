@@ -91,6 +91,40 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
 
 
 
+bgError_t bgFrontierCreate(bgFrontier_t *frontier, bgIdx_t capacity) {
+  frontier->weight = malloc(capacity * sizeof(bgCost_t));
+  frontier->cost = malloc(capacity * sizeof(bgCost_t));
+  frontier->node_idx = malloc(capacity * sizeof(bgIdx_t));
+  frontier->capacity = capacity;
+  frontier->size = 0;
+
+  if(frontier->weight == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+  if(frontier->cost == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+  if(frontier->node_idx == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+
+  return BG_ERROR_OK;
+}
+
+void bgFrontierDestroy(bgFrontier_t *frontier) {
+  free(frontier->weight);
+  free(frontier->cost);
+  free(frontier->node_idx);
+
+  frontier->weight = NULL;
+  frontier->cost = NULL;
+  frontier->node_idx = NULL;
+  frontier->capacity = 0;
+  frontier->size = 0;
+}
+
+
+
 bgError_t bgPathCreate(bgPath_t *path, bgIdx_t capacity) {
   path->node_idx_order = malloc(capacity * sizeof(bgIdx_t));
   path->capacity = capacity;

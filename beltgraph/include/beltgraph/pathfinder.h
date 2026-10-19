@@ -36,6 +36,27 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
 
 
 
+struct bgFrontier {
+  // SoAの構造です。
+
+  // 指標値は厳密な数値ではないので、
+  // weightとcostは半精度浮動小数点を使えるかもしれません
+  bgCost_t *weight;
+  bgCost_t *cost;
+  bgIdx_t  *node_idx;
+
+  bgIdx_t capacity;
+  bgIdx_t size;
+};
+
+bgError_t bgFrontierCreate(bgFrontier_t *frontier, bgIdx_t capacity);
+void bgFrontierDestroy(bgFrontier_t *frontier);
+bgError_t bgFrontierPop(bgFrontier_t *frontier);
+bgError_t bgFrontierPush(bgFrontier_t *frontier, bgCost_t weight, bgCost_t cost, bgIdx_t node_idx);
+bgError_t bgFrontierTop(const bgFrontier_t *frontier, bgCost_t *weight, bgCost_t *cost, bgIdx_t *node_idx);
+
+
+
 struct bgPath {
   bgIdx_t *node_idx_order;
   bgIdx_t capacity;
