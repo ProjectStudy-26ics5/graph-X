@@ -76,7 +76,7 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
     return BG_ERROR_OK;
   }
 
-  if(visited->chain_top == visited->capacity) return BG_ERROR_MEM;
+  if(visited->chain_top == visited->capacity) return BG_ERROR_CAP;
   bgIdx_t j = visited->chain_top++;
 
   visited->hash[j] = hash;
