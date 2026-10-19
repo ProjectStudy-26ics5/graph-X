@@ -86,6 +86,7 @@ void Way::write(FILE *out, const bgHeader_t *header, const WayContext &wc, const
   }
 
   bg_way.idx = idx();
+  bg_way.reverse_idx = reverse_idx();
   bg_way.to = graph.get(to()).idx();
   bg_way.length = length();
   for(int i = 0; i < wc.dim(); i++) {

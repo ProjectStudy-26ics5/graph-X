@@ -303,6 +303,20 @@ void Graph::resolve_idx() {
       way.idx_ = wi++;
     }
   }
+
+  for(auto &[id, node] : nodes()) {
+    for(auto &way : node.ways()) {
+
+      const auto &to = get(way.to());
+      for(const auto &to_way : to.ways()) {
+        if(get(to_way.to()).id() == id) {
+          way.reverse_idx_ = to_way.idx();
+          break;
+        }
+      }
+    }
+
+  }
 }
 
 void Graph::count_ways() {

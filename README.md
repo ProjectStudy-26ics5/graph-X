@@ -190,6 +190,7 @@ beltgraphライブラリ専用の指標情報を持つグラフ構造です。
       <li>...</li>
       <li>Way n
         <ul>
+          <li>Reverse Way idx</li>
           <li>Node connect idx</li>
           <li>Length</li>
           <li>WayIndicatorArray

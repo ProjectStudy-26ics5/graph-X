@@ -63,6 +63,9 @@ public:
   inline IDX idx() const {
     return idx_;
   }
+  inline IDX reverse_idx() const {
+    return reverse_idx_;
+  }
   inline ID to() const {
     return to_;
   }
@@ -80,6 +83,7 @@ private:
 
   const ID id_;
   IDX idx_;
+  IDX reverse_idx_;
   ID to_;
   IndicatorList indicators_;
   double length_;

@@ -91,6 +91,7 @@ int main(void) {
   bgWayCreate(&way, &header);
   bgWayFetch(&way, &reader, &header, 0);
 
+  printf("reverse_idx = %u\n", way.reverse_idx);
   printf("to = %u\n", way.to);
   printf("length = %lf\n", way.length);
   printf("indicators = {");

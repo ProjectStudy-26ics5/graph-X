@@ -95,6 +95,7 @@ void bgWayFetch(bgWay_t *way, bgReader_t *reader, const bgHeader_t *header, bgId
     header->way_pos + header->way_stride * way->idx
   );
 
+  bgReaderRead(&way->reverse_idx, sizeof(bgIdx_t), 1, reader);
   bgReaderRead(&way->to, sizeof(bgIdx_t), 1, reader);
   bgReaderRead(&way->length, sizeof(double), 1, reader);
   bgReaderRead(way->indicators, sizeof(bgIndicator_t), dim, reader);
@@ -163,6 +164,7 @@ void bgWayWrite(const bgWay_t *way, FILE *out, const bgHeader_t *header) {
     SEEK_SET
   );
 
+  fwrite(&way->reverse_idx, sizeof(bgIdx_t), 1, out);
   fwrite(&way->to, sizeof(bgIdx_t), 1, out);
   fwrite(&way->length, sizeof(double), 1, out);
   fwrite(way->indicators, sizeof(bgIndicator_t), dim, out);
@@ -171,6 +173,7 @@ void bgWayWrite(const bgWay_t *way, FILE *out, const bgHeader_t *header) {
 bgSize_t bgWayByteCount(bgIdx_t wc_dim) {
   bgSize_t size = 0;
 
+  size += sizeof(bgIdx_t);
   size += sizeof(bgIdx_t);
   size += sizeof(double);
   size += sizeof(bgIndicator_t) * wc_dim;

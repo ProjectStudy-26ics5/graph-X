@@ -23,6 +23,7 @@ struct bgWayContext {
 
 struct bgWay {
   bgIdx_t idx;
+  bgIdx_t reverse_idx;
   bgIdx_t to;
   double length;
   bgIndicator_t *indicators;
