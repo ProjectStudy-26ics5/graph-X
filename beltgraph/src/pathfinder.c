@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUCKET_END_SIGN(visited) ((visited)->size)
+#define BUCKET_END_SIGN(visited) ((visited)->capacity)
 #define BUCKET_UNALLOCATED_SIGN 0
 #define UNALLOCATED_BUCKET(visited, i) ((visited)->chain[i] == BUCKET_UNALLOCATED_SIGN)
 
 bgError_t bgVisitedCreate(bgVisited_t *visited, bgIdx_t table_size, bgIdx_t chain_size) {
-  const bgIdx_t size = table_size + chain_size;
+  const bgIdx_t capacity = table_size + chain_size;
 
-  visited->hash = malloc(size * sizeof(bgIdx_t));
-  visited->chain = malloc(size * sizeof(bgIdx_t));
-  visited->node_transition = malloc(size * sizeof(uint8_t));
-  visited->size = size;
+  visited->hash = malloc(capacity * sizeof(bgIdx_t));
+  visited->chain = malloc(capacity * sizeof(bgIdx_t));
+  visited->node_transition = malloc(capacity * sizeof(uint8_t));
+  visited->capacity = capacity;
   visited->table_size = table_size;
   visited->chain_top = table_size;
 
@@ -26,7 +26,7 @@ bgError_t bgVisitedCreate(bgVisited_t *visited, bgIdx_t table_size, bgIdx_t chai
     return BG_ERROR_ALLOC;
   }
 
-  for(bgIdx_t i = 0; i < size; i++) {
+  for(bgIdx_t i = 0; i < capacity; i++) {
     visited->chain[i] = BUCKET_UNALLOCATED_SIGN;
   }
 
@@ -37,6 +37,13 @@ void bgVisitedDestroy(bgVisited_t *visited) {
   free(visited->hash);
   free(visited->chain);
   free(visited->node_transition);
+
+  visited->hash = NULL;
+  visited->chain = NULL;
+  visited->node_transition = NULL;
+  visited->capacity = 0;
+  visited->table_size = 0;
+  visited->chain_top = 0;
 }
 
 int bgVisitedGet(const bgVisited_t *visited, bgIdx_t hash, uint8_t *node_transition) {
@@ -66,7 +73,7 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
     return BG_ERROR_OK;
   }
 
-  if(visited->chain_top == visited->size) return BG_ERROR_MEM;
+  if(visited->chain_top == visited->capacity) return BG_ERROR_MEM;
   bgIdx_t j = visited->chain_top++;
 
   visited->hash[j] = hash;
@@ -94,6 +101,7 @@ bgError_t bgPathCreate(bgPath_t *path, bgIdx_t capacity) {
 
 void bgPathDestroy(bgPath_t *path) {
   free(path->node_idx_order);
+
   path->node_idx_order = NULL;
   path->capacity = 0;
   path->size = 0;

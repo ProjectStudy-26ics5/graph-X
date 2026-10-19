@@ -16,7 +16,7 @@ int main(void) {
   bgVisitedCreate(&visited, 2, 2);
 
   const bgIdx_t node_count = 5;
-  printf("bucket count = %u\n", visited.size);
+  printf("bucket count = %u\n", visited.capacity);
   printf("node count = %u\n", node_count);
 
   for(bgIdx_t i = 0; i < node_count; i++) {

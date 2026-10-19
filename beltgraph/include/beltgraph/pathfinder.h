@@ -23,7 +23,7 @@ struct bgVisited {
   // 8bit(1byte)のデータに圧縮できます
   uint8_t *node_transition;
 
-  bgIdx_t size;
+  bgIdx_t capacity;
   bgIdx_t table_size;
   bgIdx_t chain_top;
 };
