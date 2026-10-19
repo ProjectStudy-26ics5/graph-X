@@ -91,7 +91,7 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
 
 
 
-bgError_t bgFrontierCreate(bgFrontier_t *frontier, bgIdx_t capacity) {
+bgError_t bgHeapFrontierCreate(bgHeapFrontier_t *frontier, bgIdx_t capacity) {
   frontier->weight = malloc(capacity * sizeof(bgCost_t));
   frontier->cost = malloc(capacity * sizeof(bgCost_t));
   frontier->node_idx = malloc(capacity * sizeof(bgIdx_t));
@@ -112,7 +112,7 @@ bgError_t bgFrontierCreate(bgFrontier_t *frontier, bgIdx_t capacity) {
   return BG_ERROR_OK;
 }
 
-void bgFrontierDestroy(bgFrontier_t *frontier) {
+void bgHeapFrontierDestroy(bgHeapFrontier_t *frontier) {
   free(frontier->weight);
   free(frontier->cost);
   free(frontier->node_idx);

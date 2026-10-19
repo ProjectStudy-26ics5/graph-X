@@ -36,7 +36,7 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
 
 
 
-struct bgFrontier {
+struct bgHeapFrontier {
   // SoAの構造です。
 
   // 指標値は厳密な数値ではないので、
@@ -50,16 +50,16 @@ struct bgFrontier {
   bgIdx_t size;
 };
 
-bgError_t bgFrontierCreate(bgFrontier_t *frontier, bgIdx_t capacity);
-void bgFrontierDestroy(bgFrontier_t *frontier);
-bgError_t bgFrontierPop(bgFrontier_t *frontier);
-bgError_t bgFrontierPush(
-  bgFrontier_t *frontier,
+bgError_t bgHeapFrontierCreate(bgHeapFrontier_t *frontier, bgIdx_t capacity);
+void bgHeapFrontierDestroy(bgHeapFrontier_t *frontier);
+bgError_t bgHeapFrontierPop(bgHeapFrontier_t *frontier);
+bgError_t bgHeapFrontierPush(
+  bgHeapFrontier_t *frontier,
   bgCost_t weight,
   bgCost_t cost, bgIdx_t node_idx, uint8_t node_transition
 );
-bgError_t bgFrontierTop(
-  const bgFrontier_t *frontier,
+bgError_t bgHeapFrontierTop(
+  const bgHeapFrontier_t *frontier,
   bgCost_t *weight,
   bgCost_t *cost, bgIdx_t *node_idx, uint8_t *node_transition
 );
