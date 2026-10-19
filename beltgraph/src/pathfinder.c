@@ -77,3 +77,24 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
 
   return BG_ERROR_OK;
 }
+
+
+
+bgError_t bgPathCreate(bgPath_t *path, bgIdx_t capacity) {
+  path->node_idx_order = malloc(capacity * sizeof(bgIdx_t));
+  path->capacity = capacity;
+  path->size = 0;
+
+  if(path->node_idx_order == NULL) {
+    return BG_ERROR_ALLOC;
+  }
+
+  return BG_ERROR_OK;
+}
+
+void bgPathDestroy(bgPath_t *path) {
+  free(path->node_idx_order);
+  path->node_idx_order = NULL;
+  path->capacity = 0;
+  path->size = 0;
+}
