@@ -32,7 +32,7 @@ struct bgAStarVisited {
 bgError_t bgAStarVisitedCreate(bgAStarVisited_t *visited, bgIdx_t table_size, bgIdx_t chain_size);
 void bgAStarVisitedDestroy(bgAStarVisited_t *visited);
 void bgAStarVisitedClear(bgAStarVisited_t *visited);
-int bgAStarVisitedGet(const bgAStarVisited_t *visited, bgIdx_t hash, uint8_t *node_transition);
+int bgAStarVisitedFind(const bgAStarVisited_t *visited, bgIdx_t hash, uint8_t *node_transition);
 bgError_t bgAStarVisitedInsert(bgAStarVisited_t *visited, bgIdx_t hash, uint8_t node_transition);
 
 

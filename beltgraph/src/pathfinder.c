@@ -57,7 +57,7 @@ void bgAStarVisitedClear(bgAStarVisited_t *visited) {
   }
 }
 
-int bgAStarVisitedGet(const bgAStarVisited_t *visited, bgIdx_t hash, uint8_t *node_transition) {
+int bgAStarVisitedFind(const bgAStarVisited_t *visited, bgIdx_t hash, uint8_t *node_transition) {
   for(bgIdx_t i = hash % visited->table_size; i != BUCKET_END_SIGN(visited); i = visited->chain[i]) {
     if(UNALLOCATED_BUCKET(visited, i)) break;
 

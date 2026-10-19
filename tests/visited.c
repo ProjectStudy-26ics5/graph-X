@@ -4,7 +4,7 @@
 void print_visited(const bgAStarVisited_t *visited, bgIdx_t node_count) {
   printf("contain {");
   for(bgIdx_t i = 0; i < node_count; i++) {
-    if(bgAStarVisitedGet(visited, i, NULL)) {
+    if(bgAStarVisitedFind(visited, i, NULL)) {
       printf("%u, ", i);
     }
   }
