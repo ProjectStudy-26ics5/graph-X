@@ -29,8 +29,8 @@ typedef struct bgWayContext bgWayContext_t;
 typedef struct bgNode bgNode_t;
 typedef struct bgNodeContext bgNodeContext_t;
 
-typedef struct bgVisited bgVisited_t;
-typedef struct bgHeapFrontier bgHeapFrontier_t;
+typedef struct bgAStarVisited bgAStarVisited_t;
+typedef struct bgAStarHeap bgAStarHeap_t;
 typedef struct bgPath bgPath_t;
 
 typedef enum bgError {

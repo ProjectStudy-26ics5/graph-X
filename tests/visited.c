@@ -1,10 +1,10 @@
 #include <beltgraph.h>
 #include <stdio.h>
 
-void print_visited(const bgVisited_t *visited, bgIdx_t node_count) {
+void print_visited(const bgAStarVisited_t *visited, bgIdx_t node_count) {
   printf("contain {");
   for(bgIdx_t i = 0; i < node_count; i++) {
-    if(bgVisitedGet(visited, i, NULL)) {
+    if(bgAStarVisitedGet(visited, i, NULL)) {
       printf("%u, ", i);
     }
   }
@@ -12,15 +12,15 @@ void print_visited(const bgVisited_t *visited, bgIdx_t node_count) {
 }
 
 int main(void) {
-  bgVisited_t visited;
-  bgVisitedCreate(&visited, 2, 2);
+  bgAStarVisited_t visited;
+  bgAStarVisitedCreate(&visited, 2, 2);
 
   const bgIdx_t node_count = 5;
   printf("bucket count = %u\n", visited.capacity);
   printf("node count = %u\n", node_count);
 
   for(bgIdx_t i = 0; i < node_count; i++) {
-    bgError_t err = bgVisitedInsert(&visited, i, 0);
+    bgError_t err = bgAStarVisitedInsert(&visited, i, 0);
     if(err != BG_ERROR_OK) {
       printf("visited insert failed !\n");
       break;
@@ -29,6 +29,6 @@ int main(void) {
     print_visited(&visited, node_count);
   }
 
-  bgVisitedDestroy(&visited);
+  bgAStarVisitedDestroy(&visited);
   return 0;
 }

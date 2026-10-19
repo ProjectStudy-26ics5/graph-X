@@ -6,7 +6,7 @@
 #define BUCKET_UNALLOCATED_SIGN 0
 #define UNALLOCATED_BUCKET(visited, i) ((visited)->chain[i] == BUCKET_UNALLOCATED_SIGN)
 
-bgError_t bgVisitedCreate(bgVisited_t *visited, bgIdx_t table_size, bgIdx_t chain_size) {
+bgError_t bgAStarVisitedCreate(bgAStarVisited_t *visited, bgIdx_t table_size, bgIdx_t chain_size) {
   const bgIdx_t capacity = table_size + chain_size;
 
   visited->hash = malloc(capacity * sizeof(bgIdx_t));
@@ -34,7 +34,7 @@ bgError_t bgVisitedCreate(bgVisited_t *visited, bgIdx_t table_size, bgIdx_t chai
   return BG_ERROR_OK;
 }
 
-void bgVisitedDestroy(bgVisited_t *visited) {
+void bgAStarVisitedDestroy(bgAStarVisited_t *visited) {
   free(visited->hash);
   free(visited->chain);
   free(visited->node_transition);
@@ -48,7 +48,7 @@ void bgVisitedDestroy(bgVisited_t *visited) {
   visited->chain_top = 0;
 }
 
-int bgVisitedGet(const bgVisited_t *visited, bgIdx_t hash, uint8_t *node_transition) {
+int bgAStarVisitedGet(const bgAStarVisited_t *visited, bgIdx_t hash, uint8_t *node_transition) {
   for(bgIdx_t i = hash % visited->table_size; i != BUCKET_END_SIGN(visited); i = visited->chain[i]) {
     if(UNALLOCATED_BUCKET(visited, i)) break;
 
@@ -63,7 +63,7 @@ int bgVisitedGet(const bgVisited_t *visited, bgIdx_t hash, uint8_t *node_transit
   return 0;
 }
 
-bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_transition) {
+bgError_t bgAStarVisitedInsert(bgAStarVisited_t *visited, bgIdx_t hash, uint8_t node_transition) {
   // 要素がすでに存在しても追加します
   bgIdx_t i = hash % visited->table_size;
 
@@ -91,7 +91,7 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
 
 
 
-bgError_t bgHeapFrontierCreate(bgHeapFrontier_t *frontier, bgIdx_t capacity) {
+bgError_t bgAStarHeapCreate(bgAStarHeap_t *frontier, bgIdx_t capacity) {
   frontier->weight = malloc(capacity * sizeof(bgCost_t));
   frontier->cost = malloc(capacity * sizeof(bgCost_t));
   frontier->node_idx = malloc(capacity * sizeof(bgIdx_t));
@@ -112,7 +112,7 @@ bgError_t bgHeapFrontierCreate(bgHeapFrontier_t *frontier, bgIdx_t capacity) {
   return BG_ERROR_OK;
 }
 
-void bgHeapFrontierDestroy(bgHeapFrontier_t *frontier) {
+void bgAStarHeapDestroy(bgAStarHeap_t *frontier) {
   free(frontier->weight);
   free(frontier->cost);
   free(frontier->node_idx);

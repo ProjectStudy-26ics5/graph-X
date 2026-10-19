@@ -7,14 +7,14 @@
 extern "C" {
 #endif
 
-struct bgVisited {
+struct bgAStarVisited {
   // SoAの構造です。
   
   // hash値はノードのidxです
   bgIdx_t *hash;
 
   // chainは
-  // bgVisited::sizeであるときは、chain終了
+  // bgAStarVisited::sizeであるときは、chain終了
   // 0であるときは、このバケットが未割当
   bgIdx_t *chain;
 
@@ -29,14 +29,14 @@ struct bgVisited {
   bgIdx_t chain_top;
 };
 
-bgError_t bgVisitedCreate(bgVisited_t *visited, bgIdx_t table_size, bgIdx_t chain_size);
-void bgVisitedDestroy(bgVisited_t *visited);
-int bgVisitedGet(const bgVisited_t *visited, bgIdx_t hash, uint8_t *node_transition);
-bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_transition);
+bgError_t bgAStarVisitedCreate(bgAStarVisited_t *visited, bgIdx_t table_size, bgIdx_t chain_size);
+void bgAStarVisitedDestroy(bgAStarVisited_t *visited);
+int bgAStarVisitedGet(const bgAStarVisited_t *visited, bgIdx_t hash, uint8_t *node_transition);
+bgError_t bgAStarVisitedInsert(bgAStarVisited_t *visited, bgIdx_t hash, uint8_t node_transition);
 
 
 
-struct bgHeapFrontier {
+struct bgAStarHeap {
   // SoAの構造です。
 
   // 指標値は厳密な数値ではないので、
@@ -50,16 +50,16 @@ struct bgHeapFrontier {
   bgIdx_t size;
 };
 
-bgError_t bgHeapFrontierCreate(bgHeapFrontier_t *frontier, bgIdx_t capacity);
-void bgHeapFrontierDestroy(bgHeapFrontier_t *frontier);
-bgError_t bgHeapFrontierPop(bgHeapFrontier_t *frontier);
-bgError_t bgHeapFrontierPush(
-  bgHeapFrontier_t *frontier,
+bgError_t bgAStarHeapCreate(bgAStarHeap_t *frontier, bgIdx_t capacity);
+void bgAStarHeapDestroy(bgAStarHeap_t *frontier);
+bgError_t bgAStarHeapPop(bgAStarHeap_t *frontier);
+bgError_t bgAStarHeapPush(
+  bgAStarHeap_t *frontier,
   bgCost_t weight,
   bgCost_t cost, bgIdx_t node_idx, uint8_t node_transition
 );
-bgError_t bgHeapFrontierTop(
-  const bgHeapFrontier_t *frontier,
+bgError_t bgAStarHeapTop(
+  const bgAStarHeap_t *frontier,
   bgCost_t *weight,
   bgCost_t *cost, bgIdx_t *node_idx, uint8_t *node_transition
 );

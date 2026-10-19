@@ -95,9 +95,9 @@ $$
 
 ## 3. 経路探索
 ### 到達リスト
-到達リスト兼ノード遷移記録には`bgVisited`を利用しています。
-`bgVisited`の利用は、ライブラリ側がメインですが、構築は利用者が行います。
-`bgVisited`は、`table backet`と`chain backet`から構成され、バケット数は`table backet`数と`chain backet`数の和となります。
+到達リスト兼ノード遷移記録には`bgAStarVisited`を利用しています。
+`bgAStarVisited`の利用は、ライブラリ側がメインですが、構築は利用者が行います。
+`bgAStarVisited`は、`table backet`と`chain backet`から構成され、バケット数は`table backet`数と`chain backet`数の和となります。
 バケット数は`bg`構造のノード数となれば、確実にすべての範囲で探索が可能になります。
 しかし、メモリが足りなければこれを妥協し、`table backet`数と`chain backet`数を調整する必要があります。
 
