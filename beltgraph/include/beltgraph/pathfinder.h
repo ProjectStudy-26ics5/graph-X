@@ -31,6 +31,7 @@ struct bgAStarVisited {
 
 bgError_t bgAStarVisitedCreate(bgAStarVisited_t *visited, bgIdx_t table_size, bgIdx_t chain_size);
 void bgAStarVisitedDestroy(bgAStarVisited_t *visited);
+void bgAStarVisitedClear(bgAStarVisited_t *visited);
 int bgAStarVisitedGet(const bgAStarVisited_t *visited, bgIdx_t hash, uint8_t *node_transition);
 bgError_t bgAStarVisitedInsert(bgAStarVisited_t *visited, bgIdx_t hash, uint8_t node_transition);
 
@@ -52,6 +53,7 @@ struct bgAStarHeap {
 
 bgError_t bgAStarHeapCreate(bgAStarHeap_t *frontier, bgIdx_t capacity);
 void bgAStarHeapDestroy(bgAStarHeap_t *frontier);
+void bgAStarHeapClear(bgAStarHeap_t *frontier);
 bgError_t bgAStarHeapPop(bgAStarHeap_t *frontier);
 bgError_t bgAStarHeapPush(
   bgAStarHeap_t *frontier,
@@ -74,6 +76,7 @@ struct bgPath {
 
 bgError_t bgPathCreate(bgPath_t *path, bgIdx_t capacity);
 void bgPathDestroy(bgPath_t *path);
+void bgPathClear(bgPath_t *path);
 
 #ifdef __cplusplus
 }

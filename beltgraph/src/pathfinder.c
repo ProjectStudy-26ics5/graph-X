@@ -48,6 +48,15 @@ void bgAStarVisitedDestroy(bgAStarVisited_t *visited) {
   visited->chain_top = 0;
 }
 
+void bgAStarVisitedClear(bgAStarVisited_t *visited) {
+  visited->size = 0;
+  visited->chain_top = visited->table_size;
+
+  for(bgIdx_t i = 0; i < visited->capacity; i++) {
+    visited->chain[i] = BUCKET_UNALLOCATED_SIGN;
+  }
+}
+
 int bgAStarVisitedGet(const bgAStarVisited_t *visited, bgIdx_t hash, uint8_t *node_transition) {
   for(bgIdx_t i = hash % visited->table_size; i != BUCKET_END_SIGN(visited); i = visited->chain[i]) {
     if(UNALLOCATED_BUCKET(visited, i)) break;
@@ -145,5 +154,9 @@ void bgPathDestroy(bgPath_t *path) {
 
   path->node_idx_order = NULL;
   path->capacity = 0;
+  path->size = 0;
+}
+
+void bgPathClear(bgPath_t *path) {
   path->size = 0;
 }
