@@ -8,7 +8,7 @@ void print_visited(const bgVisited_t *visited, bgIdx_t node_count) {
       printf("%u, ", i);
     }
   }
-  printf("\b\b}\n");
+  printf("\b\b} (size = %u)\n", visited->size);
 }
 
 int main(void) {

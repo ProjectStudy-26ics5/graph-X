@@ -24,6 +24,7 @@ struct bgVisited {
   uint8_t *node_transition;
 
   bgIdx_t capacity;
+  bgIdx_t size;
   bgIdx_t table_size;
   bgIdx_t chain_top;
 };

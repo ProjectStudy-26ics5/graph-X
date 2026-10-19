@@ -13,6 +13,7 @@ bgError_t bgVisitedCreate(bgVisited_t *visited, bgIdx_t table_size, bgIdx_t chai
   visited->chain = malloc(capacity * sizeof(bgIdx_t));
   visited->node_transition = malloc(capacity * sizeof(uint8_t));
   visited->capacity = capacity;
+  visited->size = 0;
   visited->table_size = table_size;
   visited->chain_top = table_size;
 
@@ -42,6 +43,7 @@ void bgVisitedDestroy(bgVisited_t *visited) {
   visited->chain = NULL;
   visited->node_transition = NULL;
   visited->capacity = 0;
+  visited->size = 0;
   visited->table_size = 0;
   visited->chain_top = 0;
 }
@@ -70,6 +72,7 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
     visited->chain[i] = BUCKET_END_SIGN(visited);
     visited->node_transition[i] = node_transition;
 
+    visited->size++;
     return BG_ERROR_OK;
   }
 
@@ -82,6 +85,7 @@ bgError_t bgVisitedInsert(bgVisited_t *visited, bgIdx_t hash, uint8_t node_trans
 
   visited->chain[i] = j;
 
+  visited->size++;
   return BG_ERROR_OK;
 }
 
