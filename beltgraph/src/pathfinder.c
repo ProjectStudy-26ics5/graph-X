@@ -95,6 +95,7 @@ bgError_t bgFrontierCreate(bgFrontier_t *frontier, bgIdx_t capacity) {
   frontier->weight = malloc(capacity * sizeof(bgCost_t));
   frontier->cost = malloc(capacity * sizeof(bgCost_t));
   frontier->node_idx = malloc(capacity * sizeof(bgIdx_t));
+  frontier->node_transition = malloc(capacity * sizeof(uint8_t));
   frontier->capacity = capacity;
   frontier->size = 0;
 
@@ -115,10 +116,12 @@ void bgFrontierDestroy(bgFrontier_t *frontier) {
   free(frontier->weight);
   free(frontier->cost);
   free(frontier->node_idx);
+  free(frontier->node_transition);
 
   frontier->weight = NULL;
   frontier->cost = NULL;
   frontier->node_idx = NULL;
+  frontier->node_transition = NULL;
   frontier->capacity = 0;
   frontier->size = 0;
 }

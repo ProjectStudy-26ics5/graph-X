@@ -43,7 +43,8 @@ struct bgFrontier {
   // weightとcostは半精度浮動小数点を使えるかもしれません
   bgCost_t *weight;
   bgCost_t *cost;
-  bgIdx_t  *node_idx;
+  bgIdx_t *node_idx;
+  uint8_t *node_transition;
 
   bgIdx_t capacity;
   bgIdx_t size;
@@ -52,8 +53,16 @@ struct bgFrontier {
 bgError_t bgFrontierCreate(bgFrontier_t *frontier, bgIdx_t capacity);
 void bgFrontierDestroy(bgFrontier_t *frontier);
 bgError_t bgFrontierPop(bgFrontier_t *frontier);
-bgError_t bgFrontierPush(bgFrontier_t *frontier, bgCost_t weight, bgCost_t cost, bgIdx_t node_idx);
-bgError_t bgFrontierTop(const bgFrontier_t *frontier, bgCost_t *weight, bgCost_t *cost, bgIdx_t *node_idx);
+bgError_t bgFrontierPush(
+  bgFrontier_t *frontier,
+  bgCost_t weight,
+  bgCost_t cost, bgIdx_t node_idx, uint8_t node_transition
+);
+bgError_t bgFrontierTop(
+  const bgFrontier_t *frontier,
+  bgCost_t *weight,
+  bgCost_t *cost, bgIdx_t *node_idx, uint8_t *node_transition
+);
 
 
 
