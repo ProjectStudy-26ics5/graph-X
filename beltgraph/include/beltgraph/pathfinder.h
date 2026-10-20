@@ -51,17 +51,17 @@ struct bgAStarHeap {
   bgIdx_t size;
 };
 
-bgError_t bgAStarHeapCreate(bgAStarHeap_t *frontier, bgIdx_t capacity);
-void bgAStarHeapDestroy(bgAStarHeap_t *frontier);
-void bgAStarHeapClear(bgAStarHeap_t *frontier);
-bgError_t bgAStarHeapPop(bgAStarHeap_t *frontier);
+bgError_t bgAStarHeapCreate(bgAStarHeap_t *heap, bgIdx_t capacity);
+void bgAStarHeapDestroy(bgAStarHeap_t *heap);
+void bgAStarHeapClear(bgAStarHeap_t *heap);
+bgError_t bgAStarHeapPop(bgAStarHeap_t *heap);
 bgError_t bgAStarHeapPush(
-  bgAStarHeap_t *frontier,
+  bgAStarHeap_t *heap,
   bgCost_t weight,
   bgCost_t cost, bgIdx_t node_idx, uint8_t node_transition
 );
 bgError_t bgAStarHeapTop(
-  const bgAStarHeap_t *frontier,
+  const bgAStarHeap_t *heap,
   bgCost_t *weight,
   bgCost_t *cost, bgIdx_t *node_idx, uint8_t *node_transition
 );

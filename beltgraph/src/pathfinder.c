@@ -100,39 +100,39 @@ bgError_t bgAStarVisitedInsert(bgAStarVisited_t *visited, bgIdx_t hash, uint8_t 
 
 
 
-bgError_t bgAStarHeapCreate(bgAStarHeap_t *frontier, bgIdx_t capacity) {
-  frontier->weight = malloc(capacity * sizeof(bgCost_t));
-  frontier->cost = malloc(capacity * sizeof(bgCost_t));
-  frontier->node_idx = malloc(capacity * sizeof(bgIdx_t));
-  frontier->node_transition = malloc(capacity * sizeof(uint8_t));
-  frontier->capacity = capacity;
-  frontier->size = 0;
+bgError_t bgAStarHeapCreate(bgAStarHeap_t *heap, bgIdx_t capacity) {
+  heap->weight = malloc(capacity * sizeof(bgCost_t));
+  heap->cost = malloc(capacity * sizeof(bgCost_t));
+  heap->node_idx = malloc(capacity * sizeof(bgIdx_t));
+  heap->node_transition = malloc(capacity * sizeof(uint8_t));
+  heap->capacity = capacity;
+  heap->size = 0;
 
-  if(frontier->weight == NULL) {
+  if(heap->weight == NULL) {
     return BG_ERROR_ALLOC;
   }
-  if(frontier->cost == NULL) {
+  if(heap->cost == NULL) {
     return BG_ERROR_ALLOC;
   }
-  if(frontier->node_idx == NULL) {
+  if(heap->node_idx == NULL) {
     return BG_ERROR_ALLOC;
   }
 
   return BG_ERROR_OK;
 }
 
-void bgAStarHeapDestroy(bgAStarHeap_t *frontier) {
-  free(frontier->weight);
-  free(frontier->cost);
-  free(frontier->node_idx);
-  free(frontier->node_transition);
+void bgAStarHeapDestroy(bgAStarHeap_t *heap) {
+  free(heap->weight);
+  free(heap->cost);
+  free(heap->node_idx);
+  free(heap->node_transition);
 
-  frontier->weight = NULL;
-  frontier->cost = NULL;
-  frontier->node_idx = NULL;
-  frontier->node_transition = NULL;
-  frontier->capacity = 0;
-  frontier->size = 0;
+  heap->weight = NULL;
+  heap->cost = NULL;
+  heap->node_idx = NULL;
+  heap->node_transition = NULL;
+  heap->capacity = 0;
+  heap->size = 0;
 }
 
 
