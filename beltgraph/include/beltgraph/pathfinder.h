@@ -79,6 +79,7 @@ bgError_t bgPathCreate(bgPath_t *path, bgIdx_t capacity);
 void bgPathDestroy(bgPath_t *path);
 void bgPathClear(bgPath_t *path);
 bgError_t bgPathPush(bgPath_t *path, bgIdx_t node_idx);
+void bgPathReverse(bgPath_t *path);
 
 
 

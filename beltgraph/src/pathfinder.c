@@ -271,6 +271,19 @@ bgError_t bgPathPush(bgPath_t *path, bgIdx_t node_idx) {
   return BG_ERROR_OK;
 }
 
+void bgPathReverse(bgPath_t *path) {
+  bgIdx_t i, j;
+  bgIdx_t tmp;
+  
+  for(i = 0; i < (path->size >> 1); i++) {
+    j = path->size - 1 - i;
+
+    tmp = path->node_idx_order[i];
+    path->node_idx_order[i] = path->node_idx_order[j];
+    path->node_idx_order[j] = tmp;
+  }
+}
+
 
 
 static bgCost_t heuristic(const bgNode_t *node, double goal_lon, double goal_lat) {
@@ -356,7 +369,8 @@ bgError_t bgAStar(
   }
   err = bgPathPush(path, start_node_idx);
   if(err != BG_ERROR_OK) return err;
-  // pathをreverseする必要があります
+  
+  bgPathReverse(path);
 
   return BG_ERROR_OK;
 }
