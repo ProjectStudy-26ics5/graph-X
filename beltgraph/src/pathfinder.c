@@ -1,6 +1,7 @@
 #include <beltgraph.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define BUCKET_END_SIGN(visited) ((visited)->capacity)
 #define BUCKET_UNALLOCATED_SIGN 0
@@ -252,4 +253,77 @@ void bgPathDestroy(bgPath_t *path) {
 
 void bgPathClear(bgPath_t *path) {
   path->size = 0;
+}
+
+bgError_t bgPathPush(bgPath_t *path, bgIdx_t node_idx) {
+  if(path->size == path->capacity) {
+    return BG_ERROR_CAP;
+  }
+
+  path->node_idx_order[path->size++] = node_idx;
+  
+  return BG_ERROR_OK;
+}
+
+
+
+static bgCost_t heuristic(const bgNode_t *node, double goal_lon, double goal_lat) {
+  bgCost_t manhattan_dist = fabs(goal_lon - node->lon) + fabs(goal_lat - node->lat);
+  return manhattan_dist;
+}
+
+bgError_t bgAStar(
+  bgReader_t *reader, const bgHeader_t *header,
+  const bgNodeContext_t *nc, const bgWayContext_t *wc,
+  bgNode_t *node, bgWay_t *way,
+  bgAStarVisited_t *visited, bgAStarHeap_t *heap,
+  bgIdx_t start_node_idx, bgIdx_t goal_node_idx,
+  bgPath_t *path
+) {
+  bgError_t err;
+  bgCost_t g, h;
+  bgIdx_t node_idx;
+  bgIdx_t way_begin, way_end;
+  bgIdx_t way_idx;
+  uint8_t node_transition;
+  double goal_lon, goal_lat;
+
+  bgNodeFetch(node, reader, header, goal_node_idx);
+  goal_lon = node->lon;
+  goal_lat = node->lat;
+
+  err = bgAStarHeapPush(heap, 0, 0, start_node_idx, 0);
+  if(err != BG_ERROR_OK) return err;
+
+  for(;;) {
+    if(heap->size == 0) return BG_ERROR_LOGIC;
+    bgAStarHeapTop(heap, NULL, &g, &node_idx, &node_transition);
+    bgAStarHeapPop(heap);
+
+    if(bgAStarVisitedFind(visited, node_idx, NULL)) continue;
+    err = bgAStarVisitedInsert(visited, node_idx, node_transition);
+    if(err != BG_ERROR_OK) return err;
+
+    if(node_idx == goal_node_idx) {
+      break;
+    }
+
+    bgNodeFetch(node, reader, header, node_idx);
+    way_begin = node->way_begin;
+    way_end = node->way_end;
+
+    for(way_idx = way_begin; way_idx < way_end; way_idx++) {
+      bgWayFetch(way, reader, header, way_idx);
+      if(bgAStarVisitedFind(visited, way->to, NULL)) continue;
+
+      bgNodeFetch(node, reader, header, way->to);
+      g = g + bgNodeCost(node, nc) + bgWayCost(way, wc);
+      h = heuristic(node, goal_lon, goal_lat);
+
+      err = bgAStarHeapPush(heap, g + h, g, node->idx, way->reverse_idx);
+      if(err != BG_ERROR_OK) return err;
+    }
+  }
+
+  // ここでpathを書き込みます
 }

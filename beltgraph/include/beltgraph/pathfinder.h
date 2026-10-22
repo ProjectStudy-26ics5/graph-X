@@ -77,6 +77,18 @@ struct bgPath {
 bgError_t bgPathCreate(bgPath_t *path, bgIdx_t capacity);
 void bgPathDestroy(bgPath_t *path);
 void bgPathClear(bgPath_t *path);
+bgError_t bgPathPush(bgPath_t *path, bgIdx_t node_idx);
+
+
+
+bgError_t bgAStar(
+  bgReader_t *reader, const bgHeader_t *header,
+  const bgNodeContext_t *nc, const bgWayContext_t *wc,
+  bgNode_t *node, bgWay_t *way,
+  bgAStarVisited_t *visited, bgAStarHeap_t *heap,
+  bgIdx_t start_node_idx, bgIdx_t goal_node_idx,
+  bgPath_t *path
+);
 
 #ifdef __cplusplus
 }
