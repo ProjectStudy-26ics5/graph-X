@@ -339,7 +339,9 @@ bgError_t bgAStar(
 
   // path作成
   for(node_idx = goal_node_idx; node_idx != start_node_idx; node_idx = way->to) {
-    bgPathPush(path, node_idx);
+    err = bgPathPush(path, node_idx);
+    if(err != BG_ERROR_OK) return err;
+
     bgNodeFetch(node, reader, header, node_idx);
 
     bgAStarVisitedFind(visited, node_idx, &node_transition);

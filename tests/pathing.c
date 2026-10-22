@@ -11,6 +11,7 @@ void read_cb(bgOffset_t pos, void *buffer, bgSize_t size) {
 int main(void) {
   bgError_t err;
   
+  /* プロローグ */
   in = fopen("bg/minato.bg", "rb");
   bgReader_t reader;
   bgReaderCreate(&reader, read_cb);
@@ -42,6 +43,14 @@ int main(void) {
   bgNodeFetchNearest(&node, &reader, &header, 139.800, 35.635);
   bgIdx_t goal_node_idx = node.idx;
 
+  /* 経路探索 */
+  for(bgIdx_t i = 0; i < wc.dim; i++) {
+    bgWayContextSetWeight(&wc, i, 0);
+  }
+  for(bgIdx_t i = 0; i < nc.dim; i++) {
+    bgNodeContextSetWeight(&nc, i, 0);
+  }
+
   clock_t start = clock();
   err = bgAStar(
     &reader, &header,
@@ -65,10 +74,11 @@ int main(void) {
     printf("Err !\n");
   }
   printf("time: %.4f sec\n", (double)(end - start) / CLOCKS_PER_SEC);
-  printf("visited allocated: %u, used: %u\n", visited.capacity, visited.size);
-  printf("heap allocated: %u, used: %u\n", heap.capacity, heap.peak_size);
-  printf("path allocated: %u, used: %u\n", path.capacity, path.size);
+  printf("|visited| allocated: %u, used: %u\n", visited.capacity, visited.size);
+  printf("|heap   | allocated: %u, used: %u\n", heap.capacity, heap.peak_size);
+  printf("|path   | allocated: %u, used: %u\n", path.capacity, path.size);
 
+  /* エピローグ */
   bgPathDestroy(&path);
   bgAStarHeapDestroy(&heap);
   bgAStarVisitedDestroy(&visited);
