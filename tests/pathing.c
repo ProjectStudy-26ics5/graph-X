@@ -58,6 +58,7 @@ int main(void) {
     &node, &way,
     &visited, &heap,
     start_node_idx, goal_node_idx,
+    1,
     &path
   );
   clock_t end = clock();
@@ -74,9 +75,9 @@ int main(void) {
     printf("Err !\n");
   }
   printf("time: %.4f sec\n", (double)(end - start) / CLOCKS_PER_SEC);
-  printf("|visited| allocated: %u, used: %u\n", visited.capacity, visited.size);
-  printf("|heap   | allocated: %u, used: %u\n", heap.capacity, heap.peak_size);
-  printf("|path   | allocated: %u, used: %u\n", path.capacity, path.size);
+  printf("| visited | allocated: %u, used: %u\n", visited.capacity, visited.size);
+  printf("| heap    | allocated: %u, used: %u\n", heap.capacity, heap.peak_size);
+  printf("| path    | allocated: %u, used: %u\n", path.capacity, path.size);
 
   /* エピローグ */
   bgPathDestroy(&path);

@@ -88,6 +88,7 @@ bgError_t bgAStar(
   bgNode_t *node, bgWay_t *way,
   bgAStarVisited_t *visited, bgAStarHeap_t *heap,
   bgIdx_t start_node_idx, bgIdx_t goal_node_idx,
+  bgCost_t heuristic_weight,
   bgPath_t *path
 );
 
