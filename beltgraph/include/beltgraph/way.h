@@ -2,7 +2,6 @@
 #define BELTGRAPH_WAY_H
 
 #include <beltgraph/types.h>
-#include <beltgraph/reader.h>
 
 #ifdef __cplusplus
 extern "C" {
