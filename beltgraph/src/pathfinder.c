@@ -319,8 +319,9 @@ bgError_t bgAStar(
       bgNodeFetch(node, reader, header, way->to);
       g = g + bgNodeCost(node, nc) + bgWayCost(way, wc);
       h = heuristic(node, goal_lon, goal_lat);
+      node_transition = way->reverse_idx - node->way_begin;
 
-      err = bgAStarHeapPush(heap, g + h, g, node->idx, way->reverse_idx);
+      err = bgAStarHeapPush(heap, g + h, g, node->idx, node_transition);
       if(err != BG_ERROR_OK) return err;
     }
   }
