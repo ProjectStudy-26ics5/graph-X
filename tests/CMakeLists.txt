@@ -57,3 +57,15 @@ target_link_libraries(
   PRIVATE
   PS::beltgraph
 )
+
+add_executable(pathing)
+target_sources(
+  pathing
+  PRIVATE
+  "pathing.c"
+)
+target_link_libraries(
+  pathing
+  PRIVATE
+  PS::beltgraph
+)

@@ -89,3 +89,12 @@ tasks:
         platforms: ["windows"]
       - cmd: "./build/tests/heap"
         platforms: ["darwin", "linux"]
+
+  test-pathing:
+    desc: "test tests/pathing.cpp"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/tests/pathing.exe"
+        platforms: ["windows"]
+      - cmd: "./build/tests/pathing"
+        platforms: ["darwin", "linux"]
