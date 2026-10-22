@@ -56,7 +56,7 @@ int main(void) {
     for(bgIdx_t i = 0; i < path.size; i++) {
       printf("%u -> ", path.node_idx_order[i]);
     }
-    printf("\b\b\b\b}\n");
+    printf("\b\b\b\b}       \n");
   }
 
   bgPathDestroy(&path);
