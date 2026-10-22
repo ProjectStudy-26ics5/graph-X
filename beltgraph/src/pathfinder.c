@@ -308,48 +308,48 @@ bgError_t bgAStar(
   uint8_t node_transition;
   double goal_lon, goal_lat;
 
-  /* ゴール情報を取り出す */
+  // ゴール情報を取り出す(heuristicで使うから)
   bgNodeFetch(node, reader, header, goal_node_idx); // nodeはゴールノード
   goal_lon = node->lon;
   goal_lat = node->lat;
 
-  /* スタートを最初の後継として追加 */
+  // スタートを最初の後継として追加
   err = bgAStarHeapPush(heap, 0, 0, start_node_idx, 0);
   if(err != BG_ERROR_OK) return err;
 
-  /* 探索ループ */
+  /* A* 探索ループ */
   for(;;) {
     if(heap->size == 0) return BG_ERROR_LOGIC;
-    /* ヒープ重みが最小の後継を取り出す */
+    // ヒープ重みが最小の後継を取り出す
     bgAStarHeapTop(heap, NULL, &g, &node_idx, &node_transition);
     bgAStarHeapPop(heap);
 
-    /* すでに到達したノードならスキップ、そうでなければ到達を記録 */
+    // すでに到達したノードならスキップ、そうでなければ到達を記録
     if(bgAStarVisitedFind(visited, node_idx, NULL)) continue;
     err = bgAStarVisitedInsert(visited, node_idx, node_transition);
     if(err != BG_ERROR_OK) return err;
 
-    /* ゴール到達! */
+    // ゴール到達!
     if(node_idx == goal_node_idx) {
       break;
     }
 
-    /* 現在ノード情報を取り出す */
+    // 現在ノード情報を取り出す(持ってるウェイを調べるため)
     bgNodeFetch(node, reader, header, node_idx); // nodeは現在ノード
     way_begin = node->way_begin;
     way_end = node->way_end;
 
-    /* 現在ノードが持つすべてのウェイに対して */
+    // 現在ノードが持つすべてのウェイに対して
     for(way_idx = way_begin; way_idx < way_end; way_idx++) {
       bgWayFetch(way, reader, header, way_idx); // wayは現在ノードが持つウェイ
       if(bgAStarVisitedFind(visited, way->to, NULL)) continue;
       bgNodeFetch(node, reader, header, way->to); // nodeは後継ノード
 
-      /* コスト計算 */
+      // コスト計算
       g = g + bgNodeCost(node, nc) + bgWayCost(way, wc);
       h = heuristic(node, goal_lon, goal_lat) * heuristic_weight;
 
-      /* 後継を追加 */
+      // 後継を追加
       node_transition = way->reverse_idx - node->way_begin;
       err = bgAStarHeapPush(heap, g + h, g, node->idx, node_transition);
       if(err != BG_ERROR_OK) return err;
@@ -357,19 +357,20 @@ bgError_t bgAStar(
   }
 
   /* path作成 */
-  for(node_idx = goal_node_idx; node_idx != start_node_idx; node_idx = way->to) {
-    err = bgPathPush(path, node_idx);
+  for(node_idx = goal_node_idx; node_idx != start_node_idx; node_idx = way->to) { // ゴールからスタートまで、node_transitionをたどる
+    err = bgPathPush(path, node_idx); // pathに追加
     if(err != BG_ERROR_OK) return err;
 
     bgAStarVisitedFind(visited, node_idx, &node_transition);
 
-    bgNodeFetch(node, reader, header, node_idx);
+    bgNodeFetch(node, reader, header, node_idx); // nodeは現在pathに追加したのの
     way_idx = node->way_begin + node_transition;
-    bgWayFetch(way, reader, header, way_idx);
+    bgWayFetch(way, reader, header, way_idx); // wayはnode_transitionが示すもの
   }
   err = bgPathPush(path, start_node_idx);
   if(err != BG_ERROR_OK) return err;
   
+  // ゴールからスタートの順なので、反転する
   bgPathReverse(path);
 
   return BG_ERROR_OK;
