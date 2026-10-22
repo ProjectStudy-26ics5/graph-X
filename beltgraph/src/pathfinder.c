@@ -108,6 +108,7 @@ bgError_t bgAStarHeapCreate(bgAStarHeap_t *heap, bgIdx_t capacity) {
   heap->node_transition = malloc(capacity * sizeof(uint8_t));
   heap->capacity = capacity;
   heap->size = 0;
+  heap->peak_size = 0;
 
   if(heap->weight == NULL) {
     return BG_ERROR_ALLOC;
@@ -134,10 +135,12 @@ void bgAStarHeapDestroy(bgAStarHeap_t *heap) {
   heap->node_transition = NULL;
   heap->capacity = 0;
   heap->size = 0;
+  heap->peak_size = 0;
 }
 
 void bgAStarHeapClear(bgAStarHeap_t *heap) {
   heap->size = 0;
+  heap->peak_size = 0;
 }
 
 bgError_t bgAStarHeapPop(bgAStarHeap_t *heap) {
@@ -201,6 +204,9 @@ bgError_t bgAStarHeapPush(
   heap->node_idx[c] = node_idx;
   heap->node_transition[c] = node_transition;
 
+  if(heap->peak_size < heap->size) {
+    heap->peak_size = heap->size;
+  }
   return BG_ERROR_OK;
 }
 

@@ -49,6 +49,7 @@ struct bgAStarHeap {
 
   bgIdx_t capacity;
   bgIdx_t size;
+  bgIdx_t peak_size;
 };
 
 bgError_t bgAStarHeapCreate(bgAStarHeap_t *heap, bgIdx_t capacity);

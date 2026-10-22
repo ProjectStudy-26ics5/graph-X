@@ -1,5 +1,6 @@
 #include <beltgraph.h>
 #include <stdio.h>
+#include <time.h>
 
 FILE *in = NULL;
 void read_cb(bgOffset_t pos, void *buffer, bgSize_t size) {
@@ -41,6 +42,7 @@ int main(void) {
   bgNodeFetchNearest(&node, &reader, &header, 139.800, 35.635);
   bgIdx_t goal_node_idx = node.idx;
 
+  clock_t start = clock();
   err = bgAStar(
     &reader, &header,
     &nc, &wc,
@@ -49,6 +51,8 @@ int main(void) {
     start_node_idx, goal_node_idx,
     &path
   );
+  clock_t end = clock();
+
   if(err == BG_ERROR_OK) {
     printf("Ok !\n");
 
@@ -56,8 +60,14 @@ int main(void) {
     for(bgIdx_t i = 0; i < path.size; i++) {
       printf("%u -> ", path.node_idx_order[i]);
     }
-    printf("\b\b\b\b}       \n");
+    printf("\b\b\b\b}    \n\n");
+  }else {
+    printf("Err !\n");
   }
+  printf("time: %.4f sec\n", (double)(end - start) / CLOCKS_PER_SEC);
+  printf("visited allocated: %u, used: %u\n", visited.capacity, visited.size);
+  printf("heap allocated: %u, used: %u\n", heap.capacity, heap.peak_size);
+  printf("path allocated: %u, used: %u\n", path.capacity, path.size);
 
   bgPathDestroy(&path);
   bgAStarHeapDestroy(&heap);
