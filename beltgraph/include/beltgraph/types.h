@@ -36,7 +36,8 @@ typedef struct bgPath bgPath_t;
 typedef enum bgError {
   BG_ERROR_OK,
   BG_ERROR_ALLOC,
-  BG_ERROR_CAP
+  BG_ERROR_CAP,
+  BG_ERROR_LOGIC
 } bgError_t;
 
 #ifdef __cplusplus

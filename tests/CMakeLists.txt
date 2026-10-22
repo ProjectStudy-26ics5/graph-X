@@ -45,3 +45,15 @@ target_link_libraries(
   PRIVATE
   PS::beltgraph
 )
+
+add_executable(heap)
+target_sources(
+  heap
+  PRIVATE
+  "heap.c"
+)
+target_link_libraries(
+  heap
+  PRIVATE
+  PS::beltgraph
+)

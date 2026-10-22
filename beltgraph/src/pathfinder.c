@@ -135,6 +135,99 @@ void bgAStarHeapDestroy(bgAStarHeap_t *heap) {
   heap->size = 0;
 }
 
+void bgAStarHeapClear(bgAStarHeap_t *heap) {
+  heap->size = 0;
+}
+
+bgError_t bgAStarHeapPop(bgAStarHeap_t *heap) {
+  if(heap->size == 0) {
+    return BG_ERROR_LOGIC;
+  }
+
+  const bgIdx_t back = --heap->size;
+  bgIdx_t p = 0;
+  bgIdx_t c;
+
+  while((c = (p << 1) + 1) < heap->size) {
+    if(c + 1 < heap->size && heap->weight[c] > heap->weight[c + 1]) {
+      c = c + 1;
+    }
+    if(heap->weight[back] <= heap->weight[c]) break;
+
+    heap->weight[p] = heap->weight[c];
+    heap->cost[p] = heap->cost[c];
+    heap->node_idx[p] = heap->node_idx[c];
+    heap->node_transition[p] = heap->node_transition[c];
+
+    p = c;
+  }
+
+  heap->weight[p] = heap->weight[back];
+  heap->cost[p] = heap->cost[back];
+  heap->node_idx[p] = heap->node_idx[back];
+  heap->node_transition[p] = heap->node_transition[back];
+
+  return BG_ERROR_OK;
+}
+
+bgError_t bgAStarHeapPush(
+  bgAStarHeap_t *heap,
+  bgCost_t weight,
+  bgCost_t cost, bgIdx_t node_idx, uint8_t node_transition
+) {
+  if(heap->size == heap->capacity) {
+    return BG_ERROR_CAP;
+  }
+
+  const bgIdx_t back = heap->size++;
+  bgIdx_t p;
+  bgIdx_t c = back;
+
+  while(c != 0) {
+    p = (c - 1) >> 1;
+    if(heap->weight[p] <= weight) break;
+
+    heap->weight[c] = heap->weight[p];
+    heap->cost[c] = heap->cost[p];
+    heap->node_idx[c] = heap->node_idx[p];
+    heap->node_transition[c] = heap->node_transition[p];
+    
+    c = p;
+  }
+
+  heap->weight[c] = weight;
+  heap->cost[c] = cost;
+  heap->node_idx[c] = node_idx;
+  heap->node_transition[c] = node_transition;
+
+  return BG_ERROR_OK;
+}
+
+bgError_t bgAStarHeapTop(
+  const bgAStarHeap_t *heap,
+  bgCost_t *weight,
+  bgCost_t *cost, bgIdx_t *node_idx, uint8_t *node_transition
+) {
+  if(heap->size == 0) {
+    return BG_ERROR_LOGIC;
+  }
+
+  if(weight != NULL) {
+    *weight = heap->weight[0];
+  }
+  if(cost != NULL) {
+    *cost = heap->cost[0];
+  }
+  if(node_idx != NULL) {
+    *node_idx = heap->node_idx[0];
+  }
+  if(node_transition != NULL) {
+    *node_transition = heap->node_transition[0];
+  }
+
+  return BG_ERROR_OK;
+}
+
 
 
 bgError_t bgPathCreate(bgPath_t *path, bgIdx_t capacity) {

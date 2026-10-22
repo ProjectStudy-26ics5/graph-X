@@ -80,3 +80,12 @@ tasks:
         platforms: ["windows"]
       - cmd: "./build/tests/visited"
         platforms: ["darwin", "linux"]
+
+  test-heap:
+    desc: "test tests/heap.cpp"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/tests/heap.exe"
+        platforms: ["windows"]
+      - cmd: "./build/tests/heap"
+        platforms: ["darwin", "linux"]
