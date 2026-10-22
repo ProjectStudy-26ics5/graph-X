@@ -38,10 +38,6 @@ int main(void) {
   bgPath_t path;
   bgPathCreate(&path, header.node_count);
 
-  bgNodeFetchNearest(&node, &reader, &header, 139.751, 35.635);
-  bgIdx_t start_node_idx = node.idx;
-  bgNodeFetchNearest(&node, &reader, &header, 139.800, 35.635);
-  bgIdx_t goal_node_idx = node.idx;
 
   /* 経路探索 */
   for(bgIdx_t i = 0; i < wc.dim; i++) {
@@ -50,6 +46,11 @@ int main(void) {
   for(bgIdx_t i = 0; i < nc.dim; i++) {
     bgNodeContextSetWeight(&nc, i, 0);
   }
+
+  bgNodeFetchNearest(&node, &reader, &header, 139.751, 35.635);
+  bgIdx_t start_node_idx = node.idx;
+  bgNodeFetchNearest(&node, &reader, &header, 139.800, 35.635);
+  bgIdx_t goal_node_idx = node.idx;
 
   clock_t start = clock();
   err = bgAStar(
