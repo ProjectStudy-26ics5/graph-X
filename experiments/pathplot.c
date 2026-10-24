@@ -8,12 +8,7 @@ int main(void) {
   e_init("bg/minato.bg", E_READ_RAM);
   FILE *out = fopen("experiments/pathplot.plt", "w");
   
-  for(bgIdx_t i = 0; i < e_wc.dim; i++) {
-    bgWayContextSetWeight(&e_wc, i, 0);
-  }
-  for(bgIdx_t i = 0; i < e_nc.dim; i++) {
-    bgNodeContextSetWeight(&e_nc, i, 0);
-  }
+  e_weight_input();
 
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
   bgIdx_t start_node_idx = e_node.idx;

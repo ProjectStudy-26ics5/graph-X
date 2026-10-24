@@ -97,4 +97,29 @@ static void e_end() {
   bgPathDestroy(&e_path);
 }
 
+static void e_weight_zero() {
+  for(bgIdx_t i = 0; i < e_wc.dim; i++) {
+    bgWayContextSetWeight(&e_wc, i, 0);
+  }
+  for(bgIdx_t i = 0; i < e_nc.dim; i++) {
+    bgNodeContextSetWeight(&e_nc, i, 0);
+  }
+}
+
+static void e_weight_input() {
+  bgWeight_t w;
+  for(bgIdx_t i = 0; i < e_wc.dim; i++) {
+    printf("%s: %s\n", bgWayContextIndicatorName(&e_wc, i), bgWayContextIndicatorDesc(&e_wc, i));
+    printf("weight = ");
+    scanf("%f", &w);
+    bgWayContextSetWeight(&e_wc, i, w);
+  }
+  for(bgIdx_t i = 0; i < e_nc.dim; i++) {
+    printf("%s: %s\n", bgNodeContextIndicatorName(&e_nc, i), bgNodeContextIndicatorDesc(&e_nc, i));
+    printf("weight = ");
+    scanf("%f", &w);
+    bgNodeContextSetWeight(&e_nc, i, w);
+  }
+}
+
 #endif

@@ -19,12 +19,7 @@ int main(void) {
   // RAM
   e_init("bg/minato.bg", E_READ_RAM);
 
-  for(bgIdx_t i = 0; i < e_wc.dim; i++) {
-    bgWayContextSetWeight(&e_wc, i, 0);
-  }
-  for(bgIdx_t i = 0; i < e_nc.dim; i++) {
-    bgNodeContextSetWeight(&e_nc, i, 0);
-  }
+  e_weight_zero();
 
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
   start_node_idx = e_node.idx;
@@ -51,12 +46,7 @@ int main(void) {
   // ROM
   e_init("bg/minato.bg", E_READ_ROM);
 
-  for(bgIdx_t i = 0; i < e_wc.dim; i++) {
-    bgWayContextSetWeight(&e_wc, i, 0);
-  }
-  for(bgIdx_t i = 0; i < e_nc.dim; i++) {
-    bgNodeContextSetWeight(&e_nc, i, 0);
-  }
+  e_weight_zero();
 
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
   start_node_idx = e_node.idx;
