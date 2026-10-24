@@ -8,6 +8,8 @@ bgError_t bgReaderCreate(bgReader_t *reader, bgReaderCallback cb) {
 }
 
 void bgReaderDestroy(bgReader_t *reader) {
+  reader->pos = 0;
+  reader->cb = NULL;
 }
 
 void bgReaderJump(bgReader_t *reader, bgOffset_t pos) {

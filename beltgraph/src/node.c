@@ -39,6 +39,17 @@ void bgNodeContextDestroy(bgNodeContext_t *nc) {
   free(nc->indicator_name_offs);
   free(nc->indicator_descs);
   free(nc->indicator_desc_offs);
+
+  nc->dim = 0;
+  nc->weights = NULL;
+
+  nc->indicator_name_size = 0;
+  nc->indicator_names = NULL;
+  nc->indicator_name_offs = NULL;
+  
+  nc->indicator_desc_size = 0;
+  nc->indicator_descs = NULL;
+  nc->indicator_desc_offs = NULL;
 }
 
 void bgNodeContextFetch(bgNodeContext_t *nc, bgReader_t *reader, const bgHeader_t *header) {
@@ -85,6 +96,13 @@ bgError_t bgNodeCreate(bgNode_t *node, const bgHeader_t *header) {
 
 void bgNodeDestroy(bgNode_t *node) {
   free(node->indicators);
+
+  node->idx = 0;
+  node->way_begin = 0;
+  node->way_end = 0;
+  node->lon = 0;
+  node->lat;
+  node->indicators = NULL;
 }
 
 void bgNodeFetch(bgNode_t *node, bgReader_t *reader, const bgHeader_t *header, bgIdx_t idx) {

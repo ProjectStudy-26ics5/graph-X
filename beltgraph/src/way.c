@@ -38,6 +38,17 @@ void bgWayContextDestroy(bgWayContext_t *wc) {
   free(wc->indicator_name_offs);
   free(wc->indicator_descs);
   free(wc->indicator_desc_offs);
+
+  wc->dim = 0;
+  wc->weights = NULL;
+
+  wc->indicator_name_size = 0;
+  wc->indicator_names = NULL;
+  wc->indicator_name_offs = NULL;
+  
+  wc->indicator_desc_size = 0;
+  wc->indicator_descs = NULL;
+  wc->indicator_desc_offs = NULL;
 }
 
 void bgWayContextFetch(bgWayContext_t *wc, bgReader_t *reader, const bgHeader_t *header) {
@@ -84,6 +95,12 @@ bgError_t bgWayCreate(bgWay_t *way, const bgHeader_t *header) {
 
 void bgWayDestroy(bgWay_t *way) {
   free(way->indicators);
+
+  way->idx = 0;
+  way->reverse_idx = 0;
+  way->to = 0;
+  way->length = 0;
+  way->indicators = NULL;
 }
 
 void bgWayFetch(bgWay_t *way, bgReader_t *reader, const bgHeader_t *header, bgIdx_t idx) {

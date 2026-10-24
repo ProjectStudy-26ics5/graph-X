@@ -5,6 +5,23 @@ bgError_t bgHeaderCreate(bgHeader_t *header) {
 }
 
 void bgHeaderDestroy(bgHeader_t *header) {
+  header->nc_pos = 0;
+  header->nc_dim = 0;
+  header->nc_ind_name_size = 0;
+  header->nc_ind_desc_size = 0;
+
+  header->wc_pos = 0;
+  header->wc_dim = 0;
+  header->wc_ind_name_size = 0;
+  header->wc_ind_desc_size = 0;
+
+  header->node_pos = 0;
+  header->node_count = 0;
+  header->node_stride = 0;
+
+  header->way_pos = 0;
+  header->way_count = 0;
+  header->way_stride = 0;
 }
 
 void bgHeaderFetch(bgHeader_t *header, bgReader_t *reader) {
