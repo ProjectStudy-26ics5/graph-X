@@ -109,3 +109,12 @@ tasks:
         platforms: ["windows"]
       - cmd: "./build/experiments/bgplot"
         platforms: ["darwin", "linux"]
+
+  e-pathplot:
+    desc: "run experiments/pathplot.c"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/experiments/pathplot.exe"
+        platforms: ["windows"]
+      - cmd: "./build/experiments/pathplot"
+        platforms: ["darwin", "linux"]

@@ -13,3 +13,4 @@ function(add_experiment e)
 endfunction()
 
 add_experiment(bgplot)
+add_experiment(pathplot)

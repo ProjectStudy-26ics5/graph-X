@@ -1,5 +1,9 @@
 #include "experiment.h"
 
+/**
+ * gnuplotを用いる、bgデータのグラフを書き出します
+ */
+
 int main(void) {
   e_init("bg/minato.bg");
   FILE *out = fopen("experiments/bgplot.plt", "w");
