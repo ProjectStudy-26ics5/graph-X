@@ -2,7 +2,7 @@
 
 int main(void) {
   e_init("bg/minato.bg");
-  FILE *out = fopen("experiments/bg_plot.plt", "w");
+  FILE *out = fopen("experiments/bgplot.plt", "w");
 
   for(bgIdx_t i = 0; i < e_header.node_count; i++) {
     bgNodeFetch(&e_node, &e_reader, &e_header, i);
@@ -28,5 +28,5 @@ int main(void) {
 
 /**
  * gnuplot
- * plot "experiments/bg_plot.plt" u 1:2:3:4 w vec nohead lc rgb "black" lw 1
+ * plot "experiments/bgplot.plt" u 1:2:3:4 w vec nohead lc rgb "black" lw 1
  */

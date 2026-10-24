@@ -1,11 +1,15 @@
-add_executable(bg_plot)
-target_sources(
-  bg_plot
-  PRIVATE
-  "bg_plot.c"
-)
-target_link_libraries(
-  bg_plot
-  PRIVATE
-  PS::beltgraph
-)
+function(add_experiment e)
+  add_executable(${e})
+    target_sources(
+    ${e}
+    PRIVATE
+    "${e}.c"
+  )
+  target_link_libraries(
+    ${e}
+    PRIVATE
+    PS::beltgraph
+  )
+endfunction()
+
+add_experiment(bgplot)

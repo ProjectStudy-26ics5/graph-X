@@ -101,11 +101,11 @@ tasks:
 
 
 
-  e-bg_plot:
-    desc: "run experiments/bg_plot.c"
+  e-bgplot:
+    desc: "run experiments/bgplot.c"
     deps: ["build"]
     cmds:
-      - cmd: "./build/experiments/bg_plot.exe"
+      - cmd: "./build/experiments/bgplot.exe"
         platforms: ["windows"]
-      - cmd: "./build/experiments/bg_plot"
+      - cmd: "./build/experiments/bgplot"
         platforms: ["darwin", "linux"]
