@@ -1,0 +1,11 @@
+add_executable(bg_plot)
+target_sources(
+  bg_plot
+  PRIVATE
+  "bg_plot.c"
+)
+target_link_libraries(
+  bg_plot
+  PRIVATE
+  PS::beltgraph
+)

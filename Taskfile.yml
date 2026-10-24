@@ -55,7 +55,7 @@ tasks:
         platforms: ["darwin", "linux"]
   
   test-reader:
-    desc: "test tests/reader.cpp"
+    desc: "test tests/reader.c"
     deps: ["build"]
     cmds:
       - cmd: "./build/tests/reader.exe"
@@ -64,7 +64,7 @@ tasks:
         platforms: ["darwin", "linux"]
 
   test-nearest:
-    desc: "test tests/nearest.cpp"
+    desc: "test tests/nearest.c"
     deps: ["build"]
     cmds:
       - cmd: "./build/tests/nearest.exe"
@@ -73,7 +73,7 @@ tasks:
         platforms: ["darwin", "linux"]
 
   test-visited:
-    desc: "test tests/visited.cpp"
+    desc: "test tests/visited.c"
     deps: ["build"]
     cmds:
       - cmd: "./build/tests/visited.exe"
@@ -82,7 +82,7 @@ tasks:
         platforms: ["darwin", "linux"]
 
   test-heap:
-    desc: "test tests/heap.cpp"
+    desc: "test tests/heap.c"
     deps: ["build"]
     cmds:
       - cmd: "./build/tests/heap.exe"
@@ -91,10 +91,21 @@ tasks:
         platforms: ["darwin", "linux"]
 
   test-pathing:
-    desc: "test tests/pathing.cpp"
+    desc: "test tests/pathing.c"
     deps: ["build"]
     cmds:
       - cmd: "./build/tests/pathing.exe"
         platforms: ["windows"]
       - cmd: "./build/tests/pathing"
+        platforms: ["darwin", "linux"]
+
+
+
+  e-bg_plot:
+    desc: "run experiments/bg_plot.c"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/experiments/bg_plot.exe"
+        platforms: ["windows"]
+      - cmd: "./build/experiments/bg_plot"
         platforms: ["darwin", "linux"]
