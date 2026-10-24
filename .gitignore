@@ -2,3 +2,5 @@
 /.task/
 
 **/.DS_Store
+
+**/*.plt
