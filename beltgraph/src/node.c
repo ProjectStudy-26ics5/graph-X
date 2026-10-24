@@ -17,20 +17,16 @@ bgError_t bgNodeContextCreate(bgNodeContext_t *nc, const bgHeader_t *header) {
   nc->indicator_descs = malloc(header->nc_ind_desc_size);
   nc->indicator_desc_offs = malloc(dim * sizeof(bgOffset_t));
 
-  if(nc->indicator_names == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(nc->indicator_name_offs == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(nc->indicator_descs == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(nc->indicator_desc_offs == NULL) {
-    return BG_ERROR_ALLOC;
-  }
+  if(nc->indicator_names == NULL) goto alloc_err;
+  if(nc->indicator_name_offs == NULL) goto alloc_err;
+  if(nc->indicator_descs == NULL) goto alloc_err;
+  if(nc->indicator_desc_offs == NULL) goto alloc_err;
 
   return BG_ERROR_OK;
+
+alloc_err:
+  bgNodeContextDestroy(nc);
+  return BG_ERROR_ALLOC;
 }
 
 void bgNodeContextDestroy(bgNodeContext_t *nc) {
@@ -87,11 +83,13 @@ bgError_t bgNodeCreate(bgNode_t *node, const bgHeader_t *header) {
 
   node->indicators = malloc(dim * sizeof(bgIndicator_t));
 
-  if(node->indicators == NULL) {
-    return BG_ERROR_ALLOC;
-  }
+  if(node->indicators == NULL) goto alloc_err;
 
   return BG_ERROR_OK;
+
+alloc_err:
+  bgNodeDestroy(node);
+  return BG_ERROR_ALLOC;
 }
 
 void bgNodeDestroy(bgNode_t *node) {

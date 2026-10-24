@@ -18,21 +18,19 @@ bgError_t bgAStarVisitedCreate(bgAStarVisited_t *visited, bgIdx_t table_size, bg
   visited->table_size = table_size;
   visited->chain_top = table_size;
 
-  if(visited->hash == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(visited->chain == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(visited->node_transition == NULL) {
-    return BG_ERROR_ALLOC;
-  }
+  if(visited->hash == NULL) goto alloc_err;
+  if(visited->chain == NULL) goto alloc_err;
+  if(visited->node_transition == NULL) goto alloc_err;
 
   for(bgIdx_t i = 0; i < capacity; i++) {
     visited->chain[i] = BUCKET_UNALLOCATED_SIGN;
   }
 
   return BG_ERROR_OK;
+
+alloc_err:
+  bgAStarVisitedDestroy(visited);
+  return BG_ERROR_ALLOC;
 }
 
 void bgAStarVisitedDestroy(bgAStarVisited_t *visited) {
@@ -110,17 +108,15 @@ bgError_t bgAStarHeapCreate(bgAStarHeap_t *heap, bgIdx_t capacity) {
   heap->size = 0;
   heap->peak_size = 0;
 
-  if(heap->weight == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(heap->cost == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(heap->node_idx == NULL) {
-    return BG_ERROR_ALLOC;
-  }
+  if(heap->weight == NULL) goto alloc_err;
+  if(heap->cost == NULL) goto alloc_err;
+  if(heap->node_idx == NULL) goto alloc_err;
 
   return BG_ERROR_OK;
+
+alloc_err:
+  bgAStarHeapDestroy(heap);
+  return BG_ERROR_ALLOC;
 }
 
 void bgAStarHeapDestroy(bgAStarHeap_t *heap) {
@@ -242,11 +238,13 @@ bgError_t bgPathCreate(bgPath_t *path, bgIdx_t capacity) {
   path->capacity = capacity;
   path->size = 0;
 
-  if(path->node_idx_order == NULL) {
-    return BG_ERROR_ALLOC;
-  }
+  if(path->node_idx_order == NULL) goto alloc_err;
 
   return BG_ERROR_OK;
+
+alloc_err:
+  bgPathDestroy(path);
+  return BG_ERROR_ALLOC;
 }
 
 void bgPathDestroy(bgPath_t *path) {

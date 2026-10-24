@@ -14,7 +14,7 @@ typedefによる型定義では語尾に`_t`を付けます。
 構造体は`bg<T>Create`関数と`bg<T>Destroy`関数をもっています。
 利用するときは、必ず`bg<T>Create`を呼び出し、使い終わったら`bg<T>Destroy`を呼び出してください。
 本番環境では、`bg<T>Create`の戻り値`bgError_t`をチェックしてください。
-また、`bgError_t`が`BG_ERROR_OK`でなくても、`bg<T>Destroy`をしてください。
+`bg<T>Create`で失敗した場合、自動的に`bg<T>Destroy`が呼ばれます。
 
 ## 3. bg読み取り
 `bg`のヘッダーを読み取るサンプルコードを以下に示します。

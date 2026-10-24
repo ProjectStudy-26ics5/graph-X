@@ -16,20 +16,16 @@ bgError_t bgWayContextCreate(bgWayContext_t *wc, const bgHeader_t *header) {
   wc->indicator_descs = malloc(header->wc_ind_desc_size);
   wc->indicator_desc_offs = malloc(dim * sizeof(bgOffset_t));
 
-  if(wc->indicator_names == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(wc->indicator_name_offs == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(wc->indicator_descs == NULL) {
-    return BG_ERROR_ALLOC;
-  }
-  if(wc->indicator_desc_offs == NULL) {
-    return BG_ERROR_ALLOC;
-  }
+  if(wc->indicator_names == NULL) goto alloc_err;
+  if(wc->indicator_name_offs == NULL) goto alloc_err;
+  if(wc->indicator_descs == NULL) goto alloc_err;
+  if(wc->indicator_desc_offs == NULL) goto alloc_err;
 
   return BG_ERROR_OK;
+
+alloc_err:
+  bgWayContextDestroy(wc);
+  return BG_ERROR_ALLOC;
 }
 
 void bgWayContextDestroy(bgWayContext_t *wc) {
@@ -86,11 +82,13 @@ bgError_t bgWayCreate(bgWay_t *way, const bgHeader_t *header) {
 
   way->indicators = malloc(dim * sizeof(bgIndicator_t));
 
-  if(way->indicators == NULL) {
-    return BG_ERROR_ALLOC;
-  }
+  if(way->indicators == NULL) goto alloc_err;
 
   return BG_ERROR_OK;
+
+alloc_err:
+  bgWayDestroy(way);
+  return BG_ERROR_ALLOC;
 }
 
 void bgWayDestroy(bgWay_t *way) {

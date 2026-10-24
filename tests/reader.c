@@ -37,8 +37,6 @@ int main(void) {
   printf("way_count = %u\n", header.way_count);
   printf("way_stride = %llu\n", header.way_stride);
 
-  bgHeaderDestroy(&header);
-
 
 
   printf("\n======= node context =======\n");
@@ -50,7 +48,6 @@ int main(void) {
     printf("%s: %s\n", bgNodeContextIndicatorName(&nc, i), bgNodeContextIndicatorDesc(&nc, i));
   }
 
-  bgNodeContextDestroy(&nc);
 
 
 
@@ -63,7 +60,6 @@ int main(void) {
     printf("%s: %s\n", bgWayContextIndicatorName(&wc, i), bgWayContextIndicatorDesc(&wc, i));
   }
 
-  bgWayContextDestroy(&wc);
 
 
 
@@ -82,7 +78,6 @@ int main(void) {
   }
   printf("\b\b}\n");
   
-  bgNodeDestroy(&node);
 
 
 
@@ -100,10 +95,13 @@ int main(void) {
   }
   printf("\b\b}\n");
 
+
+
   bgWayDestroy(&way);
-
-
-
+  bgNodeDestroy(&node);
+  bgWayContextDestroy(&wc);
+  bgNodeContextDestroy(&nc);
+  bgHeaderDestroy(&header);
   bgReaderDestroy(&reader);
   fclose(in);
   return 0;
