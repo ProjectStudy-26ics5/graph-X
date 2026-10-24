@@ -76,7 +76,9 @@ static void e_init(const char *file_path, enum e_read_type read_type) {
 
 static void e_end() {
   fclose(e_file);
+  e_file = NULL;
   free(e_file_buffer);
+  e_file_buffer = NULL;
   
   bgReaderDestroy(&e_reader);
 

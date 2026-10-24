@@ -136,3 +136,12 @@ tasks:
         platforms: ["windows"]
       - cmd: "./build/experiments/nodeindplot"
         platforms: ["darwin", "linux"]
+
+  e-pathtime:
+    desc: "run experiments/pathtime.c"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/experiments/pathtime.exe"
+        platforms: ["windows"]
+      - cmd: "./build/experiments/pathtime"
+        platforms: ["darwin", "linux"]

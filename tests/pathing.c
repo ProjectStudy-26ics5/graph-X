@@ -75,7 +75,7 @@ int main(void) {
   }else {
     printf("Err !\n");
   }
-  printf("time: %.4f sec\n", (double)(end - start) / CLOCKS_PER_SEC);
+  printf("time: %.4lf sec\n", (double)(end - start) / CLOCKS_PER_SEC);
   printf("| visited | allocated: %u, used: %u\n", visited.capacity, visited.size);
   printf("| heap    | allocated: %u, used: %u\n", heap.capacity, heap.peak_size);
   printf("| path    | allocated: %u, used: %u\n", path.capacity, path.size);
