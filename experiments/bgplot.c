@@ -5,7 +5,7 @@
  */
 
 int main(void) {
-  e_init("bg/minato.bg");
+  e_init("bg/minato.bg", E_READ_RAM);
   FILE *out = fopen("experiments/bgplot.plt", "w");
 
   for(bgIdx_t i = 0; i < e_header.node_count; i++) {

@@ -3,6 +3,8 @@
 
 #include <beltgraph.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * これは実験をスムーズに行うための、ヘッダオンリーのヘルパーです。
@@ -12,6 +14,7 @@
 
 
 static FILE *e_file = NULL;
+static char *e_file_buffer = NULL;
 static bgReader_t e_reader;
 static bgHeader_t e_header;
 static bgNodeContext_t e_nc;
@@ -19,14 +22,37 @@ static bgWayContext_t e_wc;
 static bgNode_t e_node;
 static bgWay_t e_way;
 
+enum e_read_type {
+  E_READ_RAM,  // bgファイルデータをキャッシュしてから使います
+  E_READ_ROM, // bgファイル直読み
+};
+
+static void e_ram_read_cb(bgOffset_t pos, void *buffer, bgSize_t size) {
+  memcpy(buffer, e_file_buffer + pos, size);
+}
+
 static void e_rom_read_cb(bgOffset_t pos, void *buffer, bgSize_t size) {
   fseek(e_file, pos, SEEK_SET);
   fread(buffer, size, 1, e_file);
 }
 
-static void e_init(const char *file_path) {
+
+static void e_init(const char *file_path, enum e_read_type read_type) {
   e_file = fopen(file_path, "rb");
-  bgReaderCreate(&e_reader, e_rom_read_cb);
+  if(read_type == E_READ_RAM) {
+    fseek(e_file, 0, SEEK_END);
+    long long e_file_size = ftell(e_file);
+    fseek(e_file, 0, SEEK_SET);
+
+    e_file_buffer = malloc(e_file_size);
+    fread(e_file_buffer, 1, e_file_size, e_file);
+  }
+  
+  if(read_type == E_READ_RAM) {
+    bgReaderCreate(&e_reader, e_ram_read_cb);
+  }else {
+    bgReaderCreate(&e_reader, e_rom_read_cb);
+  }
 
   bgHeaderCreate(&e_header);
   bgHeaderFetch(&e_header, &e_reader);
@@ -44,6 +70,8 @@ static void e_init(const char *file_path) {
 
 static void e_end() {
   fclose(e_file);
+  free(e_file_buffer);
+  
   bgReaderDestroy(&e_reader);
 
   bgHeaderDestroy(&e_header);

@@ -5,7 +5,7 @@
  */
 
 int main(void) {
-  e_init("bg/minato.bg");
+  e_init("bg/minato.bg", E_READ_RAM);
   
   bgAStarVisited_t visited;
   bgAStarVisitedCreate(&visited, e_header.node_count, 0);
