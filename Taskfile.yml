@@ -118,3 +118,12 @@ tasks:
         platforms: ["windows"]
       - cmd: "./build/experiments/pathplot"
         platforms: ["darwin", "linux"]
+
+  e-wayindplot:
+    desc: "run experiments/wayindplot.c"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/experiments/wayindplot.exe"
+        platforms: ["windows"]
+      - cmd: "./build/experiments/wayindplot"
+        platforms: ["darwin", "linux"]

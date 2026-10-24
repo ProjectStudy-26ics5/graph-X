@@ -14,3 +14,4 @@ endfunction()
 
 add_experiment(bgplot)
 add_experiment(pathplot)
+add_experiment(wayindplot)
