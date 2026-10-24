@@ -127,3 +127,12 @@ tasks:
         platforms: ["windows"]
       - cmd: "./build/experiments/wayindplot"
         platforms: ["darwin", "linux"]
+
+  e-nodeindplot:
+    desc: "run experiments/nodeindplot.c"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/experiments/nodeindplot.exe"
+        platforms: ["windows"]
+      - cmd: "./build/experiments/nodeindplot"
+        platforms: ["darwin", "linux"]
