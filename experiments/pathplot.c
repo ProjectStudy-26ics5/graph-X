@@ -6,17 +6,7 @@
 
 int main(void) {
   e_init("bg/minato.bg", E_READ_RAM);
-  
-  bgAStarVisited_t visited;
-  bgAStarVisitedCreate(&visited, e_header.node_count, 0);
-  bgAStarHeap_t heap;
-  bgAStarHeapCreate(&heap, e_header.node_count);
-  bgPath_t path;
-  bgPathCreate(&path, e_header.node_count);
-  
   FILE *out = fopen("experiments/pathplot.plt", "w");
-
-
   
   for(bgIdx_t i = 0; i < e_wc.dim; i++) {
     bgWayContextSetWeight(&e_wc, i, 0);
@@ -34,32 +24,25 @@ int main(void) {
     &e_reader, &e_header,
     &e_nc, &e_wc,
     &e_node, &e_way,
-    &visited, &heap,
+    &e_visited, &e_heap,
     start_node_idx, goal_node_idx,
     1,
-    &path
+    &e_path
   );
 
-  for(bgIdx_t i = 1; i < path.size; i++) {
-    bgNodeFetch(&e_node, &e_reader, &e_header, path.node_idx_order[i-1]);
+  for(bgIdx_t i = 1; i < e_path.size; i++) {
+    bgNodeFetch(&e_node, &e_reader, &e_header, e_path.node_idx_order[i-1]);
     double lon = e_node.lon;
     double lat = e_node.lat;
 
-    bgNodeFetch(&e_node, &e_reader, &e_header, path.node_idx_order[i]);
+    bgNodeFetch(&e_node, &e_reader, &e_header, e_path.node_idx_order[i]);
     double dlon = e_node.lon - lon;
     double dlat = e_node.lat - lat;
 
     fprintf(out, "%lf %lf %lf %lf\n", lon, lat, dlon, dlat);
   }
 
-
-
   fclose(out);
-
-  bgAStarVisitedDestroy(&visited);
-  bgAStarHeapDestroy(&heap);
-  bgPathDestroy(&path);
-
   e_end();
   return 0;
 }

@@ -21,9 +21,12 @@ static bgNodeContext_t e_nc;
 static bgWayContext_t e_wc;
 static bgNode_t e_node;
 static bgWay_t e_way;
+static bgAStarVisited_t e_visited;
+static bgAStarHeap_t e_heap;
+static bgPath_t e_path;
 
 enum e_read_type {
-  E_READ_RAM,  // bgファイルデータをキャッシュしてから使います
+  E_READ_RAM, // bgファイルデータをキャッシュしてから使います
   E_READ_ROM, // bgファイル直読み
 };
 
@@ -35,7 +38,6 @@ static void e_rom_read_cb(bgOffset_t pos, void *buffer, bgSize_t size) {
   fseek(e_file, pos, SEEK_SET);
   fread(buffer, size, 1, e_file);
 }
-
 
 static void e_init(const char *file_path, enum e_read_type read_type) {
   e_file = fopen(file_path, "rb");
@@ -66,6 +68,10 @@ static void e_init(const char *file_path, enum e_read_type read_type) {
   bgNodeCreate(&e_node, &e_header);
 
   bgWayCreate(&e_way, &e_header);
+
+  bgAStarVisitedCreate(&e_visited, e_header.node_count, 0);
+  bgAStarHeapCreate(&e_heap, e_header.node_count);
+  bgPathCreate(&e_path, e_header.node_count);
 }
 
 static void e_end() {
@@ -83,6 +89,10 @@ static void e_end() {
   bgNodeDestroy(&e_node);
 
   bgWayDestroy(&e_way);
+
+  bgAStarVisitedDestroy(&e_visited);
+  bgAStarHeapDestroy(&e_heap);
+  bgPathDestroy(&e_path);
 }
 
 #endif
