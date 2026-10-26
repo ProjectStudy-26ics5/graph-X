@@ -8,24 +8,14 @@ int main(void) {
   e_init("bg/minato.bg", E_READ_RAM);
   FILE *out = fopen("experiments/nodeindplot.plt", "w");
 
-  bgIdx_t ind_i;
-  for(bgIdx_t i = 0; i < e_nc.dim; i++) {
-    printf("%u: %s\n", i, bgNodeContextIndicatorName(&e_nc, i));
-  }
-  for(;;) {
-    printf("input node indicator number = ");
-    scanf("%u", &ind_i);
-
-    if(ind_i < e_nc.dim) break;
-    printf("invalid node indicator number !\n");
-  }
+  bgIdx_t ind_idx = e_node_ind_select();
 
   for(bgIdx_t i = 0; i < e_header.node_count; i++) {
     bgNodeFetch(&e_node, &e_reader, &e_header, i);
     double lon = e_node.lon;
     double lat = e_node.lat;
     
-    fprintf(out, "%lf %lf %lf\n", lon, lat, e_node.indicators[ind_i]);
+    fprintf(out, "%lf %lf %lf\n", lon, lat, e_node.indicators[ind_idx]);
   }
 
   fclose(out);

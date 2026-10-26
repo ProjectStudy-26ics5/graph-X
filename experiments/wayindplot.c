@@ -8,17 +8,7 @@ int main(void) {
   e_init("bg/minato.bg", E_READ_RAM);
   FILE *out = fopen("experiments/wayindplot.plt", "w");
 
-  bgIdx_t ind_i;
-  for(bgIdx_t i = 0; i < e_wc.dim; i++) {
-    printf("%u: %s\n", i, bgWayContextIndicatorName(&e_wc, i));
-  }
-  for(;;) {
-    printf("input way indicator number = ");
-    scanf("%u", &ind_i);
-
-    if(ind_i < e_wc.dim) break;
-    printf("invalid way indicator number !\n");
-  }
+  bgIdx_t ind_idx = e_way_ind_select();
 
   for(bgIdx_t i = 0; i < e_header.node_count; i++) {
     bgNodeFetch(&e_node, &e_reader, &e_header, i);
@@ -33,7 +23,7 @@ int main(void) {
 
       double dlon = e_node.lon - lon;
       double dlat = e_node.lat - lat;
-      fprintf(out, "%lf %lf %lf %f %lf\n", lon, lat, dlon, dlat, e_way.indicators[ind_i]);
+      fprintf(out, "%lf %lf %lf %f %lf\n", lon, lat, dlon, dlat, e_way.indicators[ind_idx]);
     }
   }
 

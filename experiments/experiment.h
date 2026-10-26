@@ -9,6 +9,8 @@
 /**
  * これは実験をスムーズに行うための、ヘッダオンリーのヘルパーです。
  * grapher、beltgraphライブラリを代表するものではありません。
+ * 
+ * "e_"から始まる関数やグローバル変数を用意します。
  */
 
 
@@ -39,6 +41,9 @@ static void e_rom_read_cb(bgOffset_t pos, void *buffer, bgSize_t size) {
   fread(buffer, size, 1, e_file);
 }
 
+/**
+ * 実験初期化
+ */
 static void e_init(const char *file_path, enum e_read_type read_type) {
   e_file = fopen(file_path, "rb");
   if(read_type == E_READ_RAM) {
@@ -74,7 +79,10 @@ static void e_init(const char *file_path, enum e_read_type read_type) {
   bgPathCreate(&e_path, e_header.node_count);
 }
 
-static void e_end() {
+/**
+ * 実験終了
+ */
+static void e_end(void) {
   fclose(e_file);
   e_file = NULL;
   free(e_file_buffer);
@@ -97,7 +105,10 @@ static void e_end() {
   bgPathDestroy(&e_path);
 }
 
-static void e_weight_zero() {
+/**
+ * ノードコンテキスト、ウェイコンテキストの、重みをすべて0にする
+ */
+static void e_weight_zero(void) {
   for(bgIdx_t i = 0; i < e_wc.dim; i++) {
     bgWayContextSetWeight(&e_wc, i, 0);
   }
@@ -106,7 +117,10 @@ static void e_weight_zero() {
   }
 }
 
-static void e_weight_input() {
+/**
+ * ノードコンテキスト、ウェイコンテキストの、重みをターミナルから受け取る
+ */
+static void e_weight_input(void) {
   bgWeight_t w;
   for(bgIdx_t i = 0; i < e_wc.dim; i++) {
     printf("%s: %s\n", bgWayContextIndicatorName(&e_wc, i), bgWayContextIndicatorDesc(&e_wc, i));
@@ -120,6 +134,48 @@ static void e_weight_input() {
     scanf("%f", &w);
     bgNodeContextSetWeight(&e_nc, i, w);
   }
+}
+
+/**
+ * ノードの指標番号を、ターミナルから受け取る
+ */
+static bgIdx_t e_node_ind_select(void) {
+  bgIdx_t ind_idx;
+
+  for(bgIdx_t i = 0; i < e_nc.dim; i++) {
+    printf("%u: %s\n", i, bgNodeContextIndicatorName(&e_nc, i));
+  }
+
+  for(;;) {
+    printf("select number = ");
+    scanf("%u", &ind_idx);
+
+    if(ind_idx < e_nc.dim) break;
+    printf("invalid node indicator number !\n");
+  }
+
+  return ind_idx;
+}
+
+/**
+ * ウェイの指標番号を、ターミナルから受け取る
+ */
+static bgIdx_t e_way_ind_select(void) {
+  bgIdx_t ind_idx;
+
+  for(bgIdx_t i = 0; i < e_wc.dim; i++) {
+    printf("%u: %s\n", i, bgWayContextIndicatorName(&e_wc, i));
+  }
+
+  for(;;) {
+    printf("select number = ");
+    scanf("%u", &ind_idx);
+
+    if(ind_idx < e_wc.dim) break;
+    printf("invalid way indicator number !\n");
+  }
+
+  return ind_idx;
 }
 
 #endif
