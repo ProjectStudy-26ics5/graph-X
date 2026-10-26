@@ -178,4 +178,24 @@ static bgIdx_t e_way_ind_select(void) {
   return ind_idx;
 }
 
+/**
+ * 経路探索
+ */
+static void e_astar(bgIdx_t start_node_idx, bgIdx_t goal_node_idx, bgCost_t heuristic_weight) {
+  bgError_t err = bgAStar(
+    &e_reader, &e_header,
+    &e_nc, &e_wc,
+    &e_node, &e_way,
+    &e_visited, &e_heap,
+    start_node_idx, goal_node_idx,
+    heuristic_weight,
+    &e_path
+  );
+
+  if(err != BG_ERROR_OK) {
+    fprintf(stderr, "e_astar: failed.");
+    exit(1);
+  }
+}
+
 #endif

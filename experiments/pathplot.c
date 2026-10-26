@@ -15,15 +15,7 @@ int main(void) {
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.800, 35.635);
   bgIdx_t goal_node_idx = e_node.idx;
 
-  bgAStar(
-    &e_reader, &e_header,
-    &e_nc, &e_wc,
-    &e_node, &e_way,
-    &e_visited, &e_heap,
-    start_node_idx, goal_node_idx,
-    1,
-    &e_path
-  );
+  e_astar(start_node_idx, goal_node_idx, 1);
 
   for(bgIdx_t i = 1; i < e_path.size; i++) {
     bgNodeFetch(&e_node, &e_reader, &e_header, e_path.node_idx_order[i-1]);

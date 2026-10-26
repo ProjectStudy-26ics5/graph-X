@@ -14,32 +14,21 @@
 int main(void) {
   clock_t start, end;
   bgIdx_t start_node_idx, goal_node_idx;
-  bgError_t err;
+  bgCost_t heuristic_weight = 1;
   
-  // RAM
   e_init("bg/minato.bg", E_READ_RAM);
-
-  e_weight_zero();
 
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
   start_node_idx = e_node.idx;
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.800, 35.635);
   goal_node_idx = e_node.idx;
 
+  // RAM
+  e_weight_zero();
   start = clock();
-  err = bgAStar(
-    &e_reader, &e_header,
-    &e_nc, &e_wc,
-    &e_node, &e_way,
-    &e_visited, &e_heap,
-    start_node_idx, goal_node_idx,
-    1,
-    &e_path
-  );
+  e_astar(start_node_idx, goal_node_idx, heuristic_weight);
   end = clock();
-  if(err == BG_ERROR_OK) {
-    printf("RAM A* time: %.4lf sec\n", (double)(end - start) / CLOCKS_PER_SEC);
-  }
+  printf("RAM A* time: %.4lf sec\n", (double)(end - start) / CLOCKS_PER_SEC);
 
   e_end();
 
@@ -47,26 +36,10 @@ int main(void) {
   e_init("bg/minato.bg", E_READ_ROM);
 
   e_weight_zero();
-
-  bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
-  start_node_idx = e_node.idx;
-  bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.800, 35.635);
-  goal_node_idx = e_node.idx;
-
   start = clock();
-  err = bgAStar(
-    &e_reader, &e_header,
-    &e_nc, &e_wc,
-    &e_node, &e_way,
-    &e_visited, &e_heap,
-    start_node_idx, goal_node_idx,
-    1,
-    &e_path
-  );
+  e_astar(start_node_idx, goal_node_idx, heuristic_weight);
   end = clock();
-  if(err == BG_ERROR_OK) {
-    printf("ROM A* time: %.4lf sec\n", (double)(end - start) / CLOCKS_PER_SEC);
-  }
+  printf("ROM A* time: %.4lf sec\n", (double)(end - start) / CLOCKS_PER_SEC);
 
   e_end();
   return 0;
