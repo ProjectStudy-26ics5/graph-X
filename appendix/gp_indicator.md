@@ -1,6 +1,6 @@
 # grapherの指標計算方法
-`beltgraph/README.md`で説明した指標値計算は、正確には指標となる前の評価値($ \bm{E} $)の計算です。
-指標値($ \bm{indicator} $)はこれをさらに加工します。その過程を以下に示します。
+`beltgraph/README.md`で説明した、指標定義での評価値($ \bm{E} $)から、
+指標値($ \bm{indicator} $)に計算する過程を示します。
 
 $$
 \bm{E}_i :=
