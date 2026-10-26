@@ -154,3 +154,12 @@ tasks:
         platforms: ["windows"]
       - cmd: "./build/experiments/nodestepweight"
         platforms: ["darwin", "linux"]
+
+  e-waystepweight:
+    desc: "run experiments/waystepweight.c"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/experiments/waystepweight.exe"
+        platforms: ["windows"]
+      - cmd: "./build/experiments/waystepweight"
+        platforms: ["darwin", "linux"]
