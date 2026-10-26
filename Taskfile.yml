@@ -145,3 +145,12 @@ tasks:
         platforms: ["windows"]
       - cmd: "./build/experiments/pathtime"
         platforms: ["darwin", "linux"]
+
+  e-nodestepweight:
+    desc: "run experiments/nodestepweight.c"
+    deps: ["build"]
+    cmds:
+      - cmd: "./build/experiments/nodestepweight.exe"
+        platforms: ["windows"]
+      - cmd: "./build/experiments/nodestepweight"
+        platforms: ["darwin", "linux"]

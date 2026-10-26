@@ -182,6 +182,10 @@ static bgIdx_t e_way_ind_select(void) {
  * 経路探索
  */
 static void e_astar(bgIdx_t start_node_idx, bgIdx_t goal_node_idx, bgCost_t heuristic_weight) {
+  bgAStarVisitedClear(&e_visited);
+  bgAStarHeapClear(&e_heap);
+  bgPathClear(&e_path);
+  
   bgError_t err = bgAStar(
     &e_reader, &e_header,
     &e_nc, &e_wc,
