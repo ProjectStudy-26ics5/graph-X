@@ -2,6 +2,10 @@
 `bg`は非圧縮のバイナリファイルとして保存され、グラフはCSR(Compressed Sparse Row)形式のような構造を持ちます。
 構造を以下に示します。
 
+> [!IMPORTANT]
+> NodeArray、WayArrayでのNode、Wayのインデックスとidxと呼んでいます。
+> これは、他の説明でも出てきます。
+
 <ul>
   <li>Header
     <ul>
