@@ -1,10 +1,5 @@
 # beltgraphのbgAStarの実装
 ```c
-static bgCost_t heuristic(const bgNode_t *node, double goal_lon, double goal_lat) {
-  bgCost_t manhattan_dist = fabs(goal_lon - node->lon) + fabs(goal_lat - node->lat);
-  return manhattan_dist;
-}
-
 bgError_t bgAStar(
   bgReader_t *reader, const bgHeader_t *header,
   const bgNodeContext_t *nc, const bgWayContext_t *wc,
