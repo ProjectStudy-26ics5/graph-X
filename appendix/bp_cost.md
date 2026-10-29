@@ -168,7 +168,7 @@ $$
 cost = \mu \sum_{i=1}^{k} |\bm{weight}_i \times switch(\bm{indicator}_i)|
 $$
 $$
-\mu = 10000
+\mu = 10^{-4}
 $$
 
 ## ウェイ
