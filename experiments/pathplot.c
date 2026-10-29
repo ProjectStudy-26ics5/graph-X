@@ -29,6 +29,10 @@ int main(void) {
     fprintf(out, "%lf %lf %lf %lf\n", lon, lat, dlon, dlat);
   }
 
+  printf("| visited | allocated: %u, used: %u\n", e_visited.capacity, e_visited.size);
+  printf("| heap    | allocated: %u, used: %u\n", e_heap.capacity, e_heap.peak_size);
+  printf("| path    | allocated: %u, used: %u\n", e_path.capacity, e_path.size);
+
   fclose(out);
   e_end();
   return 0;
