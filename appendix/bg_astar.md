@@ -16,11 +16,20 @@ bgError_t bgAStar(
   bgIdx_t way_idx;
   uint8_t node_transition;
   double goal_lon, goal_lat;
+  bgCost_t weight_sqr;
 
   // ゴール情報を取り出す(heuristicで使うから)
   bgNodeFetch(node, reader, header, goal_node_idx); // nodeはゴールノード
   goal_lon = node->lon;
   goal_lat = node->lat;
+
+  weight_sqr = 1;
+  for(bgIdx_t i = 0; i < nc->dim; i++) {
+    weight_sqr += nc->weights[i] * nc->weights[i];
+  }
+  for(bgIdx_t i = 0; i < wc->dim; i++) {
+    weight_sqr += wc->weights[i] * wc->weights[i];
+  }
 
   // スタートを最初の後継として追加
   err = bgAStarHeapPush(heap, 0, 0, start_node_idx, 0);
@@ -56,7 +65,7 @@ bgError_t bgAStar(
 
       // コスト計算
       g = g + bgNodeCost(node, nc) + bgWayCost(way, wc);
-      h = heuristic(node, goal_lon, goal_lat) * heuristic_weight;
+      h = heuristic(node, goal_lon, goal_lat, weight_sqr) * heuristic_weight;
 
       // 後継を追加
       node_transition = way->reverse_idx - node->way_begin;
@@ -122,10 +131,20 @@ bgError_t bgAStar(
 bgNodeFetch(node, reader, header, goal_node_idx); // nodeはゴールノード
 goal_lon = node->lon;
 goal_lat = node->lat;
+
+weight_sqr = 1;
+for(bgIdx_t i = 0; i < nc->dim; i++) {
+  weight_sqr += nc->weights[i] * nc->weights[i];
+}
+for(bgIdx_t i = 0; i < wc->dim; i++) {
+  weight_sqr += wc->weights[i] * wc->weights[i];
+}
 ```
 
 A\*法のヒューリスティックコストは多くの場合、ゴールまでの距離です。
 ゴールノードの位置を知る必要があるので`bgAStar`最初にデータをフェッチします。
+
+`weight_sqr`については`appendix/bg_cost.md`を参照してください。
 
 > このタイミングで、`bgNodeFetch`により変数`node`の中身がゴールノードになることに注意してください。
 
@@ -237,7 +256,7 @@ for(way_idx = way_begin; way_idx < way_end; way_idx++) {
 ```c
 // コスト計算
 g = g + bgNodeCost(node, nc) + bgWayCost(way, wc);
-h = heuristic(node, goal_lon, goal_lat) * heuristic_weight;
+h = heuristic(node, goal_lon, goal_lat, weight_sqr) * heuristic_weight;
 ```
 `(5) ヒープ取り出し`で出てきた$ g(n) $、$ h(n) $の計算です。
 
