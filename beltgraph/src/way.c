@@ -121,13 +121,12 @@ bgCost_t bgWayCost(const bgWay_t *way, const bgWayContext_t *wc) {
 
   for(bgIdx_t i = 0; i < wc->dim; i++) {
     if(wc->weights[i] > 0) {
-      c += way->indicators[i] * wc->weights[i];
+      c += (1 - way->indicators[i]) * wc->weights[i];
     }else {
-      c += (1 - way->indicators[i]) * -wc->weights[i];
+      c += (way->indicators[i]) * -wc->weights[i];
     }
   }
 
-  c /= wc->dim + 1;
   c *= way->length;
   return c;
 }

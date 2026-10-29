@@ -99,7 +99,7 @@ void bgNodeDestroy(bgNode_t *node) {
   node->way_begin = 0;
   node->way_end = 0;
   node->lon = 0;
-  node->lat;
+  node->lat = 0;
   node->indicators = NULL;
 }
 
@@ -142,13 +142,13 @@ bgCost_t bgNodeCost(const bgNode_t *node, const bgNodeContext_t *nc) {
 
   for(bgIdx_t i = 0; i < nc->dim; i++) {
     if(nc->weights[i] > 0) {
-      c += node->indicators[i] * nc->weights[i];
+      c += (1 - node->indicators[i]) * nc->weights[i];
     }else {
-      c += (1 - node->indicators[i]) * -nc->weights[i];
+      c += (node->indicators[i]) * -nc->weights[i];
     }
   }
 
-  c /= nc->dim;
+  c *= 1.0 / 10000.0;
   return c;
 }
 

@@ -6,6 +6,8 @@
  * ノード重みを-1から1へ変化させて、生成される経路を記録します。
  * #define STEPの数だけ変化させます
  * 指定した重み以外はすべて0です。
+ * 
+ * コスト計算のようにμをかけます。
  */
 
 bgIndicator_t path_total_ind(bgIdx_t ind_idx) {
@@ -13,7 +15,7 @@ bgIndicator_t path_total_ind(bgIdx_t ind_idx) {
   
   for(bgIdx_t i = 0; i < e_path.size; i++) {
     bgNodeFetch(&e_node, &e_reader, &e_header, e_path.node_idx_order[i]);
-    sum += e_node.indicators[ind_idx];
+    sum += e_node.indicators[ind_idx] * 1.0 / 10000.0;
   }
 
   return sum;

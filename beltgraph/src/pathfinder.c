@@ -284,9 +284,9 @@ void bgPathReverse(bgPath_t *path) {
 
 
 
-static bgCost_t heuristic(const bgNode_t *node, double goal_lon, double goal_lat) {
+static bgCost_t heuristic(const bgNode_t *node, double goal_lon, double goal_lat, bgCost_t weight_sqr) {
   bgCost_t manhattan_dist = fabs(goal_lon - node->lon) + fabs(goal_lat - node->lat);
-  return manhattan_dist;
+  return manhattan_dist * weight_sqr;
 }
 
 bgError_t bgAStar(
@@ -305,11 +305,20 @@ bgError_t bgAStar(
   bgIdx_t way_idx;
   uint8_t node_transition;
   double goal_lon, goal_lat;
+  bgCost_t weight_sqr;
 
   // ゴール情報を取り出す(heuristicで使うから)
   bgNodeFetch(node, reader, header, goal_node_idx); // nodeはゴールノード
   goal_lon = node->lon;
   goal_lat = node->lat;
+
+  weight_sqr = 1;
+  for(bgIdx_t i = 0; i < nc->dim; i++) {
+    weight_sqr += nc->weights[i] * nc->weights[i];
+  }
+  for(bgIdx_t i = 0; i < wc->dim; i++) {
+    weight_sqr += wc->weights[i] * wc->weights[i];
+  }
 
   // スタートを最初の後継として追加
   err = bgAStarHeapPush(heap, 0, 0, start_node_idx, 0);
@@ -345,7 +354,7 @@ bgError_t bgAStar(
 
       // コスト計算
       g = g + bgNodeCost(node, nc) + bgWayCost(way, wc);
-      h = heuristic(node, goal_lon, goal_lat) * heuristic_weight;
+      h = heuristic(node, goal_lon, goal_lat, weight_sqr) * heuristic_weight;
 
       // 後継を追加
       node_transition = way->reverse_idx - node->way_begin;

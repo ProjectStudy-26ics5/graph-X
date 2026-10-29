@@ -153,3 +153,36 @@ A\*のヒューリスティックコストには緯度経度のマンハッタ�
 > [!NOTE]
 > コスト関数は頻繁に呼び出されるため、できるだけgrapherで事前計算し、beltgraphで高速に計算できる方が好ましいです。
 > 緯度経度距離を用いたり、平方根、三角関数をあまり使っていない理由でもあります。
+
+$$
+switch(\bm{indicator}_i) = \left\{ 
+  \begin{matrix}
+    (1 - \bm{indicator}_i) & (\bm{weight}_i \ge 0) \\
+    \bm{indicator}_i & (\bm{weight}_i < 0) \\
+  \end{matrix}
+\right\}
+$$
+
+## ノード
+$$
+cost = \mu \sum_{i=1}^{k} |\bm{weight}_i \times switch(\bm{indicator}_i)|
+$$
+$$
+\mu = 10000
+$$
+
+## ウェイ
+$$
+cost = length \left[
+  1 + \sum_{i=1}^{l} |\bm{weight}_i \times switch(\bm{indicator}_i)|
+\right]
+$$
+
+## ヒューリスティック
+$$
+heuristic = manhattan\_distance \left[
+  1 +
+  \sum_{i=1}^{k} \bm{node\_weight}_i^2 +
+  \sum_{i=1}^{l} \bm{way\_weight}_i^2
+\right]
+$$
