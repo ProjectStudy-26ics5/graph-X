@@ -30,7 +30,7 @@ bgIndicator_t path_total_ind(bgIdx_t ind_idx) {
 
 int main(void) {
   e_init("bg/minato.bg", E_READ_RAM);
-  FILE *out = fopen("experiments/waystepweight.plt", "w");
+  FILE *out = fopen(e_output_path("waystepweight.plt"), "w");
 
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
   bgIdx_t start_node_idx = e_node.idx;

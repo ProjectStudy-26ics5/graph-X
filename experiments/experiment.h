@@ -13,7 +13,23 @@
  * "e_"から始まる関数やグローバル変数を用意します。
  */
 
+static const char *e_env(const char *name, const char *fallback) {
+  const char *value = getenv(name);
+  return value ? value : fallback;
+}
 
+static double e_lon(const char *name, double fallback) {
+  const char *value = getenv(name);
+  return value ? atof(value) : fallback;
+}
+
+static char e_output[512];
+
+static const char *e_output_path(const char *name) {
+  snprintf(e_output, sizeof(e_output), "%s/%s",
+    e_env("RESULT_DIR", "experiments"), name);
+  return e_output;
+}
 
 static FILE *e_file = NULL;
 static char *e_file_buffer = NULL;
@@ -45,14 +61,12 @@ static void e_rom_read_cb(bgOffset_t pos, void *buffer, bgSize_t size) {
  * 実験初期化
  */
 static void e_init(const char *file_path, enum e_read_type read_type) {
+  file_path = e_env("BG_FILE", file_path);
   e_file = fopen(file_path, "rb");
-  if(read_type == E_READ_RAM) {
-    fseek(e_file, 0, SEEK_END);
-    long long e_file_size = ftell(e_file);
-    fseek(e_file, 0, SEEK_SET);
 
-    e_file_buffer = malloc(e_file_size);
-    fread(e_file_buffer, 1, e_file_size, e_file);
+  if (!e_file) {
+    perror(file_path);
+    exit(1);
   }
   
   if(read_type == E_READ_RAM) {

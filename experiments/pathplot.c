@@ -6,7 +6,7 @@
 
 int main(void) {
   e_init("bg/minato.bg", E_READ_RAM);
-  FILE *out = fopen("experiments/pathplot.plt", "w");
+  FILE *out = fopen(e_output_path("pathplot.plt"), "w");
   
   e_weight_input();
 

@@ -6,7 +6,7 @@
 
 int main(void) {
   e_init("bg/minato.bg", E_READ_RAM);
-  FILE *out = fopen("experiments/wayindplot.plt", "w");
+  FILE *out = fopen(e_output_path("wayindplot.plt"), "w");
 
   bgIdx_t ind_idx = e_way_ind_select();
 

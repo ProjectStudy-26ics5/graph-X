@@ -6,7 +6,7 @@
 
 int main(void) {
   e_init("bg/minato.bg", E_READ_RAM);
-  FILE *out = fopen("experiments/bgplot.plt", "w");
+  FILE *out = fopen(e_output_path("bgplot.plt"), "w");
 
   for(bgIdx_t i = 0; i < e_header.node_count; i++) {
     bgNodeFetch(&e_node, &e_reader, &e_header, i);
