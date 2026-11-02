@@ -16,7 +16,14 @@ int main(void) {
   bgIdx_t start_node_idx, goal_node_idx;
   bgCost_t heuristic_weight = 1;
   
-  e_init("bg/minato.bg", E_READ_RAM);
+  const char *bg_file = getenv("BG_FILE");
+
+if(bg_file == NULL) {
+  fprintf(stderr, "BG_FILE is not set\n");
+  return 1;
+}
+
+e_init(bg_file, E_READ_RAM);
 
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
   start_node_idx = e_node.idx;

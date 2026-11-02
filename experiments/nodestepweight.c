@@ -22,7 +22,14 @@ bgIndicator_t path_total_ind(bgIdx_t ind_idx) {
 }
 
 int main(void) {
-  e_init("bg/minato.bg", E_READ_RAM);
+  const char *bg_file = getenv("BG_FILE");
+
+if(bg_file == NULL) {
+  fprintf(stderr, "BG_FILE is not set\n");
+  return 1;
+}
+
+  e_init(bg_file, E_READ_RAM);
   FILE *out = fopen(e_output_path("nodestepweight.plt"), "w");
 
   bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
