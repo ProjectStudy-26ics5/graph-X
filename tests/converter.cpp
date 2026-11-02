@@ -1,6 +1,7 @@
 #include <grapher.hpp>
 #include <cmath>
 #include <string>
+#include <cstdio>
 
 /* Node */
 class Rank : public gp::NodeEvaluator {
@@ -311,7 +312,13 @@ class Slope : public gp::WayEvaluator {
 
 
 
-int main(void) {
+int main(int argc, char *argv[]) {
+  if (argc != 2) {
+    fprintf(stderr, "Usage: %s <region>\n", argv[0]);
+    return 1;
+  }
+
+  std::string region = argv[1];
   Rank rank;
   TrafficSignal trafficSignal;
 
@@ -349,7 +356,10 @@ int main(void) {
     &sidewalk
   });
 
-  gp::Graph graph("osm/minato.osm.pbf", nc, wc);
-  graph.write("bg/minato");
+  std::string input = "data/" + region + "/source.osm.pbf";
+  std::string output = "data/" + region + "/graph";
+
+  gp::Graph graph(input.c_str(), nc, wc);
+  graph.write(output.c_str());
   return 0;
 }

@@ -70,10 +70,34 @@ static void e_init(const char *file_path, enum e_read_type read_type) {
   }
   
   if(read_type == E_READ_RAM) {
+    if(fseek(e_file, 0, SEEK_END) != 0) {
+        perror("fseek");
+        exit(1);
+    }
+
+    long file_size = ftell(e_file);
+    if(file_size < 0) {
+        perror("ftell");
+        exit(1);
+    }
+
+    rewind(e_file);
+
+    e_file_buffer = malloc((size_t)file_size);
+    if(!e_file_buffer) {
+        perror("malloc");
+        exit(1);
+    }
+
+    if(fread(e_file_buffer, 1, (size_t)file_size, e_file) != (size_t)file_size) {
+        perror("fread");
+        exit(1);
+    }
+
     bgReaderCreate(&e_reader, e_ram_read_cb);
-  }else {
+} else {
     bgReaderCreate(&e_reader, e_rom_read_cb);
-  }
+}
 
   bgHeaderCreate(&e_header);
   bgHeaderFetch(&e_header, &e_reader);
