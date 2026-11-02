@@ -1,0 +1,2 @@
+RAM A* time: 0.0065 sec
+ROM A* time: 0.6225 sec
