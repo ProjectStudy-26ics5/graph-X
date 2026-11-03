@@ -27,7 +27,7 @@ static char e_output[512];
 
 static const char *e_output_path(const char *name) {
   snprintf(e_output, sizeof(e_output), "%s/%s",
-    e_env("RESULT_DIR", "experiments"), name);
+    e_env("RESULT_DIR", "experiments"), e_env("RESULT_FILE", name));
   return e_output;
 }
 
