@@ -42,6 +42,7 @@ do
   sudo -E task e-waystepweight <<< $i
   echo ${NAMES_WAY[$i]} >> ${DIR}/correlation.txt
   ./experiments/correlation ${DIR}/waystepweight_${NAMES_WAY[$i]}.plt >> ${DIR}/correlation.txt
+  echo -e >> ${DIR}/correlation.txt
   echo -e
 done
 
@@ -55,6 +56,7 @@ do
   sudo -E task e-nodestepweight <<< $i
   echo ${NAMES_NODE[$i]} >> ${DIR}/correlation.txt
   ./experiments/correlation ${DIR}/nodestepweight_${NAMES_NODE[$i]}.plt >> ${DIR}/correlation.txt
+  echo -e >> ${DIR}/correlation.txt
   echo -e
 done
 
