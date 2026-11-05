@@ -5,6 +5,3 @@
 
 **/*.plt
 build-wsl/
-
-experiments/correlation
-experiments/correlation.txt
