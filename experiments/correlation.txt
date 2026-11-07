@@ -1,45 +1,30 @@
 width
--0.477496
 
 surface
-0.889537
 
 lanes
-0.850436
 
 cycle_lane
-0.000000
 
 oneway
-0.861586
 
 maxspeed
-0.904231
 
 height
-0.000000
 
 surface_detail
-0.913732
 
 lit
-0.831345
 
 barrier
-0.889602
 
 tracktype
-0.889602
 
 sac_scale
-0.889602
 
 sidewalk
-0.000000
 
 rank
--0.302714
 
 traffic_signal
-0.428823
 
