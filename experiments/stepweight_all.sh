@@ -1,36 +1,63 @@
-#!/bin/bash
-set -euo pipefail
-cd "$(dirname "$0")/.."
+#!/usr/bin/bash
 
-run() {
-    local region="$1"
-    local type="$2"
-    local index="$3"
-    local indicator="$4"
-    local program="./build/experiments/${type}stepweight"
-    local filename="${type}_stepweight_${type^}_${indicator}.plt"
+# 相関係数用データ集め自動化スクリプト
+# 全指標についてwaystepweight，nodestepweightを実行し，それぞれ別ファイルに保存します。
 
-    echo "===== $region / $filename ====="
+# 変数宣言
+export BG_FILE="bg/minato.bg"
+DIR="$(pwd)/experiments"
+NAMES_WAY=(
+  "width" 
+  "surface" 
+  "lanes" 
+  "cycle_lane" 
+  "oneway" 
+  "maxspeed" 
+  "height" 
+  "surface_detail" 
+  "lit" 
+  "barrier" 
+  "tracktype" 
+  "sac_scale" 
+  "sidewalk"
+)
+NAMES_NODE=(
+  "rank" 
+  "traffic_signal"
+)
 
-    REGION="$region" \
-    BG_FILE="data/$region/graph.bg" \
-    RESULT_DIR="data/$region/experiments" \
-    RESULT_FILE="$filename" \
-    "$program" < <(yes "$index")
-}
+# init
+if [ -e ${DIR}/correlation.txt ]; then
+  rm ${DIR}/correlation.txt
+fi
+cc ${DIR}/correlation.c -o ${DIR}/correlation -lm
 
-for region in minato hachijo edogawa nerima takao; do
-    [[ -f "data/$region/graph.bg" ]] || {
-        echo "ERROR: data/$region/graph.bg not found" >&2
-        exit 1
-    }
-
-    mkdir -p "data/$region/experiments"
-
-    run "$region" way 0 width
-    run "$region" way 1 surface
-    run "$region" node 0 rank
-    run "$region" node 1 traffic_signal
+# waystepweight
+for i in {0..12}
+do
+  if [ -e ${DIR}/waystepweight_${NAMES_WAY[$i]}.plt ]; then
+    rm ${DIR}/waystepweight_${NAMES_WAY[$i]}.plt
+  fi
+  export RESULT_FILE="waystepweight_${NAMES_WAY[$i]}.plt"
+  ./build/experiments/waystepweight <<< $i
+  echo ${NAMES_WAY[$i]} >> ${DIR}/correlation.txt
+  ./experiments/correlation ${DIR}/waystepweight_${NAMES_WAY[$i]}.plt >> ${DIR}/correlation.txt
+  echo -e >> ${DIR}/correlation.txt
+  echo -e
 done
 
-echo "All experiments completed."
+# nodestepweight
+for i in {0..1}
+do
+  if [ -e ${DIR}/nodestepweight_${NAMES_NODE[$i]}.plt ]; then
+      rm ${DIR}/nodestepweight_${NAMES_NODE[$i]}.plt
+  fi
+  export RESULT_FILE="nodestepweight_${NAMES_NODE[$i]}.plt"
+  ./build/experiments/nodestepweight <<< $i
+  echo ${NAMES_NODE[$i]} >> ${DIR}/correlation.txt
+  ./experiments/correlation ${DIR}/nodestepweight_${NAMES_NODE[$i]}.plt >> ${DIR}/correlation.txt
+  echo -e >> ${DIR}/correlation.txt
+  echo -e
+done
+
+echo -e

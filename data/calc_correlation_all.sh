@@ -39,16 +39,16 @@ fi
 for i in {0..12}
 do
   export RESULT_DIR="${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}"
-  if [ ! -e ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]} ]; then
-    mkdir ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}
-  fi
-  if [ -e ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}/waystepweight.plt ]; then
-    rm ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}/waystepweight.plt
-  fi
-  touch ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}/waystepweight.plt
-  ./build/experiments/waystepweight <<< $i
+  # if [ ! -e ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]} ]; then
+  #   mkdir ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}
+  # fi
+  # if [ -e ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}/waystepweight.plt ]; then
+  #   rm ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}/waystepweight.plt
+  # fi
+  # touch ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}/waystepweight.plt
+  # ./build/experiments/waystepweight <<< $i
   echo ${NAMES_WAY[$i]} >> ${SOURCE_DIR}/experiments/correlation.txt
-  ${PROGRAM_DIR}/correlation ${SOURCE_DIR}/experiments/waystepweight/${NAMES_WAY[$i]}/waystepweight.plt >> ${SOURCE_DIR}/experiments/correlation.txt
+  ${PROGRAM_DIR}/correlation ${SOURCE_DIR}/experiments/way_stepweight_Way_${NAMES_WAY[$i]}.plt >> ${SOURCE_DIR}/experiments/correlation.txt
   echo -e >> ${SOURCE_DIR}/experiments/correlation.txt
   echo -e
 done
@@ -56,16 +56,16 @@ done
 for i in {0..1}
 do
   export RESULT_DIR="${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}"
-  if [ ! -e ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]} ]; then
-    mkdir ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}
-  fi
-  if [ -e ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}/nodestepweight.plt ]; then
-    rm ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}/nodestepweight.plt
-  fi
-  touch ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}/nodestepweight.plt
-  echo ${NAMES_NODE[$i]} >> ${SOURCE_DIR}/experiments/correlation.txt
-  ./build/experiments/nodestepweight <<< $i
-  ${PROGRAM_DIR}/correlation ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}/nodestepweight.plt >> ${SOURCE_DIR}/experiments/correlation.txt
+  # if [ ! -e ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]} ]; then
+  #   mkdir ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}
+  # fi
+  # if [ -e ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}/nodestepweight.plt ]; then
+  #   rm ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}/nodestepweight.plt
+  # fi
+  # touch ${SOURCE_DIR}/experiments/nodestepweight/${NAMES_NODE[$i]}/nodestepweight.plt
+  # echo ${NAMES_NODE[$i]} >> ${SOURCE_DIR}/experiments/correlation.txt
+  # ./build/experiments/nodestepweight <<< $i
+  ${PROGRAM_DIR}/correlation ${SOURCE_DIR}/experiments/node_stepweight_Node_${NAMES_NODE[$i]}.plt >> ${SOURCE_DIR}/experiments/correlation.txt
   echo -e >> ${SOURCE_DIR}/experiments/correlation.txt
   echo -e
 done

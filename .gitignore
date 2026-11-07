@@ -5,3 +5,5 @@
 
 **/*.plt
 build-wsl/
+
+**/correlation.txt
