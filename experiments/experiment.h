@@ -240,4 +240,31 @@ static void e_astar(bgIdx_t start_node_idx, bgIdx_t goal_node_idx, bgCost_t heur
   }
 }
 
+
+/**
+ * 指標名からノード指標番号を取得
+ */
+static bgIdx_t e_node_ind_find(const char *name) {
+  for(bgIdx_t i = 0; i < e_nc.dim; i++) {
+    if(strcmp(bgNodeContextIndicatorName(&e_nc, i), name) == 0) {
+      return i;
+    }
+  }
+  fprintf(stderr, "node indicator not found: %s\n", name);
+  exit(1);
+}
+
+/**
+ * 指標名からウェイ指標番号を取得
+ */
+static bgIdx_t e_way_ind_find(const char *name) {
+  for(bgIdx_t i = 0; i < e_wc.dim; i++) {
+    if(strcmp(bgWayContextIndicatorName(&e_wc, i), name) == 0) {
+      return i;
+    }
+  }
+  fprintf(stderr, "way indicator not found: %s\n", name);
+  exit(1);
+}
+
 #endif

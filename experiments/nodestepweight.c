@@ -32,13 +32,13 @@ if(bg_file == NULL) {
   e_init(bg_file, E_READ_RAM);
   FILE *out = fopen(e_output_path("nodestepweight.plt"), "w");
 
-  bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.751, 35.635);
+  bgNodeFetchNearest(&e_node, &e_reader, &e_header, e_lon("START_LON", 139.751), e_lon("START_LAT", 35.635));
   bgIdx_t start_node_idx = e_node.idx;
-  bgNodeFetchNearest(&e_node, &e_reader, &e_header, 139.800, 35.635);
+  bgNodeFetchNearest(&e_node, &e_reader, &e_header, e_lon("GOAL_LON", 139.800), e_lon("GOAL_LAT", 35.635));
   bgIdx_t goal_node_idx = e_node.idx;
 
   e_weight_zero();
-  bgIdx_t ind_idx = e_node_ind_select();
+  bgIdx_t ind_idx = e_node_ind_find(e_env("INDICATOR", "rank"));
 
   for(int i = 0; i <= STEP; i++) {
     bgWeight_t w = (2.0 / STEP) * i - 1.0;
