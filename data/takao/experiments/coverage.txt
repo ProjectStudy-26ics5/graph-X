@@ -1,0 +1,19 @@
+========== Way indicators ==========
+PBF: data/takao/source.osm.pbf
+Total highway Ways: 9088
+
+Tag                      Registered          Total        Rate
+width                            44           9088       0.48%
+surface                         947           9088      10.42%
+
+========== Node indicators ==========
+Graph: data/takao/graph.bg
+Total Nodes: 42180
+
+Indicator                  Non-zero          Total        Rate
+rank                           9417          42180      22.33%
+traffic_signal                  401          42180       0.95%
+
+rank min: 0.00
+rank max: 1.00
+rank mean: 0.06

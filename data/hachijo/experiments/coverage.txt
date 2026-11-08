@@ -1,0 +1,19 @@
+========== Way indicators ==========
+PBF: data/hachijo/source.osm.pbf
+Total highway Ways: 2534
+
+Tag                      Registered          Total        Rate
+width                             0           2534       0.00%
+surface                          15           2534       0.59%
+
+========== Node indicators ==========
+Graph: data/hachijo/graph.bg
+Total Nodes: 26649
+
+Indicator                  Non-zero          Total        Rate
+rank                           3135          26649      11.76%
+traffic_signal                   13          26649       0.05%
+
+rank min: 0.00
+rank max: 1.00
+rank mean: 0.05

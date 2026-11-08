@@ -1,0 +1,19 @@
+========== Way indicators ==========
+PBF: data/minato/source.osm.pbf
+Total highway Ways: 16088
+
+Tag                      Registered          Total        Rate
+width                            87          16088       0.54%
+surface                        6541          16088      40.66%
+
+========== Node indicators ==========
+Graph: data/minato/graph.bg
+Total Nodes: 58247
+
+Indicator                  Non-zero          Total        Rate
+rank                          18273          58247      31.37%
+traffic_signal                 1141          58247       1.96%
+
+rank min: 0.00
+rank max: 1.00
+rank mean: 0.06

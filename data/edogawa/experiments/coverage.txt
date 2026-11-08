@@ -1,0 +1,19 @@
+========== Way indicators ==========
+PBF: data/edogawa/source.osm.pbf
+Total highway Ways: 23256
+
+Tag                      Registered          Total        Rate
+width                            45          23256       0.19%
+surface                        5728          23256      24.63%
+
+========== Node indicators ==========
+Graph: data/edogawa/graph.bg
+Total Nodes: 89919
+
+Indicator                  Non-zero          Total        Rate
+rank                          34125          89919      37.95%
+traffic_signal                 1206          89919       1.34%
+
+rank min: 0.00
+rank max: 1.00
+rank mean: 0.07

@@ -1,0 +1,19 @@
+========== Way indicators ==========
+PBF: data/nerima/source.osm.pbf
+Total highway Ways: 11339
+
+Tag                      Registered          Total        Rate
+width                            57          11339       0.50%
+surface                        1199          11339      10.57%
+
+========== Node indicators ==========
+Graph: data/nerima/graph.bg
+Total Nodes: 38558
+
+Indicator                  Non-zero          Total        Rate
+rank                          14664          38558      38.03%
+traffic_signal                  483          38558       1.25%
+
+rank min: 0.00
+rank max: 1.00
+rank mean: 0.12
