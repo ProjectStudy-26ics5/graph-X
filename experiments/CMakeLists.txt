@@ -30,3 +30,5 @@ target_link_libraries(coverage PRIVATE
   BZip2::BZip2
   ZLIB::ZLIB
 )
+add_executable(visualizer ../visualizer/main.cpp)
+target_link_libraries(visualizer PRIVATE PS::beltgraph)

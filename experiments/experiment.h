@@ -83,7 +83,7 @@ static void e_init(const char *file_path, enum e_read_type read_type) {
 
     rewind(e_file);
 
-    e_file_buffer = malloc((size_t)file_size);
+    e_file_buffer = (char *)malloc((size_t)file_size);
     if(!e_file_buffer) {
         perror("malloc");
         exit(1);
