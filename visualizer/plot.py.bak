@@ -1,0 +1,342 @@
+import json
+import csv
+from pathlib import Path
+
+import matplotlib
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.collections import LineCollection
+from matplotlib.lines import Line2D
+from matplotlib.colors import Normalize
+
+BASE = Path(__file__).resolve().parent
+
+indicators = ["width", "rank", "traffic_signal"]
+
+labels = {
+    "width": "Road width",
+    "rank": "Node rank",
+    "traffic_signal": "Traffic signal",
+}
+
+cmap = plt.get_cmap("coolwarm")
+norm = Normalize(vmin=-1, vmax=1)
+
+# --------------------------------------------------
+# データ読み込み
+# --------------------------------------------------
+
+with open(BASE / "network.json", encoding="utf-8") as f:
+    network = json.load(f)
+
+with open(BASE / "paths.json", encoding="utf-8") as f:
+    paths = json.load(f)["paths"]
+
+with open(BASE / "metrics.csv", encoding="utf-8") as f:
+    metrics = list(csv.DictReader(f))
+
+edges = np.asarray(network["edges"], dtype=float)
+nodes = np.asarray(
+    [
+        [np.nan if v is None else v for v in row]
+        for row in network["nodes"]
+    ],
+    dtype=float,
+)
+
+if edges.size == 0:
+    raise ValueError("network.json に道路データがありません")
+
+print(f"Road edges: {len(edges)}")
+print(f"Network nodes: {len(nodes)}")
+print(f"Route paths: {len(paths)}")
+
+# --------------------------------------------------
+# 地図範囲
+# --------------------------------------------------
+
+all_lats = np.concatenate([edges[:, 0], edges[:, 2]])
+all_lons = np.concatenate([edges[:, 1], edges[:, 3]])
+
+center_lat = np.mean(all_lats)
+aspect = 1.0 / np.cos(np.radians(center_lat))
+
+lon_min, lon_max = np.min(all_lons), np.max(all_lons)
+lat_min, lat_max = np.min(all_lats), np.max(all_lats)
+
+lon_margin = (lon_max - lon_min) * 0.03
+lat_margin = (lat_max - lat_min) * 0.03
+
+def setup_map(ax):
+    ax.set_xlim(lon_min - lon_margin, lon_max + lon_margin)
+    ax.set_ylim(lat_min - lat_margin, lat_max + lat_margin)
+    ax.set_aspect(aspect)
+    ax.set_xlabel("Longitude")
+    ax.set_ylabel("Latitude")
+    ax.grid(alpha=0.2)
+
+# --------------------------------------------------
+# 1. 指標値ヒートマップ
+# --------------------------------------------------
+
+# width：道路区間ごとの指標値
+width_segments = [
+    [(e[1], e[0]), (e[3], e[2])]
+    for e in edges
+]
+
+width_values = edges[:, 4]
+
+fig, ax = plt.subplots(figsize=(11, 10))
+
+valid = np.isfinite(width_values)
+
+ax.add_collection(
+    LineCollection(
+        [width_segments[i] for i in np.where(~valid)[0]],
+        colors="lightgray",
+        linewidths=0.5,
+        alpha=0.5,
+    )
+)
+
+collection = LineCollection(
+    [width_segments[i] for i in np.where(valid)[0]],
+    cmap="coolwarm",
+    norm=Normalize(vmin=0, vmax=1),
+    linewidths=1.2,
+)
+
+collection.set_array(width_values[valid])
+ax.add_collection(collection)
+
+setup_map(ax)
+ax.set_title("Road width indicator distribution")
+fig.colorbar(collection, ax=ax, label="Width indicator value")
+fig.tight_layout()
+fig.savefig(BASE / "heatmap_width.png", dpi=300)
+plt.close(fig)
+
+print("Generated: heatmap_width.png")
+
+# rank・traffic_signal：ノードごとの指標値
+for column, indicator in [(2, "rank"), (3, "traffic_signal")]:
+
+    values = nodes[:, column]
+    valid = np.isfinite(values)
+
+    fig, ax = plt.subplots(figsize=(11, 10))
+
+    ax.scatter(
+        nodes[~valid, 1],
+        nodes[~valid, 0],
+        c="lightgray",
+        s=2,
+        alpha=0.3,
+    )
+
+    scatter = ax.scatter(
+        nodes[valid, 1],
+        nodes[valid, 0],
+        c=values[valid],
+        cmap="coolwarm",
+        vmin=0,
+        vmax=1,
+        s=5,
+        alpha=0.85,
+    )
+
+    setup_map(ax)
+    ax.set_title(f"{labels[indicator]} distribution")
+    fig.colorbar(scatter, ax=ax, label="Indicator value")
+    fig.tight_layout()
+    fig.savefig(BASE / f"heatmap_{indicator}.png", dpi=300)
+    plt.close(fig)
+
+    print(f"Generated: heatmap_{indicator}.png")
+
+# --------------------------------------------------
+# 2. 経路比較図：重複道路区間を1回だけ描画
+# --------------------------------------------------
+
+for indicator in indicators:
+
+    selected = [
+        p for p in paths
+        if p["indicator"] == indicator
+    ]
+
+    # 道路区間を座標から識別し、使用した重みを集約
+    segment_data = {}
+
+    for p in selected:
+        coords = np.asarray(p["coordinates"], dtype=float)
+        weight = float(p["weight"])
+
+        for i in range(len(coords) - 1):
+            a = tuple(np.round(coords[i], 7))
+            b = tuple(np.round(coords[i + 1], 7))
+
+            # 方向が逆でも同じ道路区間として扱う
+            key = tuple(sorted((a, b)))
+
+            if key not in segment_data:
+                segment_data[key] = {
+                    "points": [
+                        (a[1], a[0]),
+                        (b[1], b[0]),
+                    ],
+                    "weights": set(),
+                }
+
+            segment_data[key]["weights"].add(weight)
+
+    unique_segments = []
+    unique_colors = []
+    shared_segments = []
+
+    for data in segment_data.values():
+
+        if len(data["weights"]) > 1:
+            # 複数の重みに共通する区間
+            shared_segments.append(data["points"])
+        else:
+            # その重みに固有の区間
+            weight = next(iter(data["weights"]))
+            unique_segments.append(data["points"])
+            unique_colors.append(cmap(norm(weight)))
+
+    fig, ax = plt.subplots(figsize=(11, 10))
+
+    # 背景ネットワーク
+    ax.add_collection(
+        LineCollection(
+            [
+                [(e[1], e[0]), (e[3], e[2])]
+                for e in edges
+            ],
+            colors="lightgray",
+            linewidths=0.3,
+            alpha=0.35,
+            zorder=1,
+        )
+    )
+
+    # 共通区間は一度だけ灰色で描画
+    if shared_segments:
+        ax.add_collection(
+            LineCollection(
+                shared_segments,
+                colors="dimgray",
+                linewidths=2.0,
+                alpha=0.9,
+                zorder=3,
+            )
+        )
+
+    # 固有区間を重みに応じた色で描画
+    if unique_segments:
+        ax.add_collection(
+            LineCollection(
+                unique_segments,
+                colors=unique_colors,
+                linewidths=1.8,
+                alpha=0.9,
+                zorder=4,
+            )
+        )
+
+    setup_map(ax)
+    ax.set_title(
+        f"Route comparison: {labels[indicator]}\n"
+        f"Unique segments: {len(unique_segments)}, "
+        f"Shared segments: {len(shared_segments)}"
+    )
+
+    # 重みの連続カラーバー
+    sm = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
+    sm.set_array([])
+    fig.colorbar(sm, ax=ax, label="Weight")
+
+    shared_legend = Line2D(
+        [0], [0],
+        color="dimgray",
+        linewidth=2,
+        label="Shared by multiple weights",
+    )
+    ax.legend(handles=[shared_legend], loc="best")
+
+    fig.tight_layout()
+    output = BASE / f"route_{indicator}.png"
+    fig.savefig(output, dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+    print(f"Generated: {output.name}")
+
+# --------------------------------------------------
+# 3. 重みと経路長の関係
+# --------------------------------------------------
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 9))
+
+for ax, indicator in zip(axes.flat, indicators):
+
+    rows = [
+        r for r in metrics
+        if r["indicator"] == indicator
+    ]
+
+    rows.sort(key=lambda r: float(r["weight"]))
+
+    weights = np.array([float(r["weight"]) for r in rows])
+    lengths = np.array([float(r["path_length_m"]) for r in rows])
+
+    ax.plot(weights, lengths, linewidth=1.2)
+    ax.set_title(labels[indicator])
+    ax.set_xlabel("Weight")
+    ax.set_ylabel("Path length")
+    ax.grid(alpha=0.3)
+
+fig.suptitle("Relationship between weight and path length")
+fig.tight_layout()
+fig.savefig(BASE / "metrics.png", dpi=300)
+plt.close(fig)
+
+# --------------------------------------------------
+# 4. 重みと経路上の指標平均値の関係
+# --------------------------------------------------
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 9))
+
+for ax, indicator in zip(axes.flat, indicators):
+
+    rows = [
+        r for r in metrics
+        if r["indicator"] == indicator
+    ]
+
+    rows.sort(key=lambda r: float(r["weight"]))
+
+    weights = np.array([float(r["weight"]) for r in rows])
+    means = np.array([float(r["indicator_mean"]) for r in rows])
+
+    ax.plot(weights, means, linewidth=1.2)
+    ax.set_title(labels[indicator])
+    ax.set_xlabel("Weight")
+    ax.set_ylabel("Mean indicator value")
+    ax.grid(alpha=0.3)
+
+fig.suptitle("Relationship between weight and indicator value")
+fig.tight_layout()
+fig.savefig(BASE / "indicator_means.png", dpi=300)
+plt.close(fig)
+
+# --------------------------------------------------
+# 完了
+# --------------------------------------------------
+
+print("\nAll figures generated:")
+for p in sorted(BASE.glob("*.png")):
+    print(p.name)

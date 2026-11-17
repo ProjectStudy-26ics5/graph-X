@@ -6,4 +6,6 @@
 **/*.plt
 build-wsl/
 
-**/correlation.txt
+**/correlation.txt*.osm.pbf
+
+*.osm.pbf

@@ -54,15 +54,16 @@ int main(int argc, char **argv) {
     const double goal_lon = atof(argv[4]);
     const double goal_lat = atof(argv[5]);
 
-    // 使用する4指標を名前で特定する
+    // 使用する3指標を名前で特定する
     Experiment experiments[] = {
         {"width", false, 0},
         {"rank", true, 0},
-        {"surface", false, 0},
         {"traffic_signal", true, 0}
     };
 
-    const int experiment_count = 4;
+    const int experiment_count =
+        sizeof(experiments) / sizeof(experiments[0]);
+    const int weight_count = 1000;
 
     for (auto &exp : experiments) {
         if (!find_indicator(exp.is_node, exp.name, exp.index)) {
@@ -86,7 +87,8 @@ int main(int argc, char **argv) {
     std::cout << "Start node: " << start_idx
               << ", Goal node: " << goal_idx << "\n";
 
-    // 道路ネットワークを書き出す
+
+    // 道路ネットワークと指標値を書き出す
     {
         std::ofstream net("visualizer/network.json");
         if (!net) {
@@ -94,6 +96,18 @@ int main(int argc, char **argv) {
             e_end();
             return 1;
         }
+
+        const bgIdx_t width_idx = experiments[0].index;
+        const bgIdx_t rank_idx = experiments[1].index;
+        const bgIdx_t signal_idx = experiments[2].index;
+
+        auto write_value = [&](double value) {
+            if (std::isfinite(value)) {
+                net << value;
+            } else {
+                net << "null";
+            }
+        };
 
         net << std::setprecision(10);
         net << "{\n\"edges\": [\n";
@@ -111,6 +125,9 @@ int main(int argc, char **argv) {
 
                 bgWayFetch(&e_way, &e_reader, &e_header, w);
 
+                const double width_value =
+                    e_way.indicators[width_idx];
+
                 bgNodeFetch(
                     &e_node, &e_reader, &e_header, e_way.to
                 );
@@ -120,12 +137,29 @@ int main(int argc, char **argv) {
 
                 net << "["
                     << from_lat << "," << from_lon << ","
-                    << e_node.lat << "," << e_node.lon
-                    << "]";
-                
-                // 次のループで参照するノードを再取得する
+                    << e_node.lat << "," << e_node.lon << ",";
+                write_value(width_value);
+                net << "]";
+
                 bgNodeFetch(&e_node, &e_reader, &e_header, n);
             }
+        }
+
+        net << "\n],\n\"nodes\": [\n";
+
+        for (bgIdx_t n = 0; n < e_header.node_count; ++n) {
+            bgNodeFetch(&e_node, &e_reader, &e_header, n);
+
+            if (n) net << ",\n";
+
+            net << "["
+                << e_node.lat << "," << e_node.lon << ",";
+
+            write_value(e_node.indicators[rank_idx]);
+            net << ",";
+
+            write_value(e_node.indicators[signal_idx]);
+            net << "]";
         }
 
         net << "\n]}\n";
@@ -152,11 +186,10 @@ int main(int argc, char **argv) {
     for (int exp_no = 0; exp_no < experiment_count; ++exp_no) {
         const Experiment &exp = experiments[exp_no];
 
-        for (int step = 0; step <= 10; ++step) {
-            e_weight_zero();
-
+        for (int weight_no = 0; weight_no < weight_count; ++weight_no) {
             const bgWeight_t weight =
-                static_cast<bgWeight_t>(step) / 10.0f;
+                -1.0f + weight_no * 0.002f;
+            e_weight_zero();
 
             // 対象のNodeまたはWayだけに重みを設定
             if (exp.is_node) {
